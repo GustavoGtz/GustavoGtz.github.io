@@ -1,5 +1,8 @@
 import { defineConfig } from 'vite';
 
 export default defineConfig({
-  base: '/GustavoGtz.github.io/', 
+  base: './',   // relative paths
+  build: {
+    outDir: 'dist'
+  }
 });

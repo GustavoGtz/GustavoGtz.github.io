@@ -1,6 +1,7 @@
 import './style.css'
+import testImg from './assets/img.png';
 
-import Phaser, { Physics } from 'phaser'
+import Phaser from 'phaser';
 
 class GameScene extends Phaser.Scene {
   constructor(){
@@ -8,10 +9,10 @@ class GameScene extends Phaser.Scene {
   }
 
   preload(){
-    this.load.image("bg", "assets/img.png")
+    this.load.image("test", testImg)
   }
   create(){
-    this.add.image(0, 0, "bg")
+    this.add.image(0, 0, "test")
   }
   update(){}
 }
@@ -21,7 +22,7 @@ const config = {
   width: 500,
   height: 500,
   canvas: gameCanvas,
-  Physics: {
+  physics: {
     default: 'arcade',
     arcade: {
       gravity: { y:300 },
