@@ -1,16 +1,12 @@
-// This contains all the logic to display the "title screen" which is an simple
-// press space to continue but dreesed up as a commodore terminal
-import fontPng from '../assets/fonts/commodoreFont.png';
-import fontXml from '../assets/fonts/commodoreFont.xml';
+// TODO:
+// For the moment this version is functional but it can be improved!
 
 export default class Terminal extends Phaser.Scene {
   constructor() {
     super('Terminal');
   }
 
-  preload() {
-    this.load.bitmapFont('c64', fontPng, fontXml);
-  }
+  preload() {}
 
   create() {
     this.cameras.main.setBackgroundColor('#50459b');
@@ -56,10 +52,15 @@ export default class Terminal extends Phaser.Scene {
         this.cursorTimer = 0;
         this.blinkingCursor.setVisible(!this.blinkingCursor.visible);
     }
-}
-
+  }
 
   startGame() {
-    this.scene.start('GameScene');
+  this.scene.start('Transitions', {
+    next: 'trainStation',
+    args: 'profileStation',
+    name: 'subway',
+    ui: 'tutorial',
+    time: null
+  });
   }
 }

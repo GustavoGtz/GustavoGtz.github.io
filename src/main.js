@@ -1,9 +1,11 @@
 import './style.css'
-import testImg from './assets/img.png';
-
 import Phaser from 'phaser';
-
+import Loader from './scenes/loader.js';
 import Terminal from './scenes/terminal.js';
+import Transitions from './scenes/transitions.js';
+import TrainStation from './scenes/trainStation.js';
+
+import testImg from './assets/img.png';
 
 class GameScene extends Phaser.Scene {
   constructor(){
@@ -41,7 +43,10 @@ const config = {
       debug: true
     }
   },
-  scene:[Terminal, GameScene]
+  scene:[Loader,
+         Terminal,
+         Transitions,
+         TrainStation]
 }
 
 const game = new Phaser.Game(config);
