@@ -1,0 +1,1 @@
+// This file is the responsable of loading all the assets from an scene just before it appears.

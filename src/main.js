@@ -3,6 +3,8 @@ import testImg from './assets/img.png';
 
 import Phaser from 'phaser';
 
+import Terminal from './scenes/terminal.js';
+
 class GameScene extends Phaser.Scene {
   constructor(){
     super("scene-game")
@@ -12,16 +14,26 @@ class GameScene extends Phaser.Scene {
     this.load.image("test", testImg)
   }
   create(){
-    this.add.image(0, 0, "test")
+    this.add.image(50, 50, "test").setOrigin(0, 0)
   }
   update(){}
 }
 
+const screen = {
+  width: 640,
+  height: 360,
+}
+
 const config = {
   type: Phaser.WEBGL,
-  width: 500,
-  height: 500,
+  width: screen.width,
+  height: screen.height,
+  pixelArt: true,
+  roundPixels: true,
   canvas: gameCanvas,
+  scale: {
+    autoCenter: Phaser.Scale.CENTER_BOTH,
+  },
   physics: {
     default: 'arcade',
     arcade: {
@@ -29,7 +41,7 @@ const config = {
       debug: true
     }
   },
-  scene:[GameScene]
+  scene:[Terminal, GameScene]
 }
 
 const game = new Phaser.Game(config);
