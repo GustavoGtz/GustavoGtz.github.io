@@ -11,4 +11,8 @@ export default class TrainStation extends Phaser.Scene {
   init(data) {
     this.station = data.station;
   }
+
+  create() {
+    console.log(this.station);
+  }
 }

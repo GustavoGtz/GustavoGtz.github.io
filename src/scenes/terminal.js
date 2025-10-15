@@ -55,12 +55,22 @@ export default class Terminal extends Phaser.Scene {
   }
 
   startGame() {
-  this.scene.start('Transitions', {
-    next: 'trainStation',
-    args: 'profileStation',
-    name: 'subway',
-    ui: 'tutorial',
-    time: null
-  });
+    this.scene.start('Transitions', {
+      next: 'Transitions',
+      args: {
+        next: 'TrainStation',
+        args: {station : 'profileStation'},
+        name: 'subway',
+        duration: 3000,
+        ui: 'tutorial',
+        entry: 'wipe',
+        exit: 'wipe'
+      },
+      name: 'black',
+      duration: 1500,
+      ui: null,
+      entry: 'wipe',
+      exit: 'wipe'
+    });
   }
 }

@@ -5,22 +5,6 @@ import Terminal from './scenes/terminal.js';
 import Transitions from './scenes/transitions.js';
 import TrainStation from './scenes/trainStation.js';
 
-import testImg from './assets/img.png';
-
-class GameScene extends Phaser.Scene {
-  constructor(){
-    super("scene-game")
-  }
-
-  preload(){
-    this.load.image("test", testImg)
-  }
-  create(){
-    this.add.image(50, 50, "test").setOrigin(0, 0)
-  }
-  update(){}
-}
-
 const screen = {
   width: 640,
   height: 360,

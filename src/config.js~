@@ -1,0 +1,9 @@
+const GAME_HEIGHT = 640;
+const GAME_WIDTH = 480;
+const GAME_FPS = 30;
+
+export {
+  GAME_HEIGHT,
+  GAME_WIDTH,
+  GAME_FPS
+}

@@ -1,8 +1,15 @@
 // TODO:
 // Keep adding the elements to be loaded
 
+/* FONTS */
 import c64FontPng from '../assets/fonts/commodoreFont.png';
 import c64FontXml from '../assets/fonts/commodoreFont.xml';
+
+/* SPRITES */
+import tutorial from '../assets/sprites/simples/Tutorial.png';
+
+/* SPRITESHEETS */
+import subwayTransition from '../assets/sprites/multiples/SubwayTransition.png';
 
 export default class Loader extends Phaser.Scene {
   constructor() {
@@ -15,6 +22,7 @@ export default class Loader extends Phaser.Scene {
     this.loadFonts();
     this.loadAudios();
     this.loadSprites();
+    this.loadSpriteSheets();
   }
 
   createLoadingScreen(){
@@ -38,5 +46,13 @@ export default class Loader extends Phaser.Scene {
   }
 
   loadSprites(){
+    this.load.image("tutorial", tutorial); 
+  }
+
+  loadSpriteSheets(){
+    this.load.spritesheet("subwayTransition", subwayTransition, {
+      frameWidth: 800,
+      frameHeight: 220,
+    });
   }
 }
