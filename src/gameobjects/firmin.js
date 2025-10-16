@@ -1,1 +1,162 @@
 // The code for the main character.
+
+export default class Firmin extends Phaser.Physics.Arcade.Sprite {
+  constructor(scene, x, y) {
+    super(scene, x, y, "firmin");
+    this.scene = scene;
+    this.setScale(2);
+    this.scene.add.existing(this);
+    this.scene.physics.add.existing(this);
+    this.setCollideWorldBounds(true);
+    this.movementSpeed = 80;
+    this.jumpForce = -100;
+    this.onGround = false;
+    
+    this.addControls();
+    this.createAnimations(scene.anims);
+  }
+  
+  addControls() {
+    this.controlsEnabled = true; // control variable
+    
+    this.scene.events.on("update", this.update, this);
+    this.cursor = this.scene.input.keyboard.createCursorKeys();
+    this.LOOKUP = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
+    this.MOVELEFT = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
+    this.LOOKDOWN = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
+    this.MOVERIGHT = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
+    this.ESC = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
+    this.JUMP = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+
+    // TEST !
+    this.TELEPORT = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.T);
+  }
+
+  createAnimations(anims) {
+    if(!anims.exists('firmin-idle')){
+      anims.create({
+        key: 'firmin-idle',
+        frames: anims.generateFrameNumbers('firmin', {start: 4, end: 5}),
+        frameRate: 2,
+        repeat: -1
+      });
+    }
+
+    if(!anims.exists('firmin-walk')){
+      anims.create({
+        key: 'firmin-walk',
+        frames: anims.generateFrameNumbers('firmin', {start: 8, end: 9}),
+        frameRate: 6,
+        repeat: -1
+      });
+    }
+
+    if(!anims.exists('firmin-jump-air')){
+      anims.create({
+        key: 'firmin-jump-air',
+        frames: [{ key: 'firmin', frame: 7 }],
+        frameRate: 1,
+      });
+    }
+
+    if(!anims.exists('firmin-jump-ground')){
+      anims.create({
+        key: 'firmin-jump-ground',
+        frames: [{ key: 'firmin', frame: 6 }],
+        frameRate: 1,
+      });
+    }
+
+    if(!anims.exists('firmin-look-up')){
+      anims.create({
+        key: 'firmin-look-up',
+        frames: anims.generateFrameNumbers('firmin', {start: 2, end: 3}),
+        frameRate: 2,
+        repeat: -1
+      });
+    }
+
+    if(!anims.exists('firmin-look-down')){
+      anims.create({
+        key: 'firmin-look-down',
+        frames: anims.generateFrameNumbers('firmin', {start: 0, end: 1}),
+        framRate: 2,
+        repeat: -1
+      });
+    }
+
+    if(!anims.exists('firmin-enter')){
+      anims.create({
+        key: 'firmin-enter',
+        frames: anims.generateFrameNumbers('firmin', {start: 10, end: 16}),
+        framRate: 7,
+        repeat: 1
+      });
+    }
+
+    if(!anims.exists('firmin-teleport')){
+      anims.create({
+        key: 'firmin-teleport',
+        frames: anims.generateFrameNumbers('firmin', {start: 17, end: 29}),
+        //framRate: 1,
+        duration: 1500,
+        repeat: 0,
+        hideOnComplete: true,
+      });
+    }
+  }
+  
+  update(cursors) {
+    if (!this.controlsEnabled) { return }
+    
+    if (this.MOVERIGHT.isDown) {
+      this.body.setVelocityX(this.movementSpeed);
+      if (this.onGround) { this.anims.play('firmin-walk', true); }
+      this.flipX = true;
+    }
+    else if (this.MOVELEFT.isDown) {  
+      this.body.setVelocityX(-this.movementSpeed);
+      if (this.onGround) { this.anims.play('firmin-walk', true); }
+      this.flipX = false;
+    }
+    else if (this.TELEPORT.isDown && this.onGround) {
+      this.controlsEnabled = false;
+      this.anims.play('firmin-teleport', true);
+    }
+    else {
+      this.setVelocityX(0);
+      if (this.onGround) {
+        this.anims.play('firmin-idle', true);
+      }
+    }
+    
+    if (this.onGround && this.JUMP.isDown) { this.startJump(); }
+
+    if (this.body.velocity.y !== 0) { this.jump(false); }
+
+    if (!this.onGround && this.body.velocity.y === 0) { this.endJump(); }
+        
+  }
+
+  startJump() {
+    const jumpDelay = 120; // To the animation match with the game
+    this.anims.play('firmin-jump-ground', true);
+
+    this.scene.time.delayedCall(120, () => {
+      this.jump(true);
+    });
+  }
+
+  jump(impulse) {
+    this.onGround = false;
+    if (impulse) { this.setVelocityY(this.jumpForce); }
+    this.anims.play('firmin-jump-air', true);
+  }
+
+  endJump() {
+    this.anims.play('firmin-jump-ground', true);
+    this.scene.time.delayedCall(100, () => {
+      this.onGround = true;
+    });
+  }
+}

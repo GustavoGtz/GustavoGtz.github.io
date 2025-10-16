@@ -9,7 +9,11 @@ import c64FontXml from '../assets/fonts/commodoreFont.xml';
 import tutorial from '../assets/sprites/simples/Tutorial.png';
 
 /* SPRITESHEETS */
+import firmin from '../assets/sprites/multiples/Firmin.png';
 import subwayTransition from '../assets/sprites/multiples/SubwayTransition.png';
+
+import subwayStation from '../assets/sprites/multiples/SubwayStation.png';
+
 
 export default class Loader extends Phaser.Scene {
   constructor() {
@@ -50,6 +54,14 @@ export default class Loader extends Phaser.Scene {
   }
 
   loadSpriteSheets(){
+    this.load.spritesheet("firmin", firmin, {
+      frameWidth: 40,
+      frameHeight: 40,
+    });
+    this.load.spritesheet("subwayStation", subwayStation, {
+      frameWidth: 1022,
+      frameHeight: 1000,
+    });
     this.load.spritesheet("subwayTransition", subwayTransition, {
       frameWidth: 800,
       frameHeight: 220,
