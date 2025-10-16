@@ -22,6 +22,7 @@ export default class Terminal extends Phaser.Scene {
       '  * GUSTAVO GUTIERREZ PORTFOLIO',
       '  * 2025',
       '',
+      'READY.',
       ' PRESS SPACE BAR TO START'
     ];
     for (let i = 0; i < this.initialText.length; i++) {
@@ -61,7 +62,7 @@ export default class Terminal extends Phaser.Scene {
         next: 'TrainStation',
         args: {station : 'profileStation'},
         name: 'subway',
-        duration: 3000,
+        duration: 100,   // 100 FOR DEV, 6000 FOR PROD
         ui: 'tutorial',
         entry: 'wipe',
         exit: 'wipe'

@@ -53,10 +53,8 @@ export default class Transitions extends Phaser.Scene {
       this.playEntry();
     }
 
-    // TODO: Desplegar la animacion
     this.playTransition();
 
-    // TODO: Desplegar la UI
     if (this.ui !== null) {
       this.showUI();
     }
