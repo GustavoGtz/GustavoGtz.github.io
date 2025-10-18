@@ -4,7 +4,6 @@ export default class Firmin extends Phaser.Physics.Arcade.Sprite {
   constructor(scene, x, y) {
     super(scene, x, y, "firmin");
     this.scene = scene;
-    this.setScale(2);
     this.scene.add.existing(this);
     this.scene.physics.add.existing(this);
     this.setCollideWorldBounds(true);

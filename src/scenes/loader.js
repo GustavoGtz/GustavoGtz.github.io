@@ -12,7 +12,9 @@ import tutorial from '../assets/sprites/simples/Tutorial.png';
 import firmin from '../assets/sprites/multiples/Firmin.png';
 import subwayTransition from '../assets/sprites/multiples/SubwayTransition.png';
 
-import subwayStation from '../assets/sprites/multiples/SubwayStation.png';
+/* TILEMAP AND TILESET */
+import subwayStationTileset from '../assets/tilemaps/SubwayStationTileset.png'
+import subwayStationTilemap from '../assets/tilemaps/SubwayStationTilemap.json'
 
 
 export default class Loader extends Phaser.Scene {
@@ -27,6 +29,7 @@ export default class Loader extends Phaser.Scene {
     this.loadAudios();
     this.loadSprites();
     this.loadSpriteSheets();
+    this.loadTilemaps();
   }
 
   createLoadingScreen(){
@@ -58,13 +61,14 @@ export default class Loader extends Phaser.Scene {
       frameWidth: 40,
       frameHeight: 40,
     });
-    this.load.spritesheet("subwayStation", subwayStation, {
-      frameWidth: 1022,
-      frameHeight: 1000,
-    });
     this.load.spritesheet("subwayTransition", subwayTransition, {
       frameWidth: 800,
       frameHeight: 220,
     });
+  }
+
+  loadTilemaps(){
+    this.load.image('subwayStationTileset', subwayStationTileset);    
+    this.load.tilemapTiledJSON('subwayStationTilemap', subwayStationTilemap);
   }
 }
