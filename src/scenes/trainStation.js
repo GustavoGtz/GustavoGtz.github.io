@@ -16,8 +16,8 @@ export default class TrainStation extends Phaser.Scene {
    * station: The station of subway to spawn
    * spawn: Where it's going to spawn the character
    *        It can be:
+   *         - tunnel
    *         - subway
-   *         - exitDoor
   */
   init(data) {
     this.station = data.station || 'profile';
@@ -26,33 +26,96 @@ export default class TrainStation extends Phaser.Scene {
 
   create() {
     this.tilemapSpawnPointX = 0;
-    this.tilemapSpawnPointY = 30;
+    this.tilemapSpawnPointY = 0;
 
     this.buildSubwayStationTilemap();
     this.buildFirmin();
-    this.buildCameraSettings();
+    this.buildStairs();
 
-    //this.firmin = new Firmin(this, 100, 100);
-    //this.add.existing(this.firmin);
-    //this.physics.add.existing(this.firmin);
+    this.setBounds();
+  }
 
-    //this.physics.add.collider(this.firmin, contourLayer);
+  setBounds() {
+    const spawnX = this.tilemapSpawnPointX;
+    const spawnY = this.tilemapSpawnPointY;
+
+    const tileWidth = this.tilemap.tileWidth;
+    const tileHeight = this.tilemap.tileHeight;
+
+    const mapWidth = this.tilemap.width * tileWidth;
+    const mapHeight = this.tilemap.height * tileHeight;
+
+    const marginTiles = 1;
+
+    const worldOrginX = spawnX - marginTiles * tileWidth;
+    const worldOriginY = spawnY - marginTiles * tileHeight;
+    
+    const worldWidth = mapWidth + 2 * marginTiles * tileWidth;
+    const worldHeight = mapHeight + 2 * marginTiles * tileHeight;
+
+    this.cameras.main.setBounds(
+      worldOrginX, 
+      worldOriginY, 
+      worldWidth, 
+      worldHeight
+    );
+    this.physics.world.setBounds(
+      spawnX, 
+      spawnY, 
+      mapWidth, 
+      mapHeight
+    );
   }
 
   buildFirmin(){
-    this.firmin = new Firmin(this, 100, 100);
+    let firminSpawnX = 0;
+    let firminSpawnY = 0;
+
+    switch (this.spawn) {
+      case 'tunnel':
+        const tunnelData = this.tilemap.getObjectLayer('Tunnel Spawn').objects[0];
+        firminSpawnX = tunnelData.x;
+        firminSpawnY = tunnelData.y;
+        break;
+        
+      case 'subway':
+        const subwayData = this.tilemap.getObjectLayer('Subway Spawn').objects[0];
+        firminSpawnX = subwayData.x;
+        firminSpawnY = subwayData.y;
+        break;
+      default:
+        break;
+    }
+
+    this.firmin = new Firmin(this, this.tilemapSpawnPointX + firminSpawnX, this.tilemapSpawnPointY + firminSpawnY);
     this.add.existing(this.firmin);
-    this.physics.add.existing(this.firmin);
     this.firmin.setDepth(7);
+    this.physics.add.existing(this.firmin);
     this.physics.add.collider(this.firmin, this.contourLayer);
   }
 
-  buildCameraSettings() {
-    this.cameras.main.setBounds(0, 0, this.tilemap.widthInPixels, this.tilemap.heightInPixels);
-    this.cameras.main.startFollow(this.firmin);
-    //this.cameras.main.setLerp(0.1, 0.1); Delay
-    this.cameras.main.setZoom(2);
-    this.cameras.main.followOffset.set(0, 0);
+  /* Hardcoded way to implement stairs without 
+     implementing more complex things like a slope movement */
+  buildStairs() {
+    const startX = 650; /* HardCoded Value */
+    const startY = 222; /* HardCoded Value */
+    const stairWidth = 3;
+    const stairHeight = 4;
+    const stepsNumber = 24;
+    const stairs = this.physics.add.staticGroup();
+
+    for (let i = 0; i < stepsNumber; i++) {
+      const step = this.add.rectangle(
+        startX + i * stairWidth, 
+        startY - i * stairHeight, 
+        stairWidth, 
+        stairHeight, 
+        0x00ff00, 
+        1); // alpha = 0 (invisible for prod)
+      this.physics.add.existing(step, true);
+      stairs.add(step);
+    }
+    this.physics.add.collider(this.firmin, stairs);
   }
 
   buildSubwayStationTilemap() {

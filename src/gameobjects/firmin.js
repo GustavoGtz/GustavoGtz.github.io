@@ -8,11 +8,12 @@ export default class Firmin extends Phaser.Physics.Arcade.Sprite {
     this.scene.physics.add.existing(this);
     this.setCollideWorldBounds(true);
     this.movementSpeed = 80;
-    this.jumpForce = -100;
+    this.jumpForce = -80;
     this.onGround = false;
     
     this.addControls();
     this.createAnimations(scene.anims);
+    this.initCamera();
   }
   
   addControls() {
@@ -20,15 +21,14 @@ export default class Firmin extends Phaser.Physics.Arcade.Sprite {
     
     this.scene.events.on("update", this.update, this);
     this.cursor = this.scene.input.keyboard.createCursorKeys();
+
     this.LOOKUP = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
     this.MOVELEFT = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
     this.LOOKDOWN = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
     this.MOVERIGHT = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
     this.ESC = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
     this.JUMP = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
-
-    // TEST !
-    this.TELEPORT = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.T);
+    this.INTERACT = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E);
   }
 
   createAnimations(anims) {
@@ -69,8 +69,8 @@ export default class Firmin extends Phaser.Physics.Arcade.Sprite {
     if(!anims.exists('firmin-look-up')){
       anims.create({
         key: 'firmin-look-up',
-        frames: anims.generateFrameNumbers('firmin', {start: 2, end: 3}),
-        frameRate: 2,
+        frames: anims.generateFrameNumbers('firmin', {start: 0, end: 1}),
+        frameRate: 1,
         repeat: -1
       });
     }
@@ -78,8 +78,8 @@ export default class Firmin extends Phaser.Physics.Arcade.Sprite {
     if(!anims.exists('firmin-look-down')){
       anims.create({
         key: 'firmin-look-down',
-        frames: anims.generateFrameNumbers('firmin', {start: 0, end: 1}),
-        framRate: 2,
+        frames: anims.generateFrameNumbers('firmin', {start: 2, end: 3}),
+        frameRate: 1,
         repeat: -1
       });
     }
@@ -105,10 +105,24 @@ export default class Firmin extends Phaser.Physics.Arcade.Sprite {
     }
   }
   
+  initCamera(){
+    this.cameraEnabled = true; // control variable
+
+    this.offSetX = 0;
+    this.offSetY = 50;
+
+    this.camera = this.scene.cameras.main;
+    this.camera.startFollow(this);
+    this.camera.setZoom(2);
+    this.camera.followOffset.set(this.offSetX, this.offSetY);
+  }
+  
   update(cursors) {
     if (!this.controlsEnabled) { return }
+    if (!this.cameraEnabled) { this.camera.followOffset.set(this.offSetX, this.offSetY); }
     
-    if (this.MOVERIGHT.isDown) {
+    this.cameraEnabled = false;
+    if (this.MOVERIGHT.isDown && this) {
       this.body.setVelocityX(this.movementSpeed);
       if (this.onGround) { this.anims.play('firmin-walk', true); }
       this.flipX = true;
@@ -118,27 +132,38 @@ export default class Firmin extends Phaser.Physics.Arcade.Sprite {
       if (this.onGround) { this.anims.play('firmin-walk', true); }
       this.flipX = false;
     }
-    else if (this.TELEPORT.isDown && this.onGround) {
-      this.controlsEnabled = false;
-      this.anims.play('firmin-teleport', true);
-    }
-    else {
+    else if (this.onGround){
       this.setVelocityX(0);
-      if (this.onGround) {
+      if (this.LOOKUP.isDown) {
+        this.cameraEnabled = true;
+        this.camera.followOffset.set(this.offSetX, this.offSetY + 20);
+        this.anims.play('firmin-look-down', true);
+      }
+      else if (this.LOOKDOWN.isDown) {
+        this.cameraEnabled = true;
+        this.camera.followOffset.set(this.offSetX, this.offSetY - 20);
+        this.anims.play('firmin-look-up', true);
+      }
+      else {
         this.anims.play('firmin-idle', true);
       }
     }
+
+    // TODO: Interact with E.
+
+    // TOOD: Look UP, Look DOWN.
     
     if (this.onGround && this.JUMP.isDown) { this.startJump(); }
 
     if (this.body.velocity.y !== 0) { this.jump(false); }
 
-    if (!this.onGround && this.body.velocity.y === 0) { this.endJump(); }
-        
+    if (!this.onGround && this.body.velocity.y === 0) { this.endJump(); 
+
+    }
   }
 
   startJump() {
-    const jumpDelay = 120; // To the animation match with the game
+    const jumpDelay = 120;
     this.anims.play('firmin-jump-ground', true);
 
     this.scene.time.delayedCall(120, () => {

@@ -1,6 +1,5 @@
 // TODO's:
 // 1. Change the dispatch to a dynamical one
-// 2. Implement the actual transitions like wipe
 
 export default class Transitions extends Phaser.Scene {
   constructor() {
@@ -27,14 +26,12 @@ export default class Transitions extends Phaser.Scene {
    * entry: The way to disolve from the previous scene to this one
    *       It can be Null
    *       Actual possibles values:
-   *        - wipe
-   *        - pixelite
+   *        - fade
    *        - null
    * exit: The way to disolve from this scene to the next one
    *       It can be Null
    *       Actual possibles values:
-   *        - wipe
-   *        - pixelite
+   *        - fade
    *        - null
    */
   
@@ -130,50 +127,44 @@ export default class Transitions extends Phaser.Scene {
 
   playEntry() {
     switch(this.entry) {
-      case 'wipe':
-        this.playWipeEntry();
-        break;
-      case 'pixelite':
-        this.playPixeliteEntry();
+      case 'fade':
+        this.playFadeEntry();
         break;
       default:
-        console.log("Not any entry selected");
+        console.log("Not any valid entry selected");
     } 
   }
 
-  playWipeEntry() {
-    console.log("wipeEntry");
-  }
-
-  playPixeliteEntry() {
-    console.log("pixeliteEntry");
+  playFadeEntry() {
+    this.cameras.main.fadeIn(1000, 0, 0, 0)
   }
 
   playExit() {
     switch(this.exit) {
-      case 'wipe':
-        this.playWipeExit();
+      case 'fade':
+        this.playFadeExit();
         break;
-      case 'pixelite':
-        this.playPixeliteExit();
       default:
-        console.log("Not any exit selected");
+        this.startScene();
+        console.log("Not any valid exit selected");
     }
   }
 
-  playWipeExit() {
-    
-    console.log("Wipe extit");
+  playFadeExit() {
+    this.cameras.main.fadeOut(1000, 0, 0, 0);
+    this.time.delayedCall(1000, () => { this.startScene(); });
   }
 
-  playPixeliteExit() {
-    console.log("pixelite exit");
-  }
-  
   loadNext(){
     if (this.exit !== null) {
-      this.playExit();
+      this.playExit(); // Play exit will manage the load
     }
+    else {
+      this.startScene();
+    }
+  }
+
+  startScene(){
     this.scene.start(this.next, this.args);
   }
 }
