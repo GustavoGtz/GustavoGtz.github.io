@@ -1,4 +1,3 @@
-// The code for the main character.
 
 export default class Firmin extends Phaser.Physics.Arcade.Sprite {
   constructor(scene, x, y) {
@@ -26,7 +25,7 @@ export default class Firmin extends Phaser.Physics.Arcade.Sprite {
     this.MOVELEFT = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
     this.LOOKDOWN = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
     this.MOVERIGHT = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
-    this.ESC = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
+    this.ESCMENU = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
     this.JUMP = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
     this.INTERACT = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E);
   }
@@ -122,7 +121,27 @@ export default class Firmin extends Phaser.Physics.Arcade.Sprite {
     if (!this.cameraEnabled) { this.camera.followOffset.set(this.offSetX, this.offSetY); }
     
     this.cameraEnabled = false;
-    if (this.MOVERIGHT.isDown && this) {
+
+    if (this.ESCMENU.isDown) {
+      this.scene.scene.sleep();
+      this.scene.scene.launch('EscMenu', { from: this.scene.scene.key });
+
+      const escMenuInstance = this.scene.scene.get('EscMenu');
+
+      if (escMenuInstance.data !== null) {
+        escMenuInstance.events.once('quickTravelResult', (data) => {
+          this.controlsEnabled = false;
+          this.setVelocity(0, 0);
+          this.anims.play('firmin-teleport', true);
+          
+          this.once('animationcomplete-firmin-teleport', () => {
+            this.executeTeleportation(data);
+          });
+        });
+      }
+    }
+    
+    if (this.MOVERIGHT.isDown) {
       this.body.setVelocityX(this.movementSpeed);
       if (this.onGround) { this.anims.play('firmin-walk', true); }
       this.flipX = true;
@@ -132,20 +151,22 @@ export default class Firmin extends Phaser.Physics.Arcade.Sprite {
       if (this.onGround) { this.anims.play('firmin-walk', true); }
       this.flipX = false;
     }
-    else if (this.onGround){
+    else {
       this.setVelocityX(0);
-      if (this.LOOKUP.isDown) {
-        this.cameraEnabled = true;
-        this.camera.followOffset.set(this.offSetX, this.offSetY + 20);
-        this.anims.play('firmin-look-down', true);
-      }
-      else if (this.LOOKDOWN.isDown) {
-        this.cameraEnabled = true;
-        this.camera.followOffset.set(this.offSetX, this.offSetY - 20);
-        this.anims.play('firmin-look-up', true);
-      }
-      else {
-        this.anims.play('firmin-idle', true);
+      if (this.onGround) {
+        if (this.LOOKUP.isDown) {
+          this.cameraEnabled = true;
+          this.camera.followOffset.set(this.offSetX, this.offSetY + 20);
+          this.anims.play('firmin-look-down', true);
+        }
+        else if (this.LOOKDOWN.isDown) {
+          this.cameraEnabled = true;
+          this.camera.followOffset.set(this.offSetX, this.offSetY - 20);
+          this.anims.play('firmin-look-up', true);
+        }
+        else {
+          this.anims.play('firmin-idle', true);
+        }
       }
     }
 
@@ -162,13 +183,22 @@ export default class Firmin extends Phaser.Physics.Arcade.Sprite {
     }
   }
 
+    executeTeleportation(data) {
+    this.scene.scene.start('Transitions', {
+      next: 'Transitions',
+      next: 'City',
+      args: {street : data.street, spawn: 'building'},
+      name: 'subway', // PLACEHOLDER, IT WILL BE HIS OWN TRANSITON
+      ui: null,
+      entry: 'fade',
+      exit: 'fade'
+    });
+    }
+
   startJump() {
     const jumpDelay = 120;
     this.anims.play('firmin-jump-ground', true);
-
-    this.scene.time.delayedCall(120, () => {
-      this.jump(true);
-    });
+    this.jump(true); 
   }
 
   jump(impulse) {

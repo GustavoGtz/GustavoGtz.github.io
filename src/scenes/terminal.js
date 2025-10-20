@@ -1,6 +1,3 @@
-// TODO:
-// For the moment this version is functional but it can be improved!
-
 export default class Terminal extends Phaser.Scene {
   constructor() {
     super('Terminal');
@@ -59,7 +56,7 @@ export default class Terminal extends Phaser.Scene {
     this.scene.start('Transitions', {
       next: 'Transitions',
       args: {
-        next: 'TrainStation',
+        next: 'SubwayStation',
         args: {station : 'profileStation', spawn: 'subway'},
         name: 'subway',
         duration: 1000,   // 100 FOR DEV, 6000 FOR PROD

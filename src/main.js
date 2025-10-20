@@ -1,9 +1,10 @@
 import './style.css'
 import Phaser from 'phaser';
 import Loader from './scenes/loader.js';
+import EscMenu from './scenes/escMenu.js';
 import Terminal from './scenes/terminal.js';
 import Transitions from './scenes/transitions.js';
-import TrainStation from './scenes/trainStation.js';
+import SubwayStation from './scenes/subwayStation.js';
 
 const screen = {
   width: 640,
@@ -28,9 +29,10 @@ const config = {
     }
   },
   scene:[Loader,
+         EscMenu,
          Terminal,
          Transitions,
-         TrainStation]
+         SubwayStation]
 }
 
 const game = new Phaser.Game(config);

@@ -5,9 +5,9 @@
 
 import Firmin from '../gameobjects/firmin.js'
 
-export default class TrainStation extends Phaser.Scene {
+export default class SubwayStation extends Phaser.Scene {
   constructor() {
-    super('TrainStation');
+    super('SubwayStation');
   }
 
   /*
@@ -111,7 +111,7 @@ export default class TrainStation extends Phaser.Scene {
         stairWidth, 
         stairHeight, 
         0x00ff00, 
-        1); // alpha = 0 (invisible for prod)
+        0); // alpha = 0 (invisible for prod)
       this.physics.add.existing(step, true);
       stairs.add(step);
     }
@@ -170,5 +170,19 @@ export default class TrainStation extends Phaser.Scene {
       this.tilemapSpawnPointX, this.tilemapSpawnPointY
     ).setDepth(5);
     this.contourLayer.setCollisionByProperty({ collides: true });
+  }
+     
+  // TODO: Called when the player leaves the station
+  exitStation() {
+    this.scene.start('Transitions', {
+      next: 'City',
+      args: {street: this.station , spawn: 'subway'},
+      name: 'black',
+      duration: 1500,
+      ui: null,
+      entry: 'fade',
+      exit: 'fade'
+    }
+    )
   }
 }
