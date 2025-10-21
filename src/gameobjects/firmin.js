@@ -30,6 +30,119 @@ export default class Firmin extends Phaser.Physics.Arcade.Sprite {
     this.INTERACT = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E);
   }
 
+  initCamera(){
+    this.cameraEnabled = true; // control variable
+
+    this.offSetX = 0;
+    this.offSetY = 50;
+
+    this.camera = this.scene.cameras.main;
+    this.camera.startFollow(this);
+    this.camera.setZoom(2);
+    this.camera.followOffset.set(this.offSetX, this.offSetY);
+  }
+  
+  update(cursors) {
+    if (!this.controlsEnabled) { return }
+    if (!this.cameraEnabled) { this.camera.followOffset.set(this.offSetX, this.offSetY); }
+    
+    this.cameraEnabled = false;
+
+    if (this.ESCMENU.isDown) {
+      this.scene.scene.sleep();
+      this.scene.scene.launch('EscMenu', { from: this.scene.scene.key });
+
+      const escMenuInstance = this.scene.scene.get('EscMenu');
+
+      if (escMenuInstance.data !== null) {
+        escMenuInstance.events.once('quickTravelResult', (data) => {
+          this.controlsEnabled = false;
+          this.setVelocity(0, 0);
+          this.anims.play('firmin-teleport', true);
+          
+          this.once('animationcomplete-firmin-teleport', () => {
+            this.executeTeleportation(data);
+          });
+        });
+      }
+    }
+    
+    if (this.MOVERIGHT.isDown) {
+      this.body.setVelocityX(this.movementSpeed);
+      if (this.onGround) { this.anims.play('firmin-walk', true); }
+      this.flipX = true;
+    }
+    else if (this.MOVELEFT.isDown) {  
+      this.body.setVelocityX(-this.movementSpeed);
+      if (this.onGround) { this.anims.play('firmin-walk', true); }
+      this.flipX = false;
+    }
+    else {
+      this.setVelocityX(0);
+      if (this.onGround) {
+        if (this.LOOKUP.isDown) {
+          this.cameraEnabled = true;
+          this.camera.followOffset.set(this.offSetX, this.offSetY + 20);
+          this.anims.play('firmin-look-down', true);
+        }
+        else if (this.LOOKDOWN.isDown) {
+          this.cameraEnabled = true;
+          this.camera.followOffset.set(this.offSetX, this.offSetY - 40);
+          this.anims.play('firmin-look-up', true);
+        }
+        else {
+          this.anims.play('firmin-idle', true);
+        }
+      }
+    }
+
+    // TODO: Interact with E.
+    // Detects that Firmin is in the space of another object interactuable.
+    // If its true, it will only call something showInteractionUI.
+    // When its not, it will not be showed.
+    // Firmin Can Press the button E, inside this IF, and if it does, it will call a method inside the object
+    // to interact.
+    
+    if (this.onGround && this.JUMP.isDown) { this.startJump(); }
+
+    if (this.body.velocity.y !== 0) { this.jump(false); }
+
+    if (!this.onGround && this.body.velocity.y === 0) { this.endJump(); 
+
+    }
+  }
+
+  executeTeleportation(data) {
+    this.scene.scene.start('Transitions', {
+      next: 'Transitions',
+      next: 'City',
+      args: {street : data.street, spawn: 'building'},
+      name: 'subway', // PLACEHOLDER, IT WILL BE HIS OWN TRANSITON
+      ui: null,
+      entry: 'fade',
+      exit: 'fade'
+    });
+    }
+
+  startJump() {
+    const jumpDelay = 120;
+    this.anims.play('firmin-jump-ground', true);
+    this.jump(true); 
+  }
+
+  jump(impulse) {
+    this.onGround = false;
+    if (impulse) { this.setVelocityY(this.jumpForce); }
+    this.anims.play('firmin-jump-air', true);
+  }
+
+  endJump() {
+    this.anims.play('firmin-jump-ground', true);
+    this.scene.time.delayedCall(100, () => {
+      this.onGround = true;
+    });
+  }
+
   createAnimations(anims) {
     if(!anims.exists('firmin-idle')){
       anims.create({
@@ -102,115 +215,5 @@ export default class Firmin extends Phaser.Physics.Arcade.Sprite {
         hideOnComplete: true,
       });
     }
-  }
-  
-  initCamera(){
-    this.cameraEnabled = true; // control variable
-
-    this.offSetX = 0;
-    this.offSetY = 50;
-
-    this.camera = this.scene.cameras.main;
-    this.camera.startFollow(this);
-    this.camera.setZoom(2);
-    this.camera.followOffset.set(this.offSetX, this.offSetY);
-  }
-  
-  update(cursors) {
-    if (!this.controlsEnabled) { return }
-    if (!this.cameraEnabled) { this.camera.followOffset.set(this.offSetX, this.offSetY); }
-    
-    this.cameraEnabled = false;
-
-    if (this.ESCMENU.isDown) {
-      this.scene.scene.sleep();
-      this.scene.scene.launch('EscMenu', { from: this.scene.scene.key });
-
-      const escMenuInstance = this.scene.scene.get('EscMenu');
-
-      if (escMenuInstance.data !== null) {
-        escMenuInstance.events.once('quickTravelResult', (data) => {
-          this.controlsEnabled = false;
-          this.setVelocity(0, 0);
-          this.anims.play('firmin-teleport', true);
-          
-          this.once('animationcomplete-firmin-teleport', () => {
-            this.executeTeleportation(data);
-          });
-        });
-      }
-    }
-    
-    if (this.MOVERIGHT.isDown) {
-      this.body.setVelocityX(this.movementSpeed);
-      if (this.onGround) { this.anims.play('firmin-walk', true); }
-      this.flipX = true;
-    }
-    else if (this.MOVELEFT.isDown) {  
-      this.body.setVelocityX(-this.movementSpeed);
-      if (this.onGround) { this.anims.play('firmin-walk', true); }
-      this.flipX = false;
-    }
-    else {
-      this.setVelocityX(0);
-      if (this.onGround) {
-        if (this.LOOKUP.isDown) {
-          this.cameraEnabled = true;
-          this.camera.followOffset.set(this.offSetX, this.offSetY + 20);
-          this.anims.play('firmin-look-down', true);
-        }
-        else if (this.LOOKDOWN.isDown) {
-          this.cameraEnabled = true;
-          this.camera.followOffset.set(this.offSetX, this.offSetY - 20);
-          this.anims.play('firmin-look-up', true);
-        }
-        else {
-          this.anims.play('firmin-idle', true);
-        }
-      }
-    }
-
-    // TODO: Interact with E.
-
-    // TOOD: Look UP, Look DOWN.
-    
-    if (this.onGround && this.JUMP.isDown) { this.startJump(); }
-
-    if (this.body.velocity.y !== 0) { this.jump(false); }
-
-    if (!this.onGround && this.body.velocity.y === 0) { this.endJump(); 
-
-    }
-  }
-
-    executeTeleportation(data) {
-    this.scene.scene.start('Transitions', {
-      next: 'Transitions',
-      next: 'City',
-      args: {street : data.street, spawn: 'building'},
-      name: 'subway', // PLACEHOLDER, IT WILL BE HIS OWN TRANSITON
-      ui: null,
-      entry: 'fade',
-      exit: 'fade'
-    });
-    }
-
-  startJump() {
-    const jumpDelay = 120;
-    this.anims.play('firmin-jump-ground', true);
-    this.jump(true); 
-  }
-
-  jump(impulse) {
-    this.onGround = false;
-    if (impulse) { this.setVelocityY(this.jumpForce); }
-    this.anims.play('firmin-jump-air', true);
-  }
-
-  endJump() {
-    this.anims.play('firmin-jump-ground', true);
-    this.scene.time.delayedCall(100, () => {
-      this.onGround = true;
-    });
   }
 }

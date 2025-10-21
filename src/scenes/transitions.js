@@ -83,14 +83,16 @@ export default class Transitions extends Phaser.Scene {
   playSubwayTransition() {
     const subwayTransition = this.add.sprite(0, 0, 'subwayTransition', 0).setOrigin(0, 0);
 
-    this.anims.create({
-      key: 'go',
-      frames: this.anims.generateFrameNumbers('subwayTransition', { frames: [0, 1, 2, 3] }),
-      frameRate: 8,
-      repeat: -1
-    });
+    if(!this.anims.exists('play-subway-transition')){
+      this.anims.create({
+        key: 'play-subway-transition',
+        frames: this.anims.generateFrameNumbers('subwayTransition', { frames: [0, 1, 2, 3] }),
+        frameRate: 8,
+        repeat: -1
+      });
+    }
 
-    subwayTransition.play('go');
+    subwayTransition.play('play-subway-transition');
   }
       
   playBlackTransition() {

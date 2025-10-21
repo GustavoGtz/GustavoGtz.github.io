@@ -5,6 +5,7 @@ import EscMenu from './scenes/escMenu.js';
 import Terminal from './scenes/terminal.js';
 import Transitions from './scenes/transitions.js';
 import SubwayStation from './scenes/subwayStation.js';
+import City from './scenes/city.js';
 
 const screen = {
   width: 640,
@@ -32,7 +33,8 @@ const config = {
          EscMenu,
          Terminal,
          Transitions,
-         SubwayStation]
+         SubwayStation,
+         City]
 }
 
 const game = new Phaser.Game(config);

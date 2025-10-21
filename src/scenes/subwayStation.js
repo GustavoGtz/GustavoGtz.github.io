@@ -25,14 +25,61 @@ export default class SubwayStation extends Phaser.Scene {
   }
 
   create() {
-    this.tilemapSpawnPointX = 0;
-    this.tilemapSpawnPointY = 0;
-
     this.buildSubwayStationTilemap();
     this.buildFirmin();
     this.buildStairs();
-
     this.setBounds();
+  }
+
+  buildFirmin(){
+    let firminSpawnX = 0;
+    let firminSpawnY = 0;
+
+    switch (this.spawn) {
+      case 'tunnel':
+        const tunnelData = this.tilemap.getObjectLayer('Tunnel Spawn').objects[0];
+        firminSpawnX = tunnelData.x;
+        firminSpawnY = tunnelData.y;
+        break;
+        
+      case 'subway':
+        const subwayData = this.tilemap.getObjectLayer('Subway Spawn').objects[0];
+        firminSpawnX = subwayData.x;
+        firminSpawnY = subwayData.y;
+        break;
+      default:
+        break;
+    }
+
+    this.firmin = new Firmin(this, this.tilemapSpawnPointX + firminSpawnX, this.tilemapSpawnPointY + firminSpawnY);
+    this.add.existing(this.firmin);
+    this.firmin.setDepth(this.firminLayer);
+    this.physics.add.existing(this.firmin);
+    this.physics.add.collider(this.firmin, this.contourLayer);
+  }
+
+  /* Hardcoded way to implement stairs without 
+     implementing more complex things like a slope movement */
+  buildStairs() {
+    const startX = 650; /* HardCoded Value */
+    const startY = 222; /* HardCoded Value */
+    const stairWidth = 3;
+    const stairHeight = 4;
+    const stepsNumber = 24;
+    const stairs = this.physics.add.staticGroup();
+
+    for (let i = 0; i < stepsNumber; i++) {
+      const step = this.add.rectangle(
+        startX + i * stairWidth, 
+        startY - i * stairHeight, 
+        stairWidth, 
+        stairHeight, 
+        0x00ff00, 
+        0); // alpha = 0 (invisible for prod)
+      this.physics.add.existing(step, true);
+      stairs.add(step);
+    }
+    this.physics.add.collider(this.firmin, stairs);
   }
 
   setBounds() {
@@ -66,59 +113,25 @@ export default class SubwayStation extends Phaser.Scene {
       mapHeight
     );
   }
-
-  buildFirmin(){
-    let firminSpawnX = 0;
-    let firminSpawnY = 0;
-
-    switch (this.spawn) {
-      case 'tunnel':
-        const tunnelData = this.tilemap.getObjectLayer('Tunnel Spawn').objects[0];
-        firminSpawnX = tunnelData.x;
-        firminSpawnY = tunnelData.y;
-        break;
-        
-      case 'subway':
-        const subwayData = this.tilemap.getObjectLayer('Subway Spawn').objects[0];
-        firminSpawnX = subwayData.x;
-        firminSpawnY = subwayData.y;
-        break;
-      default:
-        break;
+  
+  // TODO: Called when the player leaves the station
+  exitStation() {
+    this.scene.start('Transitions', {
+      next: 'City',
+      args: {street: this.station , spawn: 'subway'},
+      name: 'black',
+      duration: 1500,
+      ui: null,
+      entry: 'fade',
+      exit: 'fade'
     }
-
-    this.firmin = new Firmin(this, this.tilemapSpawnPointX + firminSpawnX, this.tilemapSpawnPointY + firminSpawnY);
-    this.add.existing(this.firmin);
-    this.firmin.setDepth(7);
-    this.physics.add.existing(this.firmin);
-    this.physics.add.collider(this.firmin, this.contourLayer);
-  }
-
-  /* Hardcoded way to implement stairs without 
-     implementing more complex things like a slope movement */
-  buildStairs() {
-    const startX = 650; /* HardCoded Value */
-    const startY = 222; /* HardCoded Value */
-    const stairWidth = 3;
-    const stairHeight = 4;
-    const stepsNumber = 24;
-    const stairs = this.physics.add.staticGroup();
-
-    for (let i = 0; i < stepsNumber; i++) {
-      const step = this.add.rectangle(
-        startX + i * stairWidth, 
-        startY - i * stairHeight, 
-        stairWidth, 
-        stairHeight, 
-        0x00ff00, 
-        0); // alpha = 0 (invisible for prod)
-      this.physics.add.existing(step, true);
-      stairs.add(step);
-    }
-    this.physics.add.collider(this.firmin, stairs);
+    )
   }
 
   buildSubwayStationTilemap() {
+    this.tilemapSpawnPointX = 0;
+    this.tilemapSpawnPointY = 0;
+
     this.tilemap = this.make.tilemap({ key: 'subwayStationTilemap' });
     this.tileset = this.tilemap.addTilesetImage('SubwayStationTileset', 'subwayStationTileset');
 
@@ -152,17 +165,18 @@ export default class SubwayStation extends Phaser.Scene {
       this.tilemapSpawnPointX, this.tilemapSpawnPointY
     ).setDepth(6);
 
-    // The 8 layer is reserved for the character
+
+    this.firminLayer = 7;
 
     this.tilemap.createLayer(
       'Tunnel Exit', this.tileset,
       this.tilemapSpawnPointX, this.tilemapSpawnPointY
-    ).setDepth(9);
+    ).setDepth(8);
 
     this.tilemap.createLayer(
       'Tunnel Exit Decoration', this.tileset,
       this.tilemapSpawnPointX, this.tilemapSpawnPointY
-    ).setDepth(10);
+    ).setDepth(9);
 
     // We only save this layer because its the important one
     this.contourLayer = this.tilemap.createLayer(
@@ -170,19 +184,5 @@ export default class SubwayStation extends Phaser.Scene {
       this.tilemapSpawnPointX, this.tilemapSpawnPointY
     ).setDepth(5);
     this.contourLayer.setCollisionByProperty({ collides: true });
-  }
-     
-  // TODO: Called when the player leaves the station
-  exitStation() {
-    this.scene.start('Transitions', {
-      next: 'City',
-      args: {street: this.station , spawn: 'subway'},
-      name: 'black',
-      duration: 1500,
-      ui: null,
-      entry: 'fade',
-      exit: 'fade'
-    }
-    )
   }
 }

@@ -7,14 +7,21 @@ import c64FontXml from '../assets/fonts/commodoreFont.xml';
 
 /* SPRITES */
 import tutorial from '../assets/sprites/simples/Tutorial.png';
+import escMenuSelection from '../assets/sprites/simples/escMenuSelection.png';
 
 /* SPRITESHEETS */
 import firmin from '../assets/sprites/multiples/Firmin.png';
 import subwayTransition from '../assets/sprites/multiples/SubwayTransition.png';
+import escMenuButtons from '../assets/sprites/multiples/EscMenuButtons.png';
+import escMenuBackground from '../assets/sprites/multiples/EscMenuBackground.png';
 
 /* TILEMAP AND TILESET */
 import subwayStationTileset from '../assets/tilemaps/SubwayStationTileset.png'
 import subwayStationTilemap from '../assets/tilemaps/SubwayStationTilemap.json'
+import streetTileset from '../assets/tilemaps/StreetTileset.png'
+import artStreetTilemap from '../assets/tilemaps/ArtStreetTilemap.json'
+import projectStreetTilemap from '../assets/tilemaps/ProjectStreetTilemap.json'
+import profileStreetTilemap from '../assets/tilemaps/ProfileStreetTilemap.json'
 
 
 export default class Loader extends Phaser.Scene {
@@ -54,6 +61,7 @@ export default class Loader extends Phaser.Scene {
 
   loadSprites(){
     this.load.image("tutorial", tutorial); 
+    this.load.image("escMenuSelection", escMenuSelection);
   }
 
   loadSpriteSheets(){
@@ -65,10 +73,25 @@ export default class Loader extends Phaser.Scene {
       frameWidth: 800,
       frameHeight: 220,
     });
+    this.load.spritesheet("escMenuButtons", escMenuButtons, {
+      frameWidth: 112,
+      frameHeight: 16,
+    })
+    this.load.spritesheet("escMenuBackground", escMenuBackground, {
+      frameWidth: 224,
+      frameHeight: 160,
+    })
   }
 
   loadTilemaps(){
-    this.load.image('subwayStationTileset', subwayStationTileset);    
+    /* Tilesets */
+    this.load.image('subwayStationTileset', subwayStationTileset);   
+    this.load.image('streetTileset', streetTileset) 
+
+    /* Tilemaps */
     this.load.tilemapTiledJSON('subwayStationTilemap', subwayStationTilemap);
+    this.load.tilemapTiledJSON('artStreetTilemap', artStreetTilemap);
+    this.load.tilemapTiledJSON('projectStreetTilemap', projectStreetTilemap);
+    this.load.tilemapTiledJSON('profileStreetTilemap', profileStreetTilemap);
   }
 }
