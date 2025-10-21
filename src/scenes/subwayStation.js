@@ -4,6 +4,7 @@
 // like the decoration and the exit.
 
 import Firmin from '../gameobjects/firmin.js'
+import Subway from '../gameobjects/subway.js'
 
 export default class SubwayStation extends Phaser.Scene {
   constructor() {
@@ -25,8 +26,13 @@ export default class SubwayStation extends Phaser.Scene {
   }
 
   create() {
+    console.log(this.textures.get('firmin'));
+    console.log(this.textures.get('subway'));
+
+
     this.buildSubwayStationTilemap();
     this.buildFirmin();
+    this.buildSubway();
     this.buildStairs();
     this.setBounds();
   }
@@ -52,10 +58,15 @@ export default class SubwayStation extends Phaser.Scene {
     }
 
     this.firmin = new Firmin(this, this.tilemapSpawnPointX + firminSpawnX, this.tilemapSpawnPointY + firminSpawnY);
-    this.add.existing(this.firmin);
     this.firmin.setDepth(this.firminLayer);
     this.physics.add.existing(this.firmin);
     this.physics.add.collider(this.firmin, this.contourLayer);
+  }
+
+  buildSubway() {
+    this.subway = new Subway(this, 0, 100);
+    //this.subway.setDepth(this.subwayLayer);
+    this.subway.setDepth(12);
   }
 
   /* Hardcoded way to implement stairs without 
@@ -145,20 +156,22 @@ export default class SubwayStation extends Phaser.Scene {
       this.tilemapSpawnPointX, this.tilemapSpawnPointY
     ).setDepth(1);
 
-    this.tilemap.createLayer(
-      'Columns', this.tileset,
-      this.tilemapSpawnPointX, this.tilemapSpawnPointY
-    ).setDepth(2);
+    this.subwlayLayer = 2;
 
     this.tilemap.createLayer(
-      'Tunnel Background 2', this.tileset,
+      'Columns', this.tileset,
       this.tilemapSpawnPointX, this.tilemapSpawnPointY
     ).setDepth(3);
 
     this.tilemap.createLayer(
-      'Tunnel Background 1', this.tileset,
+      'Tunnel Background 2', this.tileset,
       this.tilemapSpawnPointX, this.tilemapSpawnPointY
     ).setDepth(4);
+
+    this.tilemap.createLayer(
+      'Tunnel Background 1', this.tileset,
+      this.tilemapSpawnPointX, this.tilemapSpawnPointY
+    ).setDepth(5);
 
     this.tilemap.createLayer(
       'Tunnel Decoration', this.tileset,
@@ -166,23 +179,23 @@ export default class SubwayStation extends Phaser.Scene {
     ).setDepth(6);
 
 
-    this.firminLayer = 7;
+    this.firminLayer = 8;
 
     this.tilemap.createLayer(
       'Tunnel Exit', this.tileset,
       this.tilemapSpawnPointX, this.tilemapSpawnPointY
-    ).setDepth(8);
+    ).setDepth(9);
 
     this.tilemap.createLayer(
       'Tunnel Exit Decoration', this.tileset,
       this.tilemapSpawnPointX, this.tilemapSpawnPointY
-    ).setDepth(9);
+    ).setDepth(10);
 
     // We only save this layer because its the important one
     this.contourLayer = this.tilemap.createLayer(
       'Contour', this.tileset,
       this.tilemapSpawnPointX, this.tilemapSpawnPointY
-    ).setDepth(5);
+    ).setDepth(7);
     this.contourLayer.setCollisionByProperty({ collides: true });
   }
 }

@@ -7,10 +7,11 @@ import c64FontXml from '../assets/fonts/commodoreFont.xml';
 
 /* SPRITES */
 import tutorial from '../assets/sprites/simples/Tutorial.png';
-import escMenuSelection from '../assets/sprites/simples/escMenuSelection.png';
+import escMenuSelection from '../assets/sprites/simples/EscMenuSelection.png';
 
 /* SPRITESHEETS */
 import firmin from '../assets/sprites/multiples/Firmin.png';
+import subway from '../assets/sprites/multiples/Subway.png';
 import subwayTransition from '../assets/sprites/multiples/SubwayTransition.png';
 import escMenuButtons from '../assets/sprites/multiples/EscMenuButtons.png';
 import escMenuBackground from '../assets/sprites/multiples/EscMenuBackground.png';
@@ -69,6 +70,10 @@ export default class Loader extends Phaser.Scene {
       frameWidth: 40,
       frameHeight: 40,
     });
+     this.load.spritesheet("subway", subway, {
+       frameWidth: 864,
+       frameHeight: 112,
+     });
     this.load.spritesheet("subwayTransition", subwayTransition, {
       frameWidth: 800,
       frameHeight: 220,
