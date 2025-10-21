@@ -26,15 +26,14 @@ export default class SubwayStation extends Phaser.Scene {
   }
 
   create() {
-    console.log(this.textures.get('firmin'));
-    console.log(this.textures.get('subway'));
-
 
     this.buildSubwayStationTilemap();
     this.buildFirmin();
+    // Not working at all
     this.buildSubway();
     this.buildStairs();
     this.setBounds();
+    this.setExit();
   }
 
   buildFirmin(){
@@ -57,16 +56,18 @@ export default class SubwayStation extends Phaser.Scene {
         break;
     }
 
-    this.firmin = new Firmin(this, this.tilemapSpawnPointX + firminSpawnX, this.tilemapSpawnPointY + firminSpawnY);
-    this.firmin.setDepth(this.firminLayer);
+    this.firmin = new Firmin(this,
+                             this.tilemapSpawnPointX + firminSpawnX,
+                             this.tilemapSpawnPointY + firminSpawnY,
+                             this.firminLayer);
     this.physics.add.existing(this.firmin);
     this.physics.add.collider(this.firmin, this.contourLayer);
   }
 
   buildSubway() {
-    this.subway = new Subway(this, 0, 100);
+    //this.setSubwayEntry();
+    //this.subway = new Subway(this, 0, 100);
     //this.subway.setDepth(this.subwayLayer);
-    this.subway.setDepth(12);
   }
 
   /* Hardcoded way to implement stairs without 
@@ -77,19 +78,19 @@ export default class SubwayStation extends Phaser.Scene {
     const stairWidth = 3;
     const stairHeight = 4;
     const stepsNumber = 24;
+ 
     const stairs = this.physics.add.staticGroup();
-
     for (let i = 0; i < stepsNumber; i++) {
       const step = this.add.rectangle(
         startX + i * stairWidth, 
         startY - i * stairHeight, 
         stairWidth, 
         stairHeight, 
-        0x00ff00, 
-        0); // alpha = 0 (invisible for prod)
+        0x000000);
       this.physics.add.existing(step, true);
       stairs.add(step);
     }
+    stairs.fillAlpha = 0;
     this.physics.add.collider(this.firmin, stairs);
   }
 
@@ -124,14 +125,35 @@ export default class SubwayStation extends Phaser.Scene {
       mapHeight
     );
   }
+
+  setExit() {
+    // By somehow we obtained the correct position
+    // for the moment we gonna say its a const variable
+    const exitPosX = 700;
+    const exitPosY = 100;
+    const exitWidth = 32;
+    const exitHeight = 64;
+
+    this.exitZone = this.add.rectangle(exitPosX,
+                                        exitPosY,
+                                        exitWidth,
+                                        exitHeight);
+    this.physics.add.existing(this.exitZone, true);
+    this.exitZone.setVisible(false);
+
+    this.physics.add.overlap(this.firmin, this.exitZone, (player, zone) => {
+      player.setInteraction(() => {
+        this.exitStation();
+      });
+    }, null, this);
+  }
   
-  // TODO: Called when the player leaves the station
   exitStation() {
     this.scene.start('Transitions', {
       next: 'City',
       args: {street: this.station , spawn: 'subway'},
       name: 'black',
-      duration: 1500,
+      duration: 500,
       ui: null,
       entry: 'fade',
       exit: 'fade'
@@ -197,5 +219,14 @@ export default class SubwayStation extends Phaser.Scene {
       this.tilemapSpawnPointX, this.tilemapSpawnPointY
     ).setDepth(7);
     this.contourLayer.setCollisionByProperty({ collides: true });
+  }
+
+  update() {
+    let firminBounds = this.firmin.getBounds();
+    
+    let isInsideExitZone = Phaser.Geom.Intersects.RectangleToRectangle(this.exitZone.getBounds(), firminBounds);
+    if (!isInsideExitZone) { this.firmin.clearInteraction(); }
+    
+    // The same with other like subwayentryzone
   }
 }

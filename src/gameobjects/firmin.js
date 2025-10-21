@@ -1,17 +1,22 @@
 export default class Firmin extends Phaser.Physics.Arcade.Sprite {
-  constructor(scene, x, y) {
+  constructor(scene, x, y, layer) {
     super(scene, x, y, "firmin");
     this.scene = scene;
+    this.layer = layer;
     this.scene.add.existing(this);
     this.scene.physics.add.existing(this);
     this.setCollideWorldBounds(true);
+    this.setDepth(this.layer);
+
     this.movementSpeed = 80;
     this.jumpForce = -80;
     this.onGround = false;
+    this.interactCallback = null;
     
     this.addControls();
     this.createAnimations(scene.anims);
     this.initCamera();
+    this.initInteractionUI();
   }
   
   addControls() {
@@ -41,12 +46,25 @@ export default class Firmin extends Phaser.Physics.Arcade.Sprite {
     this.camera.followOffset.set(this.offSetX, this.offSetY);
   }
   
+  initInteractionUI() {
+    // TEXT PLACEHOLDER
+    this.interactionText = this.scene.add.text(this.x, this.y - 40, 'E',
+      {
+        fontSize: '20px',
+        fill: '#ffffff',
+        fontStyle: 'bold'
+    }).setOrigin(0.5, 0.5);
+    this.interactionText.setDepth(this.layer);
+    this.hideInteractionUI();
+  }
+  
   update(cursors) {
+    this.interactionText.setPosition(this.x, this.y - 40);
     if (!this.controlsEnabled) { return }
     if (!this.cameraEnabled) { this.camera.followOffset.set(this.offSetX, this.offSetY); }
     
     this.cameraEnabled = false;
-
+  
     if (this.ESCMENU.isDown) {
       this.scene.scene.sleep();
       this.scene.scene.launch('EscMenu', { from: this.scene.scene.key });
@@ -64,6 +82,9 @@ export default class Firmin extends Phaser.Physics.Arcade.Sprite {
           });
         });
       }
+    }
+    if (this.INTERACT.isDown && this.interactCallback) {
+      this.interactCallback();
     }
     
     if (this.MOVERIGHT.isDown) {
@@ -111,6 +132,24 @@ export default class Firmin extends Phaser.Physics.Arcade.Sprite {
     }
   }
 
+  setInteraction(callback) {
+    this.interactCallback = callback;
+    this.showInteractionUI();
+  }
+
+  clearInteraction(callback) {
+    this.interactCallback = null;
+    this.hideInteractionUI();
+  }
+
+  showInteractionUI() {
+    this.interactionText.setVisible(true);
+  }
+
+  hideInteractionUI() {
+    this.interactionText.setVisible(false);
+  }
+  
   executeTeleportation(data) {
     this.scene.scene.start('Transitions', {
       next: 'Transitions',
