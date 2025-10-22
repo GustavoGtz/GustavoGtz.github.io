@@ -6,6 +6,7 @@ import c64FontPng from '../assets/fonts/commodoreFont.png';
 import c64FontXml from '../assets/fonts/commodoreFont.xml';
 
 /* SPRITES */
+import eButton from '../assets/sprites/simples/EButton.png';
 import tutorial from '../assets/sprites/simples/Tutorial.png';
 import escMenuSelection from '../assets/sprites/simples/EscMenuSelection.png';
 
@@ -61,6 +62,7 @@ export default class Loader extends Phaser.Scene {
   }
 
   loadSprites(){
+    this.load.image("eButton", eButton); 
     this.load.image("tutorial", tutorial); 
     this.load.image("escMenuSelection", escMenuSelection);
   }
@@ -71,7 +73,7 @@ export default class Loader extends Phaser.Scene {
       frameHeight: 40,
     });
      this.load.spritesheet("subway", subway, {
-       frameWidth: 864,
+       frameWidth: 320,
        frameHeight: 112,
      });
     this.load.spritesheet("subwayTransition", subwayTransition, {

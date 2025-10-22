@@ -23,7 +23,7 @@
          "name":"Station Background",
          "opacity":1,
          "type":"tilelayer",
-         "visible":false,
+         "visible":true,
          "width":50,
          "x":0,
          "y":0
@@ -49,7 +49,7 @@
          "name":"Station Background Decoration",
          "opacity":1,
          "type":"tilelayer",
-         "visible":false,
+         "visible":true,
          "width":50,
          "x":0,
          "y":0
@@ -75,7 +75,7 @@
          "name":"Columns",
          "opacity":1,
          "type":"tilelayer",
-         "visible":false,
+         "visible":true,
          "width":50,
          "x":0,
          "y":0
@@ -101,7 +101,7 @@
          "name":"Tunnel Background 2",
          "opacity":1,
          "type":"tilelayer",
-         "visible":false,
+         "visible":true,
          "width":50,
          "x":0,
          "y":0
@@ -127,7 +127,7 @@
          "name":"Tunnel Background 1",
          "opacity":1,
          "type":"tilelayer",
-         "visible":false,
+         "visible":true,
          "width":50,
          "x":0,
          "y":0
@@ -179,7 +179,7 @@
          "name":"Tunnel Decoration",
          "opacity":1,
          "type":"tilelayer",
-         "visible":false,
+         "visible":true,
          "width":50,
          "x":0,
          "y":0
@@ -205,7 +205,7 @@
          "name":"Firmin PlaceHolder",
          "opacity":1,
          "type":"tilelayer",
-         "visible":false,
+         "visible":true,
          "width":50,
          "x":0,
          "y":0
@@ -231,7 +231,7 @@
          "name":"Tunnel Exit",
          "opacity":1,
          "type":"tilelayer",
-         "visible":false,
+         "visible":true,
          "width":50,
          "x":0,
          "y":0
@@ -257,7 +257,7 @@
          "name":"Tunnel Exit Decoration",
          "opacity":1,
          "type":"tilelayer",
-         "visible":false,
+         "visible":true,
          "width":50,
          "x":0,
          "y":0
@@ -268,15 +268,37 @@
          "name":"Tunnel Spawn",
          "objects":[
                 {
-                 "height":0,
+                 "height":40,
                  "id":6,
                  "name":"",
                  "rotation":0,
                  "type":"",
                  "visible":true,
-                 "width":0,
-                 "x":768,
-                 "y":112
+                 "width":40,
+                 "x":728,
+                 "y":88
+                }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
+         "x":0,
+         "y":0
+        }, 
+        {
+         "draworder":"topdown",
+         "id":15,
+         "name":"Exit",
+         "objects":[
+                {
+                 "height":96,
+                 "id":9,
+                 "name":"",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":16,
+                 "x":784,
+                 "y":32
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -290,15 +312,15 @@
          "name":"Subway Spawn",
          "objects":[
                 {
-                 "height":0,
+                 "height":40,
                  "id":8,
                  "name":"",
                  "rotation":0,
                  "type":"",
                  "visible":true,
-                 "width":0,
-                 "x":112,
-                 "y":208
+                 "width":40,
+                 "x":224,
+                 "y":184
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -306,8 +328,8 @@
          "x":0,
          "y":0
         }],
- "nextlayerid":15,
- "nextobjectid":9,
+ "nextlayerid":16,
+ "nextobjectid":10,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.11.2",

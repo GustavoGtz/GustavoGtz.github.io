@@ -8,7 +8,7 @@ export default class Firmin extends Phaser.Physics.Arcade.Sprite {
     this.setCollideWorldBounds(true);
     this.setDepth(this.layer);
 
-    this.movementSpeed = 80;
+    this.movementSpeed = 200; // 80 for prod
     this.jumpForce = -80;
     this.onGround = false;
     this.interactCallback = null;
@@ -47,22 +47,22 @@ export default class Firmin extends Phaser.Physics.Arcade.Sprite {
   }
   
   initInteractionUI() {
-    // TEXT PLACEHOLDER
-    this.interactionText = this.scene.add.text(this.x, this.y - 40, 'E',
-      {
-        fontSize: '20px',
-        fill: '#ffffff',
-        fontStyle: 'bold'
-    }).setOrigin(0.5, 0.5);
-    this.interactionText.setDepth(this.layer);
+
+    this.interactionUI = this.scene.add.image(
+      this.x,
+      this.y - 40,
+      'eButton'
+    ).setOrigin(0.5, 0.5);
+
+    this.interactionUI.setDepth(this.layer + 1);
     this.hideInteractionUI();
   }
   
   update(cursors) {
-    this.interactionText.setPosition(this.x, this.y - 40);
     if (!this.controlsEnabled) { return }
     if (!this.cameraEnabled) { this.camera.followOffset.set(this.offSetX, this.offSetY); }
     
+    this.interactionUI.setPosition(this.x, this.y - 30);
     this.cameraEnabled = false;
   
     if (this.ESCMENU.isDown) {
@@ -82,9 +82,6 @@ export default class Firmin extends Phaser.Physics.Arcade.Sprite {
           });
         });
       }
-    }
-    if (this.INTERACT.isDown && this.interactCallback) {
-      this.interactCallback();
     }
     
     if (this.MOVERIGHT.isDown) {
@@ -116,19 +113,18 @@ export default class Firmin extends Phaser.Physics.Arcade.Sprite {
       }
     }
 
-    // TODO: Interact with E.
-    // Detects that Firmin is in the space of another object interactuable.
-    // If its true, it will only call something showInteractionUI.
-    // When its not, it will not be showed.
-    // Firmin Can Press the button E, inside this IF, and if it does, it will call a method inside the object
-    // to interact.
-    
     if (this.onGround && this.JUMP.isDown) { this.startJump(); }
 
     if (this.body.velocity.y !== 0) { this.jump(false); }
 
-    if (!this.onGround && this.body.velocity.y === 0) { this.endJump(); 
+    if (!this.onGround && this.body.velocity.y === 0) { this.endJump(); }
 
+    if (this.INTERACT.isDown && this.interactCallback) {
+      this.controlsEnabled = false;
+      this.setVelocity(0, 0);
+      this.hideInteractionUI();
+      this.interactionUI = null;
+      this.interactCallback();
     }
   }
 
@@ -137,17 +133,22 @@ export default class Firmin extends Phaser.Physics.Arcade.Sprite {
     this.showInteractionUI();
   }
 
-  clearInteraction(callback) {
+  clearInteraction() {
     this.interactCallback = null;
     this.hideInteractionUI();
   }
 
   showInteractionUI() {
-    this.interactionText.setVisible(true);
+    if (this.interactionUI) {
+      this.interactionUI.setVisible(true);
+    }
+    
   }
 
   hideInteractionUI() {
-    this.interactionText.setVisible(false);
+    if (this.interactionUI) {
+      this.interactionUI.setVisible(false);
+    }
   }
   
   executeTeleportation(data) {
@@ -238,8 +239,9 @@ export default class Firmin extends Phaser.Physics.Arcade.Sprite {
       anims.create({
         key: 'firmin-enter',
         frames: anims.generateFrameNumbers('firmin', {start: 10, end: 16}),
-        framRate: 7,
-        repeat: 1
+        duration: 1500,
+        repeat: 0,
+        hideOnComplete: true,
       });
     }
 

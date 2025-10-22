@@ -55,8 +55,8 @@ export default class Transitions extends Phaser.Scene {
     if (this.ui !== null) {
       this.showUI();
     }
-    
-    if (this.duraton !== null) {
+
+    if (this.duration) {
       this.time.addEvent({
         delay: this.duration,
         callback: this.loadNext,
@@ -123,6 +123,7 @@ export default class Transitions extends Phaser.Scene {
   }
   
   showStationSelectionUI() {
+    // Here I will implamaented a menu selecito with controls and everytging.
     console.log("STATION SELECTION UI");
     // In this UI, the user can change 'this.next' and 'this.args'
   }

@@ -36,21 +36,34 @@ export default class SubwayStation extends Phaser.Scene {
     this.setExit();
   }
 
+  update() {
+      if (this.subway) this.subway.update(); 
+
+    let firminBounds = this.firmin.getBounds();
+    
+    const isInsideEntryZone = Phaser.Geom.Intersects.RectangleToRectangle(this.subway.entryZone.getBounds(), firminBounds);
+    const isInsideExitZone = Phaser.Geom.Intersects.RectangleToRectangle(this.exitZone.getBounds(), firminBounds);
+    if (!isInsideExitZone && !isInsideEntryZone) { this.firmin.clearInteraction(); }
+  }
+
   buildFirmin(){
     let firminSpawnX = 0;
     let firminSpawnY = 0;
+    
+    let firminFlipX = false;
 
     switch (this.spawn) {
       case 'tunnel':
         const tunnelData = this.tilemap.getObjectLayer('Tunnel Spawn').objects[0];
-        firminSpawnX = tunnelData.x;
-        firminSpawnY = tunnelData.y;
+        firminSpawnX = tunnelData.x + tunnelData.width / 2;
+        firminSpawnY = tunnelData.y + tunnelData.height / 2;
         break;
         
       case 'subway':
         const subwayData = this.tilemap.getObjectLayer('Subway Spawn').objects[0];
-        firminSpawnX = subwayData.x;
-        firminSpawnY = subwayData.y;
+        firminSpawnX = subwayData.x + subwayData.width / 2;
+        firminSpawnY = subwayData.y + subwayData.height / 2;
+        firminFlipX = true;
         break;
       default:
         break;
@@ -60,14 +73,18 @@ export default class SubwayStation extends Phaser.Scene {
                              this.tilemapSpawnPointX + firminSpawnX,
                              this.tilemapSpawnPointY + firminSpawnY,
                              this.firminLayer);
-    this.physics.add.existing(this.firmin);
     this.physics.add.collider(this.firmin, this.contourLayer);
+    this.firmin.flipX = firminFlipX;
   }
 
   buildSubway() {
-    //this.setSubwayEntry();
-    //this.subway = new Subway(this, 0, 100);
-    //this.subway.setDepth(this.subwayLayer);
+    this.subway = new Subway(
+      this, 
+      this.tilemapSpawnPointX + 180,  /* HardCoded Value */
+      this.tilemapSpawnPointY + 168,  /* HardCoded Value */
+      this.subwayLayer
+    );
+    this.subway.setSubwayEntryAction(this.firmin);
   }
 
   /* Hardcoded way to implement stairs without 
@@ -127,12 +144,13 @@ export default class SubwayStation extends Phaser.Scene {
   }
 
   setExit() {
-    // By somehow we obtained the correct position
-    // for the moment we gonna say its a const variable
-    const exitPosX = 700;
-    const exitPosY = 100;
-    const exitWidth = 32;
-    const exitHeight = 64;
+    let exitData = this.tilemap.getObjectLayer('Exit').objects[0];
+    
+    /* Little fix to translate the position from tiled (Top left corner) to Phaser (Center) */
+    const exitWidth = exitData.width;
+    const exitHeight = exitData.height;
+    const exitPosX = exitData.x + exitWidth / 2;
+    const exitPosY = exitData.y + exitHeight / 2;
 
     this.exitZone = this.add.rectangle(exitPosX,
                                         exitPosY,
@@ -178,7 +196,7 @@ export default class SubwayStation extends Phaser.Scene {
       this.tilemapSpawnPointX, this.tilemapSpawnPointY
     ).setDepth(1);
 
-    this.subwlayLayer = 2;
+    this.subwayLayer = 2;
 
     this.tilemap.createLayer(
       'Columns', this.tileset,
@@ -198,7 +216,7 @@ export default class SubwayStation extends Phaser.Scene {
     this.tilemap.createLayer(
       'Tunnel Decoration', this.tileset,
       this.tilemapSpawnPointX, this.tilemapSpawnPointY
-    ).setDepth(6);
+    ).setDepth(7);
 
 
     this.firminLayer = 8;
@@ -217,16 +235,7 @@ export default class SubwayStation extends Phaser.Scene {
     this.contourLayer = this.tilemap.createLayer(
       'Contour', this.tileset,
       this.tilemapSpawnPointX, this.tilemapSpawnPointY
-    ).setDepth(7);
+    ).setDepth(6);
     this.contourLayer.setCollisionByProperty({ collides: true });
-  }
-
-  update() {
-    let firminBounds = this.firmin.getBounds();
-    
-    let isInsideExitZone = Phaser.Geom.Intersects.RectangleToRectangle(this.exitZone.getBounds(), firminBounds);
-    if (!isInsideExitZone) { this.firmin.clearInteraction(); }
-    
-    // The same with other like subwayentryzone
   }
 }
