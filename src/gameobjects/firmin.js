@@ -157,6 +157,7 @@ export default class Firmin extends Phaser.Physics.Arcade.Sprite {
       next: 'City',
       args: {street : data.street, spawn: 'building'},
       name: 'subway', // PLACEHOLDER, IT WILL BE HIS OWN TRANSITON
+      duration: 1500,
       ui: null,
       entry: 'fade',
       exit: 'fade'
