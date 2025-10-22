@@ -13,6 +13,7 @@ import escMenuSelection from '../assets/sprites/simples/EscMenuSelection.png';
 /* SPRITESHEETS */
 import firmin from '../assets/sprites/multiples/Firmin.png';
 import subway from '../assets/sprites/multiples/Subway.png';
+import subwayBack from '../assets/sprites/multiples/SubwayBack.png';
 import subwayTransition from '../assets/sprites/multiples/SubwayTransition.png';
 import escMenuButtons from '../assets/sprites/multiples/EscMenuButtons.png';
 import escMenuBackground from '../assets/sprites/multiples/EscMenuBackground.png';
@@ -76,6 +77,10 @@ export default class Loader extends Phaser.Scene {
        frameWidth: 320,
        frameHeight: 112,
      });
+    this.load.spritesheet("subwayBack", subwayBack, {
+      frameWidth: 320,
+      frameHeight: 112
+    });
     this.load.spritesheet("subwayTransition", subwayTransition, {
       frameWidth: 800,
       frameHeight: 220,

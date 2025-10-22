@@ -59,9 +59,8 @@ export default class Firmin extends Phaser.Physics.Arcade.Sprite {
   }
   
   update(cursors) {
-    if (!this.controlsEnabled) { return }
     if (!this.cameraEnabled) { this.camera.followOffset.set(this.offSetX, this.offSetY); }
-    
+    if (!this.controlsEnabled) { return }    
     this.interactionUI.setPosition(this.x, this.y - 30);
     this.cameraEnabled = false;
   
@@ -121,6 +120,7 @@ export default class Firmin extends Phaser.Physics.Arcade.Sprite {
 
     if (this.INTERACT.isDown && this.interactCallback) {
       this.controlsEnabled = false;
+      this.cameraEnabled = false;
       this.setVelocity(0, 0);
       this.hideInteractionUI();
       this.interactionUI = null;
