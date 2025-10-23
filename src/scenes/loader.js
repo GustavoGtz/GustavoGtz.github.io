@@ -9,6 +9,7 @@ import c64FontXml from '../assets/fonts/commodoreFont.xml';
 import eButton from '../assets/sprites/simples/EButton.png';
 import tutorial from '../assets/sprites/simples/Tutorial.png';
 import escMenuSelection from '../assets/sprites/simples/EscMenuSelection.png';
+import stationMenuSelection from '../assets/sprites/simples/StationMenuSelection.png';
 
 /* SPRITESHEETS */
 import firmin from '../assets/sprites/multiples/Firmin.png';
@@ -17,6 +18,7 @@ import subwayBack from '../assets/sprites/multiples/SubwayBack.png';
 import subwayTransition from '../assets/sprites/multiples/SubwayTransition.png';
 import escMenuButtons from '../assets/sprites/multiples/EscMenuButtons.png';
 import escMenuBackground from '../assets/sprites/multiples/EscMenuBackground.png';
+import stationMenuButtons from '../assets/sprites/multiples/StationMenuButtons.png';
 
 /* TILEMAP AND TILESET */
 import subwayStationTileset from '../assets/tilemaps/SubwayStationTileset.png'
@@ -66,6 +68,7 @@ export default class Loader extends Phaser.Scene {
     this.load.image("eButton", eButton); 
     this.load.image("tutorial", tutorial); 
     this.load.image("escMenuSelection", escMenuSelection);
+    this.load.image("stationMenuSelection", stationMenuSelection);
   }
 
   loadSpriteSheets(){
@@ -88,10 +91,14 @@ export default class Loader extends Phaser.Scene {
     this.load.spritesheet("escMenuButtons", escMenuButtons, {
       frameWidth: 112,
       frameHeight: 16,
-    })
+    });
     this.load.spritesheet("escMenuBackground", escMenuBackground, {
       frameWidth: 224,
       frameHeight: 160,
+    });
+    this.load.spritesheet("stationMenuButtons", stationMenuButtons, {
+      frameWidth: 112,
+      frameHeight: 46,
     })
   }
 

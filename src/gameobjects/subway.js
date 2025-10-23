@@ -73,8 +73,8 @@ export default class Subway extends Phaser.Physics.Arcade.Sprite {
 
         this.scene.time.delayedCall(2000, () => {
           this.scene.scene.start('Transitions', {
-            next: 'City',
-            args: { street: null, spawn: null },
+            next: 'SubwayStation',
+            args: { station: null, spawn: 'subway' },
             name: 'subway',
             duration: null,
             ui: 'stationSelection',

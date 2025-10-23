@@ -1,5 +1,6 @@
 // TODO's:
 // 1. Change the dispatch to a dynamical one
+import SubwayStationSelector from '../gameobjects/subwayStationSelector.js';
 
 export default class Transitions extends Phaser.Scene {
   constructor() {
@@ -66,6 +67,10 @@ export default class Transitions extends Phaser.Scene {
     }
   }
 
+  update() {
+    if(this.subwayStationMenu) { this.subwayStationMenu.update(); }
+  }
+
   playTransition() {
     switch(this.name) {
       case 'subway':
@@ -94,7 +99,7 @@ export default class Transitions extends Phaser.Scene {
 
     subwayTransition.play('play-subway-transition');
   }
-      
+  
   playBlackTransition() {
     this.cameras.main.setBackgroundColor(0x000000);
   }
@@ -123,11 +128,19 @@ export default class Transitions extends Phaser.Scene {
   }
   
   showStationSelectionUI() {
-    // Here I will implamaented a menu selecito with controls and everytging.
-    console.log("STATION SELECTION UI");
-    // In this UI, the user can change 'this.next' and 'this.args'
+    this.subwayStationMenu = new SubwayStationSelector(this, this.cameras.main.centerX, this.cameras.main.centerY);
+
+    this.subwayStationMenu.on('select', station => {
+      this.args.station = station;
+      this.subwayStationMenu.setVisible(false);
+
+      this.time.delayedCall(1500, () => {
+        this.loadNext();
+      });
+    });
   }
 
+  
   playEntry() {
     switch(this.entry) {
       case 'fade':

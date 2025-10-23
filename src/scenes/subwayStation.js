@@ -15,21 +15,23 @@ export default class SubwayStation extends Phaser.Scene {
    * data structure
    *
    * station: The station of subway to spawn
+   *          It can be:
+   *           - art
+   *           - profile
+   *           - project
    * spawn: Where it's going to spawn the character
    *        It can be:
    *         - tunnel
    *         - subway
-  */
+   */
   init(data) {
     this.station = data.station || 'profile';
     this.spawn = data.spawn || 'subway';
   }
 
   create() {
-
     this.buildSubwayStationTilemap();
     this.buildFirmin();
-    // Not working at all
     this.buildSubway();
     this.buildStairs();
     this.setBounds();
@@ -37,9 +39,9 @@ export default class SubwayStation extends Phaser.Scene {
   }
 
   update() {
-      if (this.subway) this.subway.update(); 
+    if (this.subway) this.subway.update(); 
 
-    let firminBounds = this.firmin.getBounds();
+    const firminBounds = this.firmin.getBounds();
     
     const isInsideEntryZone = Phaser.Geom.Intersects.RectangleToRectangle(this.subway.entryZone.getBounds(), firminBounds);
     const isInsideExitZone = Phaser.Geom.Intersects.RectangleToRectangle(this.exitZone.getBounds(), firminBounds);
@@ -49,7 +51,6 @@ export default class SubwayStation extends Phaser.Scene {
   buildFirmin(){
     let firminSpawnX = 0;
     let firminSpawnY = 0;
-    
     let firminFlipX = false;
 
     switch (this.spawn) {
@@ -95,7 +96,7 @@ export default class SubwayStation extends Phaser.Scene {
     const stairWidth = 3;
     const stairHeight = 4;
     const stepsNumber = 24;
- 
+    
     const stairs = this.physics.add.staticGroup();
     for (let i = 0; i < stepsNumber; i++) {
       const step = this.add.rectangle(
@@ -144,7 +145,7 @@ export default class SubwayStation extends Phaser.Scene {
   }
 
   setExit() {
-    let exitData = this.tilemap.getObjectLayer('Exit').objects[0];
+    const exitData = this.tilemap.getObjectLayer('Exit').objects[0];
     
     /* Little fix to translate the position from tiled (Top left corner) to Phaser (Center) */
     const exitWidth = exitData.width;
@@ -153,9 +154,9 @@ export default class SubwayStation extends Phaser.Scene {
     const exitPosY = exitData.y + exitHeight / 2;
 
     this.exitZone = this.add.rectangle(exitPosX,
-                                        exitPosY,
-                                        exitWidth,
-                                        exitHeight);
+                                       exitPosY,
+                                       exitWidth,
+                                       exitHeight);
     this.physics.add.existing(this.exitZone, true);
     this.exitZone.setVisible(false);
 
@@ -175,8 +176,7 @@ export default class SubwayStation extends Phaser.Scene {
       ui: null,
       entry: 'fade',
       exit: 'fade'
-    }
-    )
+    });
   }
 
   buildSubwayStationTilemap() {
