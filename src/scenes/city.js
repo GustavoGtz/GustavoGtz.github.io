@@ -24,9 +24,9 @@ export default class City extends Phaser.Scene {
 
         switch (this.spawn) {
         case 'building':
-            const tunnelData = this.tilemap.getObjectLayer('Building Spawn').objects[0];
-            firminSpawnX = tunnelData.x;
-            firminSpawnY = tunnelData.y;
+            const buildingData = this.tilemap.getObjectLayer('Building Spawn').objects[0];
+            firminSpawnX = buildingData.x;
+            firminSpawnY = buildingData.y;
             break;
             
         case 'subway':
@@ -116,5 +116,6 @@ export default class City extends Phaser.Scene {
             this.tilemapSpawnPointX, this.tilemapSpawnPointY
         ).setDepth(5);
         this.contourLayer.setCollisionByProperty({ collides: true });
+        console.log("HOLA");
     }
 }
