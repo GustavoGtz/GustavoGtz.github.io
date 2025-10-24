@@ -77,7 +77,7 @@ export default class Subway extends Phaser.Physics.Arcade.Sprite {
             args: { station: null, spawn: 'subway' },
             name: 'subway',
             duration: null,
-            ui: 'stationSelection',
+            ui: 'stationSelector',
             entry: 'fade',
             exit: 'fade',
           });
@@ -87,7 +87,6 @@ export default class Subway extends Phaser.Physics.Arcade.Sprite {
   }
 
   createAnimations(anims) {
-    // Front car animations
     if (!anims.exists('subway-idle')) {
       anims.create({
         key: 'subway-idle',

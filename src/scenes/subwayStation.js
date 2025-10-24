@@ -218,7 +218,6 @@ export default class SubwayStation extends Phaser.Scene {
       this.tilemapSpawnPointX, this.tilemapSpawnPointY
     ).setDepth(7);
 
-
     this.firminLayer = 8;
 
     this.tilemap.createLayer(
@@ -231,7 +230,6 @@ export default class SubwayStation extends Phaser.Scene {
       this.tilemapSpawnPointX, this.tilemapSpawnPointY
     ).setDepth(10);
 
-    // We only save this layer because its the important one
     this.contourLayer = this.tilemap.createLayer(
       'Contour', this.tileset,
       this.tilemapSpawnPointX, this.tilemapSpawnPointY

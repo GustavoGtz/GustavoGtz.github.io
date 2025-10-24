@@ -1,6 +1,4 @@
-// TODO's:
-// 1. Change the dispatch to a dynamical one
-import SubwayStationSelector from '../gameobjects/subwayStationSelector.js';
+import StationSelector from '../gameobjects/stationSelector.js';
 
 export default class Transitions extends Phaser.Scene {
   constructor() {
@@ -8,34 +6,33 @@ export default class Transitions extends Phaser.Scene {
   }
 
   /* Structure of Data
-   *
-   * next: The name of the scene to be loaded
-   * args: If the scene to be loaded has arguments
-   * name: The name of the transition to be showed
-   *       Actual possibles values:
-   *         - subway
-   *         - black
-   * duration: The duration of the transition. It can be NULL if the
-   *           time depends by the user or the animation itself.
-   *           In miliseconds.
-   * ui: The elements to be displayed in front of the transition.
-   *     It can be NULL if it's no UI to show
-   *     Actual possibles values:
-   *       - tutorial
-   *       - stationSelection
-   *       - null
-   * entry: The way to disolve from the previous scene to this one
-   *       It can be Null
-   *       Actual possibles values:
-   *        - fade
-   *        - null
-   * exit: The way to disolve from this scene to the next one
-   *       It can be Null
-   *       Actual possibles values:
-   *        - fade
-   *        - null
-   */
-  
+  *
+  * next:        The name of the scene to be loaded.
+  * args:        Arguments passed to the next scene (optional).
+  * name:        The name of the transition to be shown.
+  *              Possible values:
+  *                - "subway"
+  *                - "black"
+  * duration:    The duration of the transition, in milliseconds.
+  *              Can be NULL if time depends on the user or animation.
+  * ui:          The UI elements displayed in front of the transition.
+  *              Can be NULL if no UI is shown.
+  *              Possible values:
+  *                - "tutorial"
+  *                - "stationSelector"
+  *                - null
+  * entry:       The dissolve effect when entering the scene.
+  *              Can be NULL.
+  *              Possible values:
+  *                - "fade"
+  *                - null
+  * exit:        The dissolve effect when leaving the scene.
+  *              Can be NULL.
+  *              Possible values:
+  *                - "fade"
+  *                - null
+  */
+
   init(data) {
     this.next = data.next;
     this.args = data.args;
@@ -68,7 +65,7 @@ export default class Transitions extends Phaser.Scene {
   }
 
   update() {
-    if(this.subwayStationMenu) { this.subwayStationMenu.update(); }
+    if(this.stationSelector) { this.stationSelector.update(); }
   }
 
   playTransition() {
@@ -109,11 +106,11 @@ export default class Transitions extends Phaser.Scene {
       case 'tutorial':
         this.showTutorialUI();
         break;
-      case 'stationSelection':
-        this.showStationSelectionUI();
+      case 'stationSelector':
+        this.showStationSelector();
         break;
       default:
-        console.log("Not any UI selected");
+        console.log("Not any valid UI selected");
         break;
     }
   }
@@ -127,12 +124,12 @@ export default class Transitions extends Phaser.Scene {
     tutorialUI.setScale(2); 
   }
   
-  showStationSelectionUI() {
-    this.subwayStationMenu = new SubwayStationSelector(this, this.cameras.main.centerX, this.cameras.main.centerY);
+  showStationSelector() {
+    this.stationSelector = new StationSelector(this, this.cameras.main.centerX, this.cameras.main.centerY);
 
-    this.subwayStationMenu.on('select', station => {
+    this.stationSelector.on('select', station => {
       this.args.station = station;
-      this.subwayStationMenu.setVisible(false);
+      this.stationSelector.setVisible(false);
 
       this.time.delayedCall(1500, () => {
         this.loadNext();
@@ -140,7 +137,6 @@ export default class Transitions extends Phaser.Scene {
     });
   }
 
-  
   playEntry() {
     switch(this.entry) {
       case 'fade':

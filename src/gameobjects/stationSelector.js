@@ -1,38 +1,35 @@
-export default class SubwayStationSelector extends Phaser.GameObjects.Container {
+/* ss for STATION SELECTOR */
+export default class StationSelector extends Phaser.GameObjects.Container {
   constructor(scene, x, y) {
     super(scene, x, y);
 
     this.scene = scene;
     this.idxSelection = 0;
     this.totalOptions = 3;
+    this.scene.add.existing(this);
 
-    // Add this container to the scene
-    scene.add.existing(this);
-
-    // Build the UI
-    this.createSelectionMenu();
+    this.createSelectorMenu();
+    this.createSelectorButtons();
     this.addControls();
   }
 
-
-  createSelectionMenu() {
-    const menuSelectionUI = this.scene.add.image(0, 0, 'stationMenuSelection')
-                                .setOrigin(0.5)
-                                .setScale(2);
-    this.add(menuSelectionUI);
-
-    this.createButtons();
+  createSelectorMenu() {
+    const ssMenu = this.scene.add.image(0, 0, 'stationSelectorMenu');
+    ssMenu.setOrigin(0.5);
+    ssMenu.setScale(2);
+    this.add(ssMenu);
   }
 
-  createButtons() {
-    // TODO: FIX THE UI OF THE BUTTONS
-    const positions = [0, 35, 70];
+  createSelectorButtons() {
+    const positions = [-50, 25, 100];
     this.buttons = [];
     this.frameOffsets = [0, 3, 6];
 
-    for (let i = 0; i < 4; i++) {
-      const btn = this.scene.add.sprite(-120, -70 + positions[i], 'escMenuButtons', this.frameOffsets[i])
-                      .setScale(2);
+    for (let i = 0; i < positions.length; i++) {
+      const btn = this.scene.add.sprite(
+        0, positions[i], 
+        'stationSelectorButtons', 
+        this.frameOffsets[i]).setScale(2);
       this.add(btn);
       this.buttons.push(btn);
     }

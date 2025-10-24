@@ -8,26 +8,26 @@ import c64FontXml from '../assets/fonts/commodoreFont.xml';
 /* SPRITES */
 import eButton from '../assets/sprites/simples/EButton.png';
 import tutorial from '../assets/sprites/simples/Tutorial.png';
-import escMenuSelection from '../assets/sprites/simples/EscMenuSelection.png';
-import stationMenuSelection from '../assets/sprites/simples/StationMenuSelection.png';
+import escMenu from '../assets/sprites/simples/EscMenu.png';
+import stationSelectorMenu from '../assets/sprites/simples/StationSelectorMenu.png';
 
 /* SPRITESHEETS */
 import firmin from '../assets/sprites/multiples/Firmin.png';
 import subway from '../assets/sprites/multiples/Subway.png';
 import subwayBack from '../assets/sprites/multiples/SubwayBack.png';
 import subwayTransition from '../assets/sprites/multiples/SubwayTransition.png';
-import escMenuButtons from '../assets/sprites/multiples/EscMenuButtons.png';
-import escMenuBackground from '../assets/sprites/multiples/EscMenuBackground.png';
-import stationMenuButtons from '../assets/sprites/multiples/StationMenuButtons.png';
+import escButtons from '../assets/sprites/multiples/EscButtons.png';
+import escBackground from '../assets/sprites/multiples/EscBackground.png';
+import stationSelectorButtons from '../assets/sprites/multiples/StationSelectorButtons.png';
 
 /* TILEMAP AND TILESET */
 import subwayStationTileset from '../assets/tilemaps/SubwayStationTileset.png'
-import subwayStationTilemap from '../assets/tilemaps/SubwayStationTilemap.json'
 import streetTileset from '../assets/tilemaps/StreetTileset.png'
+
+import subwayStationTilemap from '../assets/tilemaps/SubwayStationTilemap.json'
 import artStreetTilemap from '../assets/tilemaps/ArtStreetTilemap.json'
 import projectStreetTilemap from '../assets/tilemaps/ProjectStreetTilemap.json'
 import profileStreetTilemap from '../assets/tilemaps/ProfileStreetTilemap.json'
-
 
 export default class Loader extends Phaser.Scene {
   constructor() {
@@ -67,8 +67,8 @@ export default class Loader extends Phaser.Scene {
   loadSprites(){
     this.load.image("eButton", eButton); 
     this.load.image("tutorial", tutorial); 
-    this.load.image("escMenuSelection", escMenuSelection);
-    this.load.image("stationMenuSelection", stationMenuSelection);
+    this.load.image("escMenu", escMenu);
+    this.load.image("stationSelectorMenu", stationSelectorMenu);
   }
 
   loadSpriteSheets(){
@@ -88,17 +88,17 @@ export default class Loader extends Phaser.Scene {
       frameWidth: 800,
       frameHeight: 220,
     });
-    this.load.spritesheet("escMenuButtons", escMenuButtons, {
+    this.load.spritesheet("escButtons", escButtons, {
       frameWidth: 112,
       frameHeight: 16,
     });
-    this.load.spritesheet("escMenuBackground", escMenuBackground, {
+    this.load.spritesheet("escBackground", escBackground, {
       frameWidth: 224,
       frameHeight: 160,
     });
-    this.load.spritesheet("stationMenuButtons", stationMenuButtons, {
-      frameWidth: 112,
-      frameHeight: 46,
+    this.load.spritesheet("stationSelectorButtons", stationSelectorButtons, {
+      frameWidth: 144,
+      frameHeight: 32,
     })
   }
 

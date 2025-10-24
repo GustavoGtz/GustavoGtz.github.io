@@ -47,7 +47,6 @@ export default class Firmin extends Phaser.Physics.Arcade.Sprite {
   }
   
   initInteractionUI() {
-
     this.interactionUI = this.scene.add.image(
       this.x,
       this.y - 40,
@@ -57,21 +56,44 @@ export default class Firmin extends Phaser.Physics.Arcade.Sprite {
     this.interactionUI.setDepth(this.layer + 1);
     this.hideInteractionUI();
   }
+
+  setInteraction(callback) {
+    this.interactCallback = callback;
+    this.showInteractionUI();
+  }
+
+  clearInteraction() {
+    this.interactCallback = null;
+    this.hideInteractionUI();
+  }
+
+  showInteractionUI() {
+    if (this.interactionUI) {
+      this.interactionUI.setVisible(true);
+    }
+  }
+
+  hideInteractionUI() {
+    if (this.interactionUI) {
+      this.interactionUI.setVisible(false);
+    }
+  }
   
   update(cursors) {
     if (!this.cameraEnabled) { this.camera.followOffset.set(this.offSetX, this.offSetY); }
     if (!this.controlsEnabled) { return }    
+
     this.interactionUI.setPosition(this.x, this.y - 30);
     this.cameraEnabled = false;
   
     if (this.ESCMENU.isDown) {
       this.scene.scene.sleep();
-      this.scene.scene.launch('EscMenu', { from: this.scene.scene.key });
+      this.scene.scene.launch('Esc', { from: this.scene.scene.key });
 
-      const escMenuInstance = this.scene.scene.get('EscMenu');
+      const escInstance = this.scene.scene.get('Esc');
 
-      if (escMenuInstance.data !== null) {
-        escMenuInstance.events.once('quickTravelResult', (data) => {
+      if (escInstance.data !== null) {
+        escInstance.events.once('quickTravelResult', (data) => {
           this.controlsEnabled = false;
           this.setVelocity(0, 0);
           this.anims.play('firmin-teleport', true);
@@ -128,42 +150,6 @@ export default class Firmin extends Phaser.Physics.Arcade.Sprite {
     }
   }
 
-  setInteraction(callback) {
-    this.interactCallback = callback;
-    this.showInteractionUI();
-  }
-
-  clearInteraction() {
-    this.interactCallback = null;
-    this.hideInteractionUI();
-  }
-
-  showInteractionUI() {
-    if (this.interactionUI) {
-      this.interactionUI.setVisible(true);
-    }
-    
-  }
-
-  hideInteractionUI() {
-    if (this.interactionUI) {
-      this.interactionUI.setVisible(false);
-    }
-  }
-  
-  executeTeleportation(data) {
-    this.scene.scene.start('Transitions', {
-      next: 'Transitions',
-      next: 'City',
-      args: {street : data.street, spawn: 'building'},
-      name: 'subway', // PLACEHOLDER, IT WILL BE HIS OWN TRANSITON
-      duration: 1500,
-      ui: null,
-      entry: 'fade',
-      exit: 'fade'
-    });
-    }
-
   startJump() {
     const jumpDelay = 120;
     this.anims.play('firmin-jump-ground', true);
@@ -182,6 +168,19 @@ export default class Firmin extends Phaser.Physics.Arcade.Sprite {
       this.onGround = true;
     });
   }
+
+  executeTeleportation(data) {
+    this.scene.scene.start('Transitions', {
+      next: 'Transitions',
+      next: 'City',
+      args: {street : data.street, spawn: 'building'},
+      name: 'subway', // PLACEHOLDER, IT WILL BE HIS OWN TRANSITON
+      duration: 1500,
+      ui: null,
+      entry: 'fade',
+      exit: 'fade'
+    });
+    }
 
   createAnimations(anims) {
     if(!anims.exists('firmin-idle')){

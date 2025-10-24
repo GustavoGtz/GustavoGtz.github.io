@@ -1,6 +1,6 @@
-export default class EscMenu extends Phaser.Scene {
+export default class Esc extends Phaser.Scene {
   constructor() {
-    super("EscMenu");
+    super("Esc");
   }
 
   init(data) {
@@ -39,27 +39,28 @@ export default class EscMenu extends Phaser.Scene {
     const bgAnimation = this.add.sprite(
       this.cameras.main.width / 2,
       this.cameras.main.height / 2,
-      'escMenuBackground',
+      'escBackground',
       0
     ).setOrigin(0.5, 0.5);
     bgAnimation.setScale(2);
 
-    if(!this.anims.exists('play-esc-menu-background')){
+    
+    if(!this.anims.exists('play-esc-background')){
       this.anims.create({
-        key: 'play-esc-menu-background',
-        frames: this.anims.generateFrameNumbers('escMenuBackground', { frames: [0, 1, 2, 3] }),
+        key: 'play-esc-background',
+        frames: this.anims.generateFrameNumbers('escBackground', { frames: [0, 1, 2, 3] }),
         frameRate: 8,
         repeat: -1
       });
     }
-    bgAnimation.play('play-esc-menu-background');
+    bgAnimation.play('play-esc-background');
   }
 
   createSelectionMenu() {
     const menuSelecitonUI = this.add.image(
-      this.cameras.main.width / 2,
+      this.cameras.main.width / 3,
       this.cameras.main.height / 2,
-      'escMenuSelection');
+      'escMenu');
     menuSelecitonUI.setOrigin(0.5, 0.5);
     menuSelecitonUI.setScale(2);
     
@@ -67,11 +68,12 @@ export default class EscMenu extends Phaser.Scene {
   }
 
   createButtons() {
+    const posX = 195;
     this.buttons = [
-      this.add.sprite(230, 150, 'escMenuButtons', 0).setScale(2), // Art
-      this.add.sprite(230, 185, 'escMenuButtons', 3).setScale(2), // Profile
-      this.add.sprite(230, 220, 'escMenuButtons', 6).setScale(2), // Project
-      this.add.sprite(230, 255, 'escMenuButtons', 9).setScale(2)  // Exit
+      this.add.sprite(posX, 150, 'escButtons', 0).setScale(2), // Art
+      this.add.sprite(posX, 185, 'escButtons', 3).setScale(2), // Profile
+      this.add.sprite(posX, 220, 'escButtons', 6).setScale(2), // Project
+      this.add.sprite(posX, 255, 'escButtons', 9).setScale(2)  // Exit
     ];
     this.frameOffsets = [0, 3, 6, 9];
     this.updateButtons();

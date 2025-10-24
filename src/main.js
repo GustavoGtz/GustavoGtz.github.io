@@ -1,9 +1,9 @@
 import './style.css'
 import Phaser from 'phaser';
 import Loader from './scenes/loader.js';
-import EscMenu from './scenes/escMenu.js';
 import Terminal from './scenes/terminal.js';
 import Transitions from './scenes/transitions.js';
+import Esc from './scenes/esc.js';
 import SubwayStation from './scenes/subwayStation.js';
 import City from './scenes/city.js';
 
@@ -30,9 +30,9 @@ const config = {
     }
   },
   scene:[Loader,
-         EscMenu,
          Terminal,
          Transitions,
+         Esc,
          SubwayStation,
          City]
 }
