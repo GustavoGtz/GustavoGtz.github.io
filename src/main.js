@@ -6,6 +6,10 @@ import Transitions from './scenes/transitions.js';
 import Esc from './scenes/esc.js';
 import SubwayStation from './scenes/subwayStation.js';
 import City from './scenes/city.js';
+import ArtBuilding from './scenes/artBuilding.js';
+import ProfileBuilding from './scenes/profileBuilding.js';
+import ProjectBuilding from './scenes/projectBuilding.js';
+
 
 const screen = {
   width: 640,
@@ -34,7 +38,11 @@ const config = {
          Transitions,
          Esc,
          SubwayStation,
-         City]
+         City,
+         ArtBuilding,
+         ProfileBuilding,
+         ProjectBuilding,
+  ]
 }
 
 const game = new Phaser.Game(config);

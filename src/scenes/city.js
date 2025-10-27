@@ -170,9 +170,30 @@ export default class City extends Phaser.Scene {
   }
   
   enterBuilding() {
-    // TODO:
-    // Parecido a entrar al subway por que sera la animacion
-    console.log("ENTRASTE");
+    let nextScene = null;
+    switch (this.street) {
+      case 'art':
+        nextScene = 'ArtBuilding';
+        break;
+      case 'profile':
+        nextScene = 'ProfileBuilding';
+        break;
+      case 'project':
+        nextScene = 'ProjectBuilding';
+        break;
+      default:
+        console.log("Not any valid building");
+        return;
+    }
+    this.scene.start('Transitions', {
+      next: nextScene,
+      args: null,
+      name: 'black',
+      duration: 500,
+      ui: null,
+      entry: 'fade',
+      exit: 'fade'
+    });
   }
 
   buildCityTilemap() {
