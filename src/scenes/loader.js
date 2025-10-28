@@ -19,15 +19,19 @@ import subwayTransition from '../assets/sprites/multiples/SubwayTransition.png';
 import escButtons from '../assets/sprites/multiples/EscButtons.png';
 import escBackground from '../assets/sprites/multiples/EscBackground.png';
 import stationSelectorButtons from '../assets/sprites/multiples/StationSelectorButtons.png';
+import aboutMeMarquee from '../assets/sprites/multiples/AboutMeMarquee.png';
+import crtTelevision from '../assets/sprites/multiples/CrtTelevision.png';
 
 /* TILEMAP AND TILESET */
 import subwayStationTileset from '../assets/tilemaps/SubwayStationTileset.png'
 import streetTileset from '../assets/tilemaps/StreetTileset.png'
+import profileBuildingTileset from '../assets/tilemaps/ProfileBuildingTileset.png'
 
 import subwayStationTilemap from '../assets/tilemaps/SubwayStationTilemap.json'
 import artStreetTilemap from '../assets/tilemaps/ArtStreetTilemap.json'
 import projectStreetTilemap from '../assets/tilemaps/ProjectStreetTilemap.json'
 import profileStreetTilemap from '../assets/tilemaps/ProfileStreetTilemap.json'
+import profileBuildingTilemap from '../assets/tilemaps/ProfileBuildingTilemap.json'
 
 export default class Loader extends Phaser.Scene {
   constructor() {
@@ -99,18 +103,28 @@ export default class Loader extends Phaser.Scene {
     this.load.spritesheet("stationSelectorButtons", stationSelectorButtons, {
       frameWidth: 144,
       frameHeight: 32,
-    })
+    });
+    this.load.spritesheet("aboutMeMarquee", aboutMeMarquee, {
+      frameWidth: 160,
+      frameHeight: 16
+    });
+    this.load.spritesheet("crtTelevision", crtTelevision, {
+      frameWidth: 64,
+      frameHeight: 48
+    });
   }
 
   loadTilemaps(){
     /* Tilesets */
     this.load.image('subwayStationTileset', subwayStationTileset);   
-    this.load.image('streetTileset', streetTileset) 
+    this.load.image('streetTileset', streetTileset)
+    this.load.image('profileBuildingTileset', profileBuildingTileset);
 
     /* Tilemaps */
     this.load.tilemapTiledJSON('subwayStationTilemap', subwayStationTilemap);
     this.load.tilemapTiledJSON('artStreetTilemap', artStreetTilemap);
     this.load.tilemapTiledJSON('projectStreetTilemap', projectStreetTilemap);
     this.load.tilemapTiledJSON('profileStreetTilemap', profileStreetTilemap);
+    this.load.tilemapTiledJSON('profileBuildingTilemap', profileBuildingTilemap);
   }
 }

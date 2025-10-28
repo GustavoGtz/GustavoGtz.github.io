@@ -85,7 +85,7 @@ export default class City extends Phaser.Scene {
     const mapWidth = this.tilemap.width * tileWidth;
     const mapHeight = this.tilemap.height * tileHeight;
     
-    const marginTiles = 1;
+    const marginTiles = 0;
     
     const worldOrginX = spawnX - marginTiles * tileWidth;
     const worldOriginY = spawnY - marginTiles * tileHeight;
@@ -185,79 +185,84 @@ export default class City extends Phaser.Scene {
         console.log("Not any valid building");
         return;
     }
-    this.scene.start('Transitions', {
-      next: nextScene,
-      args: null,
-      name: 'black',
-      duration: 500,
-      ui: null,
-      entry: 'fade',
-      exit: 'fade'
-    });
+
+    this.firmin.anims.play('firmin-enter');
+
+    this.firmin.on('animationcomplete-firmin-enter', () => {
+      this.scene.start('Transitions', {
+        next: nextScene,
+        args: null,
+        name: 'black',
+        duration: 500,
+        ui: null,
+        entry: 'fade',
+        exit: 'fade'
+      });
+    }, this);
   }
 
-  buildCityTilemap() {
-    this.tilemapSpawnPointX = 0;
-    this.tilemapSpawnPointY = 0;
+buildCityTilemap() {
+  this.tilemapSpawnPointX = 0;
+  this.tilemapSpawnPointY = 0;
 
-    switch(this.street) {
-      case 'profile':
-        this.tilemap = this.make.tilemap({ key: 'profileStreetTilemap' });
-        this.tileset = this.tilemap.addTilesetImage('StreetTileset', 'streetTileset');
-        break;
-        
-      case 'art':
-        this.tilemap = this.make.tilemap({ key: 'artStreetTilemap' });
-        this.tileset = this.tilemap.addTilesetImage('StreetTileset', 'streetTileset');
-        break;
+  switch(this.street) {
+    case 'profile':
+      this.tilemap = this.make.tilemap({ key: 'profileStreetTilemap' });
+      this.tileset = this.tilemap.addTilesetImage('StreetTileset', 'streetTileset');
+      break;
+      
+    case 'art':
+      this.tilemap = this.make.tilemap({ key: 'artStreetTilemap' });
+      this.tileset = this.tilemap.addTilesetImage('StreetTileset', 'streetTileset');
+      break;
 
-      case 'project':
-        this.tilemap = this.make.tilemap({ key: 'projectStreetTilemap' });
-        this.tileset = this.tilemap.addTilesetImage('StreetTileset', 'streetTileset');
-        break;
+    case 'project':
+      this.tilemap = this.make.tilemap({ key: 'projectStreetTilemap' });
+      this.tileset = this.tilemap.addTilesetImage('StreetTileset', 'streetTileset');
+      break;
 
-      default:
-        console.log('Unknown street:', this.street);
-        break;
-    }
-
-    this.tilemap.createLayer(
-      'Background', this.tileset,
-      this.tilemapSpawnPointX, this.tilemapSpawnPointY
-    ).setDepth(0);
-
-    this.tilemap.createLayer(
-      'Buildings', this.tileset,
-      this.tilemapSpawnPointX, this.tilemapSpawnPointY
-    ).setDepth(1);
-
-    this.tilemap.createLayer(
-      'Decoration', this.tileset,
-      this.tilemapSpawnPointX, this.tilemapSpawnPointY
-    ).setDepth(2);
-
-    this.tilemap.createLayer(
-      'Subway Entry Back', this.tileset,
-      this.tilemapSpawnPointX, this.tilemapSpawnPointY
-    ).setDepth(3);
-
-    
-
-    // TODO: More Decorative Layers.
-
-    // TODO: Decide the player layer
-    this.firminLayer = 7;
-
-    this.tilemap.createLayer(
-      'Subway Entry Front', this.tileset,
-      this.tilemapSpawnPointX, this.tilemapSpawnPointY
-    ).setDepth(10);
-    
-    this.contourLayer = this.tilemap.createLayer(
-      'Contour', this.tileset,
-      this.tilemapSpawnPointX, this.tilemapSpawnPointY
-    ).setDepth(5);
-    this.contourLayer.setCollisionByProperty({ collides: true });
+    default:
+      console.log('Unknown street:', this.street);
+      break;
   }
+
+  this.tilemap.createLayer(
+    'Background', this.tileset,
+    this.tilemapSpawnPointX, this.tilemapSpawnPointY
+  ).setDepth(0);
+
+  this.tilemap.createLayer(
+    'Buildings', this.tileset,
+    this.tilemapSpawnPointX, this.tilemapSpawnPointY
+  ).setDepth(1);
+
+  this.tilemap.createLayer(
+    'Decoration', this.tileset,
+    this.tilemapSpawnPointX, this.tilemapSpawnPointY
+  ).setDepth(2);
+
+  this.tilemap.createLayer(
+    'Subway Entry Back', this.tileset,
+    this.tilemapSpawnPointX, this.tilemapSpawnPointY
+  ).setDepth(3);
+
+  
+
+  // TODO: More Decorative Layers.
+
+  // TODO: Decide the player layer
+  this.firminLayer = 7;
+
+  this.tilemap.createLayer(
+    'Subway Entry Front', this.tileset,
+    this.tilemapSpawnPointX, this.tilemapSpawnPointY
+  ).setDepth(10);
+  
+  this.contourLayer = this.tilemap.createLayer(
+    'Contour', this.tileset,
+    this.tilemapSpawnPointX, this.tilemapSpawnPointY
+  ).setDepth(5);
+  this.contourLayer.setCollisionByProperty({ collides: true });
+}
 }
 
