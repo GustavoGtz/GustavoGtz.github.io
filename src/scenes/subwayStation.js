@@ -122,7 +122,7 @@ export default class SubwayStation extends Phaser.Scene {
     const mapWidth = this.tilemap.width * tileWidth;
     const mapHeight = this.tilemap.height * tileHeight;
 
-    const marginTiles = 1;
+    const marginTiles = 0;
 
     const worldOrginX = spawnX - marginTiles * tileWidth;
     const worldOriginY = spawnY - marginTiles * tileHeight;
