@@ -25,6 +25,13 @@
   font-style: normal;
 }
 
+@font-face {
+  font-family: 'pressStart2P';
+  src: url('./assets/fonts/PressStart2P.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
 *{
   margin: 0;
   padding: 0;

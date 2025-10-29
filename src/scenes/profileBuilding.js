@@ -1,13 +1,5 @@
-// This is gonna be the inside of the main building in Profile Street
-// It will show the profile information such as
-// name, degree, mail, linkedin
-// Inforamton about the project itself.
-// Readme???
-// Interests
-
 import Firmin from '../gameobjects/firmin.js'
 import ScrollableTextBox from '../gameobjects/scrollableTextBox.js'
-
 
 export default class ProfileBuilding extends Phaser.Scene {
   constructor() {
@@ -52,52 +44,59 @@ export default class ProfileBuilding extends Phaser.Scene {
   }
 
   buildTelevision() {
-    // TODO: Replace this position with the info from the tilmap.
-    const posX = 200;
-    const posY = 150;
+    const tvData = this.tilemap.getObjectLayer('Television').objects[0];
+
+    /* Little fix to translate the position from tiled (Top left corner) to Phaser (Center) */
+    const tvWidth = tvData.width;
+    const tvHeight = tvData.height;
+    const tvPosX = tvData.x + tvWidth / 2;
+    const tvPosY = tvData.y + tvHeight / 2;
 
     if (!this.anims.exists('crtTelevision-loop')) {
       this.anims.create({
         key: 'crtTelevision-loop',
         frames: this.anims.generateFrameNumbers('crtTelevision', { start: 0, end: 1 }),
         frameRate: 1,
-        repeat: -1 // loop infinito
+        repeat: -1
       });
     }
 
-    const tv = this.add.sprite(posX, posY, 'crtTelevision');
-    tv.setDepth(10);
+    const tv = this.add.sprite(tvPosX, tvPosY, 'crtTelevision');
+    tv.setDepth(3);
     tv.play('crtTelevision-loop');
   }
 
   buildAboutMeMarquee() {
-    // TODO: Replace this position with the info from the tilmap.
-    const posX = 100;
-    const posY = 100;
-
+    const marqueeData = this.tilemap.getObjectLayer('Marquee').objects[0];
+    
+    /* Little fix to translate the position from tiled (Top left corner) to Phaser (Center) */
+    const marqueeWidth = marqueeData.width;
+    const marqueeHeight = marqueeData.height;
+    const marqueePosX = marqueeData.x + marqueeWidth / 2;
+    const marqueePosY = marqueeData.y + marqueeHeight / 2;
+    
     if (!this.anims.exists('marquee-loop')) {
       this.anims.create({
         key: 'marquee-loop',
         frames: this.anims.generateFrameNumbers('aboutMeMarquee', { start: 0, end: 15 }),
         frameRate: 8,
-        repeat: -1 // loop infinito
+        repeat: -1
       });
     }
 
-    const marquee = this.add.sprite(posX, posY, 'aboutMeMarquee');
-    marquee.setDepth(10);
+    const marquee = this.add.sprite(marqueePosX, marqueePosY, 'aboutMeMarquee');
+    marquee.setDepth(3);
     marquee.play('marquee-loop');
   }
 
-  buildAboutMeText() {
-    // TODO: Replace this position with the info from the tilmap.
-
-    const framePosX = 300;
-    const framePosY = 80;
-    const frameHeight = 100;
-    const frameWidth = 100;
-
-
+  buildAboutMeText() {    
+    const frameData = this.tilemap.getObjectLayer('About Me Text').objects[0];
+    
+    const frameWidth = frameData.width;
+    const frameHeight = frameData.height;
+    const framePosX = frameData.x;
+    const framePosY = frameData.y;
+    
     const aboutText = `
         Hi, my name is Gustavo Gutierrez Navarro, and I am a computer science graduate.
         I have a strong interest in the art of video games, not only in their artistic expression but also in the possibilities that computers provide to create engaging and memorable experiences.
@@ -116,18 +115,17 @@ export default class ProfileBuilding extends Phaser.Scene {
   }
 
   buildContactText() {
-    // TODO: Replace this position with the info from the tilmap.
+       const frameData = this.tilemap.getObjectLayer('Contact Text').objects[0];
 
-    const framePosX = 500;
-    const framePosY = 150;
-    const frameHeight = 50;
-    const frameWidth = 300;
-
-
+    const frameWidth = frameData.width;
+    const frameHeight = frameData.height;
+    const framePosX = frameData.x;
+    const framePosY = frameData.y;
+  
     const contactText = `
-        https://www.linkedin.com/in/gustavo-gutierrez-navarro-47213a192/.
+        Contact me!
         https://github.com/GustavoGtz.
-        gustavogtznav@gmail.com
+        gustavogtznav@gmail.com.
     `;
 
     const box = new ScrollableTextBox(
@@ -138,7 +136,7 @@ export default class ProfileBuilding extends Phaser.Scene {
       frameHeight,
       contactText
     );
-    box.setDepth(10);
+    box.setDepth(3);
   }
   
   
