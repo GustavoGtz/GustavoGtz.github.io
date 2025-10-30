@@ -232,25 +232,25 @@ buildCityTilemap() {
   ).setDepth(0);
 
   this.tilemap.createLayer(
-    'Buildings', this.tileset,
+    'Buildings Background', this.tileset,
     this.tilemapSpawnPointX, this.tilemapSpawnPointY
   ).setDepth(1);
 
   this.tilemap.createLayer(
-    'Decoration', this.tileset,
+    'Buildings', this.tileset,
     this.tilemapSpawnPointX, this.tilemapSpawnPointY
   ).setDepth(2);
 
   this.tilemap.createLayer(
-    'Subway Entry Back', this.tileset,
+    'Decoration', this.tileset,
     this.tilemapSpawnPointX, this.tilemapSpawnPointY
   ).setDepth(3);
 
-  
+  this.tilemap.createLayer(
+    'Subway Entry Back', this.tileset,
+    this.tilemapSpawnPointX, this.tilemapSpawnPointY
+  ).setDepth(4);
 
-  // TODO: More Decorative Layers.
-
-  // TODO: Decide the player layer
   this.firminLayer = 7;
 
   this.tilemap.createLayer(

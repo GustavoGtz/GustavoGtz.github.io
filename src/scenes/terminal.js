@@ -17,7 +17,7 @@ export default class Terminal extends Phaser.Scene {
       '',
       ' FIRMIN IN THE CITY',
       '  * GUSTAVO GUTIERREZ PORTFOLIO',
-      '  * 2025',
+      '  * LAST UPDATE AT 29/10/2025',
       '',
       'READY.',
       ' PRESS SPACE BAR TO START'
