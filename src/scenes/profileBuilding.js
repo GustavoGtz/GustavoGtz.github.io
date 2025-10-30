@@ -14,7 +14,7 @@ export default class ProfileBuilding extends Phaser.Scene {
     this.buildTelevision();
     this.buildAboutMeMarquee();
     this.buildAboutMeText();
-    this.buildContactText();
+    this.buildContactMeText();
 
     this.setBounds();
     this.setExit();
@@ -22,8 +22,20 @@ export default class ProfileBuilding extends Phaser.Scene {
 
   update() {
     const firminBounds = this.firmin.getBounds();
-    const isInsideExitZone = Phaser.Geom.Intersects.RectangleToRectangle(this.exitZone.getBounds(), firminBounds);
-    if (!isInsideExitZone) { this.firmin.clearInteraction(); }
+    
+    const isInsideExitZone = Phaser.Geom.Intersects.RectangleToRectangle(
+      this.exitZone.getBounds(),
+      firminBounds);
+    const isInsideAboutMeZone = Phaser.Geom.Intersects.RectangleToRectangle(
+      this.aboutMeZone.getBounds(),
+      firminBounds);
+    const isInsideContactMeZone = Phaser.Geom.Intersects.RectangleToRectangle(
+      this.contactMeZone.getBounds(),
+      firminBounds);
+    
+    if (!isInsideExitZone &&
+        !isInsideAboutMeZone &&
+        !isInsideContactMeZone) { this.firmin.clearInteraction(); }
   }
   
   buildFirmin(){
@@ -44,14 +56,6 @@ export default class ProfileBuilding extends Phaser.Scene {
   }
 
   buildTelevision() {
-    const tvData = this.tilemap.getObjectLayer('Television').objects[0];
-
-    /* Little fix to translate the position from tiled (Top left corner) to Phaser (Center) */
-    const tvWidth = tvData.width;
-    const tvHeight = tvData.height;
-    const tvPosX = tvData.x + tvWidth / 2;
-    const tvPosY = tvData.y + tvHeight / 2;
-
     if (!this.anims.exists('crtTelevision-loop')) {
       this.anims.create({
         key: 'crtTelevision-loop',
@@ -60,21 +64,17 @@ export default class ProfileBuilding extends Phaser.Scene {
         repeat: -1
       });
     }
+    
+    const tvData = this.tilemap.getObjectLayer('Television').objects[0];
+    /* Little fix to translate the position from tiled (Top left corner) to Phaser (Center) */
+    const tvPosX = tvData.x + tvData.width / 2;
+    const tvPosY = tvData.y + tvData.height / 2;
 
-    const tv = this.add.sprite(tvPosX, tvPosY, 'crtTelevision');
-    tv.setDepth(3);
+    const tv = this.add.sprite(tvPosX, tvPosY, 'crtTelevision').setDepth(3);
     tv.play('crtTelevision-loop');
   }
 
   buildAboutMeMarquee() {
-    const marqueeData = this.tilemap.getObjectLayer('Marquee').objects[0];
-    
-    /* Little fix to translate the position from tiled (Top left corner) to Phaser (Center) */
-    const marqueeWidth = marqueeData.width;
-    const marqueeHeight = marqueeData.height;
-    const marqueePosX = marqueeData.x + marqueeWidth / 2;
-    const marqueePosY = marqueeData.y + marqueeHeight / 2;
-    
     if (!this.anims.exists('marquee-loop')) {
       this.anims.create({
         key: 'marquee-loop',
@@ -83,60 +83,118 @@ export default class ProfileBuilding extends Phaser.Scene {
         repeat: -1
       });
     }
+    
+    const marqueeData = this.tilemap.getObjectLayer('Marquee').objects[0];
+    /* Little fix to translate the position from tiled (Top left corner) to Phaser (Center) */
+    const marqueePosX = marqueeData.x + marqueeData.width / 2;
+    const marqueePosY = marqueeData.y + marqueeData.height / 2;
 
-    const marquee = this.add.sprite(marqueePosX, marqueePosY, 'aboutMeMarquee');
-    marquee.setDepth(3);
+    const marquee = this.add.sprite(marqueePosX, marqueePosY, 'aboutMeMarquee').setDepth(3);
     marquee.play('marquee-loop');
   }
 
-  buildAboutMeText() {    
-    const frameData = this.tilemap.getObjectLayer('About Me Text').objects[0];
-    
-    const frameWidth = frameData.width;
-    const frameHeight = frameData.height;
-    const framePosX = frameData.x;
-    const framePosY = frameData.y;
-    
-    const aboutText = `
+  buildAboutMeText() {
+    const aboutMeText = `
         Hi, my name is Gustavo Gutierrez Navarro, and I am a computer science graduate.
         I have a strong interest in the art of video games, not only in their artistic expression but also in the possibilities that computers provide to create engaging and memorable experiences.
         Currently, I am focused on expanding my knowledge in video game development using high-level programming techniques, including AI models and algorithms, to discover new ways to enhance gameplay and player experiences.
     `;
-
-    const box = new ScrollableTextBox(
+    
+    const aboutMeData = this.tilemap.getObjectLayer('About Me Text').objects[0];
+    
+    const aboutMeFrameWidth = aboutMeData.width;
+    const aboutMeFrameHeight = aboutMeData.height;
+    const aboutMeFramePosX = aboutMeData.x;
+    const aboutMeFramePosY = aboutMeData.y;
+    
+    const aboutMe = new ScrollableTextBox(
       this,
-      framePosX,
-      framePosY,
-      frameWidth,
-      frameHeight,
-      aboutText
+      aboutMeFramePosX,
+      aboutMeFramePosY,
+      aboutMeFrameWidth,
+      aboutMeFrameHeight,
+      aboutMeText
+    ).setDepth(8);
+
+    /* FullScreen readable ui */
+
+    /* REPLACE FOR DATA OBJECT IN TILED*/
+    const aboutMeZoneWidth = 150;
+    const aboutMeZoneHeight = 100;
+    const aboutMeZonePosX = 430;
+    const aboutMeZonePosY = 200;
+    
+    this.aboutMeZone = this.add.rectangle(
+      aboutMeZonePosX,
+      aboutMeZonePosY,
+      aboutMeZoneWidth,
+      aboutMeZoneHeight,
     );
-    box.setDepth(10);
+    
+    this.physics.add.existing(this.aboutMeZone, true);
+    this.aboutMeZone.setVisible(false);
+
+    this.physics.add.overlap(this.firmin, this.aboutMeZone, (player, zone) => {
+      player.setInteraction(() => {
+        this.scene.sleep();
+        this.scene.launch('FullscreenText', { text: aboutMeText, from: this.scene.key });
+        this.firmin.enableControls();
+        this.firmin.enableCamera();
+        this.firmin.initInteractionUI();
+      });
+    }, null, this); 
   }
-
-  buildContactText() {
-       const frameData = this.tilemap.getObjectLayer('Contact Text').objects[0];
-
-    const frameWidth = frameData.width;
-    const frameHeight = frameData.height;
-    const framePosX = frameData.x;
-    const framePosY = frameData.y;
   
-    const contactText = `
+  buildContactMeText() {
+    const contactMeText = `
         Contact me!
         https://github.com/GustavoGtz.
         gustavogtznav@gmail.com.
     `;
+    
+    const contactMeData = this.tilemap.getObjectLayer('Contact Text').objects[0];
 
-    const box = new ScrollableTextBox(
+    const contactMeWidth = contactMeData.width;
+    const contactMeHeight = contactMeData.height;
+    const contactMePosX = contactMeData.x;
+    const contactMePosY = contactMeData.y;
+    
+    const contactMe = new ScrollableTextBox(
       this,
-      framePosX,
-      framePosY,
-      frameWidth,
-      frameHeight,
-      contactText
+      contactMePosX,
+      contactMePosY,
+      contactMeWidth,
+      contactMeHeight,
+      contactMeText
+    ).setDepth(3);
+
+    /* FullScreen readable ui */
+
+    /* REPLACE FOR DATA OBJECT IN TILED*/
+    const contactMeZoneWidth = 100;
+    const contactMeZoneHeight = 100;
+    const contactMeZonePosX = 660;
+    const contactMeZonePosY = 200;
+    
+    this.contactMeZone = this.add.rectangle(
+      contactMeZonePosX,
+      contactMeZonePosY,
+      contactMeZoneWidth,
+      contactMeZoneHeight
     );
-    box.setDepth(3);
+    
+    this.physics.add.existing(this.contactMeZone, true);
+    this.contactMeZone.setVisible(false);
+
+    this.physics.add.overlap(this.firmin, this.contactMeZone, (player, zone) => {
+      player.setInteraction(() => {
+        this.scene.sleep();
+        this.scene.launch('FullscreenText', { text: contactMeText, from: this.scene.key });
+        this.firmin.enableControls();
+        this.firmin.enableCamera();
+        this.firmin.initInteractionUI();
+      });
+    }, null, this); 
   }
   
   
