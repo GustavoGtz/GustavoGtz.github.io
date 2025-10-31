@@ -49,7 +49,7 @@ export default class Firmin extends Phaser.Physics.Arcade.Sprite {
   initInteractionUI() {
     this.interactionUI = this.scene.add.image(
       this.x,
-      this.y - 40,
+      this.y - 30,
       'eButton'
     ).setOrigin(0.5, 0.5);
 
@@ -128,7 +128,7 @@ export default class Firmin extends Phaser.Physics.Arcade.Sprite {
       if (this.onGround) {
         if (this.LOOKUP.isDown) {
           this.cameraEnabled = true;
-          this.camera.followOffset.set(this.offSetX, this.offSetY + 20);
+          this.camera.followOffset.set(this.offSetX, this.offSetY + 40);
           this.anims.play('firmin-look-down', true);
         }
         else if (this.LOOKDOWN.isDown) {
