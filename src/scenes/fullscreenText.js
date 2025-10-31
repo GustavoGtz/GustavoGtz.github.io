@@ -11,32 +11,60 @@ export default class FullscreenText extends Phaser.Scene {
   }
 
   create() {
-    this.buildText();
     this.addControls();
+    this.setTheme();
+    this.buildBackground();
+    this.buildText();         
   }
 
   update() {
     if (Phaser.Input.Keyboard.JustDown(this.QUIT)) {
-      this.scene.stop();       
+      this.scene.stop();
       this.scene.wake(this.from);
     }
   }
 
-  buildText() {
-    // === Dark overlay background ===
-    this.bg = this.add.rectangle(
-      this.cameras.main.centerX,
-      this.cameras.main.centerY,
-      this.cameras.main.width,
-      this.cameras.main.height,
-      0x000000,
-      0.9
-    );
+  addControls() {
+    this.QUIT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
+  }
+  
+  setTheme() {
+    this.theme = {
+      margin: 5,
+      bgColor: 0x000000,
+      bgAlpha: 0.9,
+      fontFamily: 'commodore64',
+      fontSize: '26px',
+      textColor: '#9ae29b',
+      scrollSpeed: 0.4,
+      textBoxColor: 0x00000,
+      textBoxAlpha: 1,
 
-    // === Scrollable text box centered ===
-    const margin = 40;
-    const boxWidth = this.cameras.main.width - margin * 2;
-    const boxHeight = this.cameras.main.height - margin * 2;
+      // CRT effects
+      glowColor: '#5cab5e',
+      glowStrength: 20,
+    };
+  }
+
+  buildBackground() {
+    this.cameras.main.setBackgroundColor(0x00000);
+  }
+
+  buildText() {
+    const { margin,
+            fontFamily,
+            fontSize,
+            textColor,
+            scrollSpeed,
+            textBoxColor,
+            textBoxAlpha,
+            glowColor,
+            glowStrength } = this.theme;
+    
+    const { width, height } = this.cameras.main;
+
+    const boxWidth = width - margin * 2;
+    const boxHeight = height - margin * 2;
 
     this.scrollBox = new ScrollableTextBox(
       this,
@@ -46,19 +74,20 @@ export default class FullscreenText extends Phaser.Scene {
       boxHeight,
       this.text,
       {
-        fontFamily: 'press_start_2p',
-        fontSize: '20px',
-        textColor: '#5cab5e',
-        scrollSpeed: 0.4,
-        backgroundColor: 0x000000,
-        backgroundAlpha: 0,
+        fontFamily,
+        fontSize,
+        textColor,
+        scrollSpeed,
+        backgroundColor: textBoxColor,
+        backgroundAlpha: textBoxAlpha,
       }
     );
 
     this.add.existing(this.scrollBox);
-  }
 
-  addControls() {
-    this.QUIT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);    
+    const textObj = this.scrollBox.textObject || this.scrollBox.text;
+    if (textObj && textObj.setShadow) {
+      textObj.setShadow(0, 0, glowColor, glowStrength, true, true);
+    }
   }
 }

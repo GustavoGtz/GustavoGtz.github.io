@@ -5,6 +5,8 @@ export default class StationSelector extends Phaser.GameObjects.Container {
 
     this.scene = scene;
     this.idxSelection = 0;
+    this.destinationOptions = ['art', 'profile', 'project'];
+
     this.totalOptions = 3;
     this.scene.add.existing(this);
 
@@ -66,8 +68,7 @@ export default class StationSelector extends Phaser.GameObjects.Container {
     this.buttons[this.idxSelection].setFrame(baseFrame + 2);
 
     this.scene.time.delayedCall(200, () => {
-      const destinations = ['art', 'profile', 'project'];
-      this.emit('select', destinations[this.idxSelection]);
+      this.emit('select', this.destinationOptions[this.idxSelection]);
     });
   }
 }

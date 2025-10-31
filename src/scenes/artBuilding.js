@@ -11,6 +11,8 @@ export default class ArtBuilding extends Phaser.Scene {
     this.buildArtBuildingTilemap();
     this.buildFirmin();
 
+    this.buildProjector();
+    //this.buildSlides();
     this.setBounds();
     this.setExit();
   }
@@ -21,8 +23,12 @@ export default class ArtBuilding extends Phaser.Scene {
     const isInsideExitZone = Phaser.Geom.Intersects.RectangleToRectangle(
       this.exitZone.getBounds(),
       firminBounds);
+    const isInsideProjectorZone = Phaser.Geom.Intersects.RectangleToRectangle(
+      this.projectorZone.getBounds(),
+      firminBounds);
     
-    if (!isInsideExitZone) { this.firmin.clearInteraction(); }
+    if (!isInsideExitZone &&
+        !isInsideProjectorZone) { this.firmin.clearInteraction(); }
   }
   
   buildFirmin(){
@@ -41,6 +47,44 @@ export default class ArtBuilding extends Phaser.Scene {
     this.physics.add.collider(this.firmin, this.contourLayer);
     this.firmin.flipX = firminFlipX;
   }
+
+  buildProjector() {
+    const projectorData = this.tilemap.getObjectLayer('Projector').objects[0];
+    /* Little fix to translate the position from tiled (Top left corner) to Phaser (Center) */
+    const projectorWidth = projectorData.width;
+    const projectorHeight = projectorData.height;
+    const projectorPosX = projectorData.x + projectorWidth / 2;
+    const projectorPosY = projectorData.y + projectorHeight / 2;
+
+    this.projectorZone = this.add.rectangle(projectorPosX,
+                                            projectorPosY,
+                                            projectorWidth,
+                                            projectorHeight);
+    this.physics.add.existing(this.projectorZone, true);
+    this.projectorZone.setVisible(false);
+
+    this.physics.add.overlap(this.firmin, this.projectorZone, (player, zone) => {
+      player.setInteraction(() => {
+        this.nextSlide(); 
+      }, false);
+    }, null, this);
+  }
+
+  nextSlide() {
+    // añadir un cooldown??
+    console.log("CAMBIO DE SLIDE");
+    // If projector is not builded return
+
+    // check the index
+    // calculate the next index
+    // Display the corresponding slide
+  }
+  
+  buildSlides() {
+    // Create the slides
+  }
+
+
   
   setBounds() {
     const spawnX = this.tilemapSpawnPointX;
@@ -94,7 +138,6 @@ export default class ArtBuilding extends Phaser.Scene {
         this.exitBuilding();
       });
     }, null, this);
-    
   }
 
   exitBuilding() {

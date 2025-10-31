@@ -11,7 +11,6 @@ export default class Subway extends Phaser.Physics.Arcade.Sprite {
     this.play('subway-idle');
 
     this.createTrainCars();
-
   }
 
   createTrainCars() {

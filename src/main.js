@@ -4,12 +4,12 @@ import Loader from './scenes/loader.js';
 import Terminal from './scenes/terminal.js';
 import Transitions from './scenes/transitions.js';
 import Esc from './scenes/esc.js';
+import FullscreenText from './scenes/fullscreenText.js';
 import SubwayStation from './scenes/subwayStation.js';
 import City from './scenes/city.js';
 import ArtBuilding from './scenes/artBuilding.js';
 import ProfileBuilding from './scenes/profileBuilding.js';
 import ProjectBuilding from './scenes/projectBuilding.js';
-import FullscreenText from './scenes/fullscreenText.js';
 
 const screen = {
   width: 640,
@@ -37,12 +37,12 @@ const config = {
          Terminal,
          Transitions,
          Esc,
+         FullscreenText,
          SubwayStation,
          City,
          ArtBuilding,
          ProfileBuilding,
          ProjectBuilding,
-         FullscreenText
   ]
 }
 

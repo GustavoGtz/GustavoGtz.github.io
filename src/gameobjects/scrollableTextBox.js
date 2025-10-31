@@ -1,17 +1,22 @@
 export default class ScrollableTextBox extends Phaser.GameObjects.Container {
   constructor(scene, x, y, width, height, textString = '', config = {}) {
     super(scene, x, y);
-    scene.add.existing(this);
-
-    // === Default config ===
+    this.x = x;
+    this.y = y;
+    this.width = width;
+    this.height = height;
+    this.text = textString;
+    
     this.config = Object.assign({
-      fontFamily: 'pressStart2P',
-      fontSize: '6px',
+      fontFamily: 'commodore64',
+      fontSize: '10px',
       textColor: '#5cab5e',
       scrollSpeed: 0.3,
       backgroundColor: 0x000000,
-      backgroundAlpha: 1
+      backgroundAlpha: 0,
     }, config);
+
+    scene.add.existing(this);
 
     const {
       fontFamily,
@@ -21,13 +26,11 @@ export default class ScrollableTextBox extends Phaser.GameObjects.Container {
       backgroundAlpha
     } = this.config;
 
-    // === Background rectangle ===
     this.bg = scene.add.graphics();
     this.bg.fillStyle(backgroundColor, backgroundAlpha);
     this.bg.fillRect(0, 0, width, height);
     this.add(this.bg);
 
-    // === Text ===
     this.text = scene.add.text(0, 0, textString, {
       fontFamily,
       fontSize,
@@ -37,18 +40,12 @@ export default class ScrollableTextBox extends Phaser.GameObjects.Container {
     });
     this.add(this.text);
 
-    // === Mask ===
     const maskGraphics = scene.make.graphics({ add: false });
     maskGraphics.fillStyle(0xffffff);
     maskGraphics.fillRect(this.x, this.y, width, height);
     const mask = maskGraphics.createGeometryMask();
     this.text.setMask(mask);
 
-    // === Save dimensions ===
-    this.width = width;
-    this.height = height;
-
-    // === Scroll handling ===
     scene.input.on('wheel', (pointer, gameObjects, deltaX, deltaY) => {
       // Check if pointer is within bounds
       const bounds = this.getBounds();
@@ -61,13 +58,11 @@ export default class ScrollableTextBox extends Phaser.GameObjects.Container {
     });
   }
 
-  /** Replace text and reset scroll */
   setText(newText) {
     this.text.setText(newText);
     this.text.y = 0;
   }
 
-  /** Append text to the end */
   appendText(extraText) {
     this.text.setText(this.text.text + extraText);
   }

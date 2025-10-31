@@ -138,18 +138,15 @@ export default class ProfileBuilding extends Phaser.Scene {
       player.setInteraction(() => {
         this.scene.sleep();
         this.scene.launch('FullscreenText', { text: aboutMeText, from: this.scene.key });
-        this.firmin.enableControls();
-        this.firmin.enableCamera();
-        this.firmin.initInteractionUI();
-      });
+      }, false);
     }, null, this); 
   }
   
   buildContactMeText() {
     const contactMeText = `
         Contact me!
-        https://github.com/GustavoGtz.
-        gustavogtznav@gmail.com.
+        https://github.com/GustavoGtz
+        gustavogtznav@gmail.com
     `;
     
     const contactMeData = this.tilemap.getObjectLayer('Contact Text').objects[0];
@@ -190,10 +187,7 @@ export default class ProfileBuilding extends Phaser.Scene {
       player.setInteraction(() => {
         this.scene.sleep();
         this.scene.launch('FullscreenText', { text: contactMeText, from: this.scene.key });
-        this.firmin.enableControls();
-        this.firmin.enableCamera();
-        this.firmin.initInteractionUI();
-      });
+      }, false);
     }, null, this); 
   }
   

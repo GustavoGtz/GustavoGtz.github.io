@@ -57,7 +57,8 @@ export default class Firmin extends Phaser.Physics.Arcade.Sprite {
     this.hideInteractionUI();
   }
 
-  setInteraction(callback) {
+  setInteraction(callback, isTerminal=true) {
+    this.isInteractTerminal = isTerminal;
     this.interactCallback = callback;
     this.showInteractionUI();
   }
@@ -79,14 +80,6 @@ export default class Firmin extends Phaser.Physics.Arcade.Sprite {
     }
   }
 
-  enableControls() {
-    this.controlsEnabled = true;
-  }
-
-  enableCamera() {
-    this.cameraEnabled = true;
-  }
-  
   update(cursors) {
     if (!this.cameraEnabled) { this.camera.followOffset.set(this.offSetX, this.offSetY); }
     if (!this.controlsEnabled) { return }
@@ -103,7 +96,7 @@ export default class Firmin extends Phaser.Physics.Arcade.Sprite {
       if (escInstance.data !== null) {
         escInstance.events.once('quickTravelResult', (data) => {
           this.controlsEnabled = false;
-          this.setVelocity(0, 0);
+          this.body.setVelocity(0, 0);
           this.anims.play('firmin-teleport', true);
           
           this.once('animationcomplete-firmin-teleport', () => {
@@ -149,11 +142,13 @@ export default class Firmin extends Phaser.Physics.Arcade.Sprite {
     if (!this.onGround && this.body.velocity.y === 0) { this.endJump(); }
 
     if (this.INTERACT.isDown && this.interactCallback) {
-      this.controlsEnabled = false;
-      this.cameraEnabled = false;
-      this.setVelocity(0, 0);
-      this.hideInteractionUI();
-      this.interactionUI = null;
+      if (this.isInteractTerminal) {
+        this.setVelocity(0, 0);
+        this.hideInteractionUI();
+        this.controlsEnabled = false;
+        this.cameraEnabled = false;
+        this.interactionUI = null;
+      }
       this.interactCallback();
     }
   }
