@@ -95,9 +95,14 @@ export default class ProfileBuilding extends Phaser.Scene {
 
   buildAboutMeText() {
     const aboutMeText = `
-        Hi, my name is Gustavo Gutierrez Navarro, and I am a computer science graduate.
-        I have a strong interest in the art of video games, not only in their artistic expression but also in the possibilities that computers provide to create engaging and memorable experiences.
-        Currently, I am focused on expanding my knowledge in video game development using high-level programming techniques, including AI models and algorithms, to discover new ways to enhance gameplay and player experiences.
+        Hi, my name is Gustavo Gutierrez Navarro, and I am a computer science graduate from Mexico.
+        I have a strong interest in the art of video games, not only in their artistic expression but also in
+        the possibilities that computers provide to create engaging and memorable experiences.
+        Currently, I am focused on expanding my knowledge in video game development using high-level programming
+        techniques, including AI models and algorithms, to discover new ways to enhance gameplay and player experiences. 
+
+        Thanks for exploring my portfolio, if you haven't seen yet, you can check my art and project sections
+        in this game experience I created! :D
     `;
     
     const aboutMeData = this.tilemap.getObjectLayer('About Me Text').objects[0];
@@ -144,9 +149,12 @@ export default class ProfileBuilding extends Phaser.Scene {
   
   buildContactMeText() {
     const contactMeText = `
-        Contact me!
-        https://github.com/GustavoGtz
+        Feel free to contact me at any time by email or linkedin!
         gustavogtznav@gmail.com
+        https://www.linkedin.com/in/gustavo-gutierrez-navarro-47213a192
+
+        You can also find on my Github:
+        https://github.com/GustavoGtz
     `;
     
     const contactMeData = this.tilemap.getObjectLayer('Contact Text').objects[0];
