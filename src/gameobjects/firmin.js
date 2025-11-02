@@ -8,7 +8,7 @@ export default class Firmin extends Phaser.Physics.Arcade.Sprite {
     this.setCollideWorldBounds(true);
     this.setDepth(this.layer);
 
-    this.movementSpeed = 200; // 80 for prod
+    this.movementSpeed = 100; // 200 for dev, 100 for prod
     this.jumpForce = -80;
     this.onGround = false;
     this.interactCallback = null;

@@ -15,7 +15,6 @@ export default class ProfileBuilding extends Phaser.Scene {
     this.buildAboutMeMarquee();
     this.buildAboutMeText();
     this.buildContactMeText();
-
     this.setBounds();
     this.setExit();
   }
@@ -153,7 +152,7 @@ export default class ProfileBuilding extends Phaser.Scene {
         gustavogtznav@gmail.com
         https://www.linkedin.com/in/gustavo-gutierrez-navarro-47213a192
 
-        You can also find on my Github:
+        You can also find me on my Github:
         https://github.com/GustavoGtz
     `;
     
@@ -172,8 +171,6 @@ export default class ProfileBuilding extends Phaser.Scene {
       contactMeHeight,
       contactMeText
     ).setDepth(3);
-
-    /* FullScreen readable ui */
 
     /* REPLACE FOR DATA OBJECT IN TILED*/
     const contactMeZoneWidth = 100;
@@ -263,7 +260,7 @@ export default class ProfileBuilding extends Phaser.Scene {
         next: 'City',
         args: { street: this.street, spawn: 'building' },
         name: 'black',
-        duration: 500,
+        duration: 250,
         ui: null,
         entry: 'fade',
         exit: 'fade'

@@ -25,7 +25,7 @@ export default class SubwayStation extends Phaser.Scene {
    *         - subway
    */
   init(data) {
-    this.station = data.station || 'profile';
+    this.station = data.station || 'art';
     this.spawn = data.spawn || 'subway';
   }
 
@@ -33,6 +33,7 @@ export default class SubwayStation extends Phaser.Scene {
     this.buildSubwayStationTilemap();
     this.buildFirmin();
     this.buildSubway();
+    this.buildSign();
     this.buildStairs();
     this.setBounds();
     this.setExit();
@@ -88,11 +89,37 @@ export default class SubwayStation extends Phaser.Scene {
     this.subway.setSubwayEntryAction(this.firmin);
   }
 
+  buildSign() {
+    const signData = this.tilemap.getObjectLayer('Sign').objects[0];
+
+    const width = signData.width;
+    const height = signData.height;
+    const posX = signData.x + width / 2;
+    const posY = signData.y + height / 2;
+
+    let frameIndex = 0;
+    switch (this.station) {
+      case 'art':
+        frameIndex = 0;
+        break;
+      case 'profile':
+        frameIndex = 1;
+        break;
+      case 'project':
+        frameIndex = 2;
+        break;
+    }
+
+    this.sign = this.add.sprite(posX, posY, 'signsTexts', frameIndex)
+      .setOrigin(0.5, 0.5)
+      .setDepth(7);
+}
+
   /* Hardcoded way to implement stairs without 
      implementing more complex things like a slope movement */
   buildStairs() {
-    const startX = 650; /* HardCoded Value */
-    const startY = 222; /* HardCoded Value */
+    const startX = 650;
+    const startY = 222;
     const stairWidth = 3;
     const stairHeight = 4;
     const stepsNumber = 24;
@@ -166,19 +193,19 @@ export default class SubwayStation extends Phaser.Scene {
       });
     }, null, this);
   }
-  
+
   exitStation() {
     this.scene.start('Transitions', {
       next: 'City',
       args: {street: this.station , spawn: 'subway'},
       name: 'black',
-      duration: 500,
+      duration: 250,
       ui: null,
       entry: 'fade',
       exit: 'fade'
     });
   }
-
+  
   buildSubwayStationTilemap() {
     this.tilemapSpawnPointX = 0;
     this.tilemapSpawnPointY = 0;

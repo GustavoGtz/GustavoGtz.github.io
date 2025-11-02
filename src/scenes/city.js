@@ -26,7 +26,6 @@ export default class City extends Phaser.Scene {
   create() {
     this.buildCityTilemap();
     this.buildFirmin();
-    
     this.setBounds();
     this.setSubwayStationEntry();
     this.setMainBuildingEntry();
@@ -74,7 +73,7 @@ export default class City extends Phaser.Scene {
     this.physics.add.existing(this.firmin);
     this.physics.add.collider(this.firmin, this.contourLayer);
   }
-  
+
   setBounds() {
     const spawnX = this.tilemapSpawnPointX;
     const spawnY = this.tilemapSpawnPointY;
@@ -162,7 +161,7 @@ export default class City extends Phaser.Scene {
       next: 'SubwayStation',
       args: {station: this.street, spawn: 'tunnel'},
       name: 'black',
-      duration: 500,
+      duration: 250,
       ui: null,
       entry: 'fade',
       exit: 'fade',
@@ -180,6 +179,7 @@ export default class City extends Phaser.Scene {
         break;
       case 'project':
         nextScene = 'ProjectBuilding';
+        return; // Temporal
         break;
       default:
         console.log("Not any valid building");
@@ -193,7 +193,7 @@ export default class City extends Phaser.Scene {
         next: nextScene,
         args: null,
         name: 'black',
-        duration: 500,
+        duration: 250,
         ui: null,
         entry: 'fade',
         exit: 'fade'
@@ -205,22 +205,20 @@ buildCityTilemap() {
   this.tilemapSpawnPointX = 0;
   this.tilemapSpawnPointY = 0;
 
-  switch(this.street) {
-    case 'profile':
-      this.tilemap = this.make.tilemap({ key: 'profileStreetTilemap' });
-      this.tileset = this.tilemap.addTilesetImage('StreetTileset', 'streetTileset');
-      break;
-      
+  switch(this.street) {  
     case 'art':
       this.tilemap = this.make.tilemap({ key: 'artStreetTilemap' });
       this.tileset = this.tilemap.addTilesetImage('StreetTileset', 'streetTileset');
       break;
-
+    case 'profile':
+      this.tilemap = this.make.tilemap({ key: 'profileStreetTilemap' });
+      this.tileset = this.tilemap.addTilesetImage('StreetTileset', 'streetTileset');
+      break;
     case 'project':
+      console.log("This street is not implemented yet");
       this.tilemap = this.make.tilemap({ key: 'projectStreetTilemap' });
       this.tileset = this.tilemap.addTilesetImage('StreetTileset', 'streetTileset');
       break;
-
     default:
       console.log('Unknown street:', this.street);
       break;

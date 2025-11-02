@@ -1,4 +1,5 @@
 import Firmin from '../gameobjects/firmin.js'
+import ArtSlides from '../gameobjects/artSlides.js'
 
 export default class ArtBuilding extends Phaser.Scene {
   constructor() {
@@ -12,7 +13,7 @@ export default class ArtBuilding extends Phaser.Scene {
     this.buildFirmin();
 
     this.buildProjector();
-    //this.buildSlides();
+    this.buildSlides();
     this.setBounds();
     this.setExit();
   }
@@ -71,21 +72,20 @@ export default class ArtBuilding extends Phaser.Scene {
   }
 
   nextSlide() {
-    // añadir un cooldown??
-    console.log("CAMBIO DE SLIDE");
-    // If projector is not builded return
-
-    // check the index
-    // calculate the next index
-    // Display the corresponding slide
+    if (!this.projectorSlides) { return }
+    this.projectorSlides.nextSlide();
   }
-  
   buildSlides() {
-    // Create the slides
+    const projectorAreaData = this.tilemap.getObjectLayer('Projector Area').objects[0];
+
+    const areaWidth = projectorAreaData.width;
+    const areaHeight = projectorAreaData.height;
+    const areaPosX = projectorAreaData.x;
+    const areaPosY = projectorAreaData.y;
+
+    this.projectorSlides = new ArtSlides(this, areaPosX, areaPosY, 20);
   }
 
-
-  
   setBounds() {
     const spawnX = this.tilemapSpawnPointX;
     const spawnY = this.tilemapSpawnPointY;
@@ -148,7 +148,7 @@ export default class ArtBuilding extends Phaser.Scene {
         next: 'City',
         args: { street: this.street, spawn: 'building' },
         name: 'black',
-        duration: 500,
+        duration: 250,
         ui: null,
         entry: 'fade',
         exit: 'fade'

@@ -14,7 +14,7 @@ export default class FullscreenText extends Phaser.Scene {
     this.addControls();
     this.setTheme();
     this.buildBackground();
-    this.buildText();         
+    this.buildText();
   }
 
   update() {
@@ -27,7 +27,7 @@ export default class FullscreenText extends Phaser.Scene {
   addControls() {
     this.QUIT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
   }
-  
+
   setTheme() {
     this.theme = {
       margin: 5,
@@ -51,20 +51,26 @@ export default class FullscreenText extends Phaser.Scene {
   }
 
   buildText() {
-    const { margin,
-            fontFamily,
-            fontSize,
-            textColor,
-            scrollSpeed,
-            textBoxColor,
-            textBoxAlpha,
-            glowColor,
-            glowStrength } = this.theme;
-    
+    const {
+      margin,
+      fontFamily,
+      fontSize,
+      textColor,
+      scrollSpeed,
+      textBoxColor,
+      textBoxAlpha,
+      glowColor,
+      glowStrength
+    } = this.theme;
+
     const { width, height } = this.cameras.main;
 
     const boxWidth = width - margin * 2;
     const boxHeight = height - margin * 2;
+
+    // Header instructions
+    const headerText = "Press W and S to move, and ESC to quit\n\n";
+    const finalText = headerText + this.text;
 
     this.scrollBox = new ScrollableTextBox(
       this,
@@ -72,12 +78,11 @@ export default class FullscreenText extends Phaser.Scene {
       margin,
       boxWidth,
       boxHeight,
-      this.text,
+      finalText,
       {
         fontFamily,
         fontSize,
         textColor,
-        scrollSpeed,
         backgroundColor: textBoxColor,
         backgroundAlpha: textBoxAlpha,
       }
@@ -85,6 +90,7 @@ export default class FullscreenText extends Phaser.Scene {
 
     this.add.existing(this.scrollBox);
 
+    // CRT-style shadow glow
     const textObj = this.scrollBox.textObject || this.scrollBox.text;
     if (textObj && textObj.setShadow) {
       textObj.setShadow(0, 0, glowColor, glowStrength, true, true);

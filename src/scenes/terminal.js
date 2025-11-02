@@ -15,7 +15,7 @@ export default class Terminal extends Phaser.Scene {
       'COMMODORE 64 BASIC V2',
       '64K RAM SYSTEM 38911 BASIC BYTES FREE',
       '',
-      ' FIRMIN IN THE CITY',
+      ' FIRMIN IN THE CITY 0.1',
       '  * GUSTAVO GUTIERREZ PORTFOLIO',
       '  * LAST UPDATE AT 29/10/2025',
       '',
@@ -44,7 +44,6 @@ export default class Terminal extends Phaser.Scene {
   }
 
   update(time, delta) {
-
     this.cursorTimer += delta;
     if (this.cursorTimer > 500) {
         this.cursorTimer = 0;
@@ -53,13 +52,14 @@ export default class Terminal extends Phaser.Scene {
   }
 
   startGame() {
+    //this.scene.start('ArtBuilding'); // Quick scene for dev
     this.scene.start('Transitions', {
       next: 'Transitions',
       args: {
         next: 'SubwayStation',
-        args: {station : 'profile', spawn: 'subway'},
+        args: {station : 'art', spawn: 'subway'},
         name: 'subway',
-        duration: 1000,   // 100 FOR DEV, 6000 FOR PROD
+        duration: 6000,   // 100 FOR DEV, 6000 FOR PROD
         ui: 'tutorial',
         entry: 'fade',
         exit: 'fade'

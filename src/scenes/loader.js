@@ -21,6 +21,7 @@ import escBackground from '../assets/sprites/multiples/EscBackground.png';
 import stationSelectorButtons from '../assets/sprites/multiples/StationSelectorButtons.png';
 import aboutMeMarquee from '../assets/sprites/multiples/AboutMeMarquee.png';
 import crtTelevision from '../assets/sprites/multiples/CrtTelevision.png';
+import signsTexts from '../assets/sprites/multiples/SignsTexts.png';
 
 /* TILEMAP AND TILESET */
 import subwayStationTileset from '../assets/tilemaps/SubwayStationTileset.png'
@@ -35,6 +36,24 @@ import profileStreetTilemap from '../assets/tilemaps/ProfileStreetTilemap.json'
 import profileBuildingTilemap from '../assets/tilemaps/ProfileBuildingTilemap.json'
 import artBuildingTilemap from '../assets/tilemaps/ArtBuildingTilemap.json'
 
+/* ART SLIDES */
+import caveBackground from '../assets/sprites/artslides/CaveBackground.png'
+import boss from '../assets/sprites/artslides/Boss.png'
+import cursorBase from '../assets/sprites/artslides/CursorBase.png'
+import cursorDelete from '../assets/sprites/artslides/CursorDelete.png'
+import cursorSelect from '../assets/sprites/artslides/CursorSelect.png'
+import gus from '../assets/sprites/artslides/Gus.png'
+import tree from '../assets/sprites/artslides/Tree.png'
+import mushroom from '../assets/sprites/artslides/Mushroom.png'
+import machine from '../assets/sprites/artslides/Machine.png'
+import bomb from '../assets/sprites/artslides/Bomb.png'
+import pig from '../assets/sprites/artslides/Pig.png'
+import drill from '../assets/sprites/artslides/Drill.png'
+import musicUI from '../assets/sprites/artslides/MusicUI.png'
+import spikeIllustration from '../assets/sprites/artslides/SpikeIllustration.png'
+import wolfBackground from '../assets/sprites/artslides/WolfBackground.png'
+import draculaBird from '../assets/sprites/artslides/DraculaBird.png'
+import loveBirds from '../assets/sprites/artslides/LoveBirds.png'
 
 export default class Loader extends Phaser.Scene {
   constructor() {
@@ -76,6 +95,15 @@ export default class Loader extends Phaser.Scene {
     this.load.image("tutorial", tutorial); 
     this.load.image("escMenu", escMenu);
     this.load.image("stationSelectorMenu", stationSelectorMenu);
+    this.load.image("caveBackground", caveBackground);
+    this.load.image("wolfBackground", wolfBackground);
+    this.load.image("spikeIllustration", spikeIllustration)
+    this.load.image("cursorBase", cursorBase);
+    this.load.image("cursorSelect", cursorSelect);
+    this.load.image("cursorDelete", cursorDelete);
+
+    this.load.image("draculaBird", draculaBird);
+    this.load.image("loveBirds", loveBirds);
   }
 
   loadSpriteSheets(){
@@ -114,6 +142,46 @@ export default class Loader extends Phaser.Scene {
     this.load.spritesheet("crtTelevision", crtTelevision, {
       frameWidth: 64,
       frameHeight: 48
+    });
+    this.load.spritesheet("boss", boss, {
+      frameWidth: 128,
+      frameHeight: 128
+    });
+    this.load.spritesheet("gus", gus, {
+      frameWidth: 64,
+      frameHeight: 64
+    });
+    this.load.spritesheet("tree", tree, {
+      frameWidth: 128,
+      frameHeight: 128
+    });
+    this.load.spritesheet("mushroom", mushroom, {
+      frameWidth: 128,
+      frameHeight: 128
+    });
+    this.load.spritesheet("machine", machine, {
+      frameWidth: 128,
+      frameHeight: 128
+    });
+    this.load.spritesheet("bomb", bomb, {
+      frameWidth: 32,
+      frameHeight: 32
+    });
+    this.load.spritesheet("pig", pig, {
+      frameWidth: 30,
+      frameHeight: 30
+    });
+    this.load.spritesheet("drill", drill, {
+      frameWidth: 64,
+      frameHeight: 32
+    });
+    this.load.spritesheet("musicUi", musicUI, {
+      frameWidth: 160,
+      frameHeight: 77
+    });
+    this.load.spritesheet("signsTexts", signsTexts, {
+      frameWidth: 48,
+      frameHeight: 16
     });
   }
 
