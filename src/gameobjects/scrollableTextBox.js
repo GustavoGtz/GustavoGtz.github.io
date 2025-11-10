@@ -12,33 +12,41 @@ export default class ScrollableTextBox extends Phaser.GameObjects.Container {
       fontSize: '10px',
       textColor: '#5cab5e',
       scrollSpeed: 0.3,  // mouse scroll speed
-      keyScrollSpeed: 3, // speed for key scrolling
+      keyScrollSpeed: 3, // key scroll speed
       backgroundColor: 0x000000,
       backgroundAlpha: 0,
+      margin: { top: 5, right: 5, bottom: 5, left: 5 } // NEW margin config
     }, config);
 
     scene.add.existing(this);
 
-    const { fontFamily, fontSize, textColor, backgroundColor, backgroundAlpha } = this.config;
+    const { fontFamily, fontSize, textColor, backgroundColor, backgroundAlpha, margin } = this.config;
 
+    // Background
     this.bg = scene.add.graphics();
     this.bg.fillStyle(backgroundColor, backgroundAlpha);
     this.bg.fillRect(0, 0, width, height);
     this.add(this.bg);
 
-    this.text = scene.add.text(0, 0, textString, {
+    // Text area with margin
+    const textX = margin.left;
+    const textY = margin.top;
+    const textWidth = width - margin.left - margin.right;
+    const textHeight = height - margin.top - margin.bottom;
+
+    this.text = scene.add.text(textX, textY, textString, {
       fontFamily,
       fontSize,
       color: textColor,
-      wordWrap: { width: width, useAdvancedWrap: true },
+      wordWrap: { width: textWidth, useAdvancedWrap: true },
       align: 'left'
     });
     this.add(this.text);
 
-    // Mask
+    // Mask with respect to margins
     const maskGraphics = scene.make.graphics({ add: false });
     maskGraphics.fillStyle(0xffffff);
-    maskGraphics.fillRect(this.x, this.y, width, height);
+    maskGraphics.fillRect(this.x + margin.left, this.y + margin.top, textWidth, textHeight);
     const mask = maskGraphics.createGeometryMask();
     this.text.setMask(mask);
 
@@ -49,23 +57,22 @@ export default class ScrollableTextBox extends Phaser.GameObjects.Container {
       this.scroll(deltaY * this.config.scrollSpeed);
     });
 
-    // Scroll with UP/DOWN keys
+    // Scroll with keys
     this.cursors = scene.input.keyboard.addKeys({
       up: Phaser.Input.Keyboard.KeyCodes.W,
       down: Phaser.Input.Keyboard.KeyCodes.S
     });
 
-    // Update key scroll in scene’s update loop
     scene.events.on('update', this.updateScroll, this);
   }
 
-  // Core scroll logic
   scroll(amount) {
-    const maxScroll = Math.min(0, this.height - this.text.height);
-    this.text.y = Phaser.Math.Clamp(this.text.y - amount, maxScroll, 0);
+    const margin = this.config.margin;
+    const visibleHeight = this.height - margin.top - margin.bottom;
+    const maxScroll = Math.min(0, visibleHeight - this.text.height);
+    this.text.y = Phaser.Math.Clamp(this.text.y - amount, maxScroll + margin.top, margin.top);
   }
 
-  // Called every frame
   updateScroll() {
     if (!this.cursors) return;
     if (this.cursors.up.isDown) this.scroll(-this.config.keyScrollSpeed);
@@ -74,7 +81,7 @@ export default class ScrollableTextBox extends Phaser.GameObjects.Container {
 
   setText(newText) {
     this.text.setText(newText);
-    this.text.y = 0;
+    this.text.y = this.config.margin.top;
   }
 
   appendText(extraText) {

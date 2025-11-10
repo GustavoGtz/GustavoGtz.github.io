@@ -59,7 +59,7 @@ export default class Terminal extends Phaser.Scene {
         next: 'SubwayStation',
         args: {station : 'art', spawn: 'subway'},
         name: 'subway',
-        duration: 6000,   // 100 FOR DEV, 6000 FOR PROD
+        duration: 100,   // 100 FOR DEV, 6000 FOR PROD
         ui: 'tutorial',
         entry: 'fade',
         exit: 'fade'

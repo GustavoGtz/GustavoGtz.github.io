@@ -185,7 +185,7 @@ export default class City extends Phaser.Scene {
         console.log("Not any valid building");
         return;
     }
-
+    this.firmin.flipX = false;
     this.firmin.anims.play('firmin-enter');
 
     this.firmin.on('animationcomplete-firmin-enter', () => {

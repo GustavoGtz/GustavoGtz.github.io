@@ -8,7 +8,7 @@ export default class Firmin extends Phaser.Physics.Arcade.Sprite {
     this.setCollideWorldBounds(true);
     this.setDepth(this.layer);
 
-    this.movementSpeed = 100; // 200 for dev, 100 for prod
+    this.movementSpeed = 200; // 200 for dev, 100 for prod
     this.jumpForce = -80;
     this.onGround = false;
     this.interactCallback = null;
@@ -96,7 +96,7 @@ export default class Firmin extends Phaser.Physics.Arcade.Sprite {
       if (escInstance.data !== null) {
         escInstance.events.once('quickTravelResult', (data) => {
           this.controlsEnabled = false;
-          this.body.setVelocity(0, 0);
+          if (this.body) { this.body.setVelocity(0, 0); }
           this.anims.play('firmin-teleport', true);
           
           this.once('animationcomplete-firmin-teleport', () => {
@@ -121,7 +121,7 @@ export default class Firmin extends Phaser.Physics.Arcade.Sprite {
       if (this.onGround) {
         if (this.LOOKUP.isDown) {
           this.cameraEnabled = true;
-          this.camera.followOffset.set(this.offSetX, this.offSetY + 40);
+          this.camera.followOffset.set(this.offSetX, this.offSetY + 30);
           this.anims.play('firmin-look-down', true);
         }
         else if (this.LOOKDOWN.isDown) {
@@ -143,7 +143,7 @@ export default class Firmin extends Phaser.Physics.Arcade.Sprite {
 
     if (this.INTERACT.isDown && this.interactCallback) {
       if (this.isInteractTerminal) {
-        this.setVelocity(0, 0);
+        if (this.body) { this.body.setVelocity(0, 0); }
         this.hideInteractionUI();
         this.controlsEnabled = false;
         this.cameraEnabled = false;

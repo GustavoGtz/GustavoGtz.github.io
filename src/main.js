@@ -30,7 +30,7 @@ const config = {
     default: 'arcade',
     arcade: {
       gravity: { y: 200 },
-      debug: false // true for dev
+      debug: true // true for dev
     }
   },
   scene:[Loader,

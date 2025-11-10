@@ -49,6 +49,7 @@ export default class Subway extends Phaser.Physics.Arcade.Sprite {
   }
 
   subwayTravel() {
+    this.firmin.flipX = false;
     this.firmin.anims.play('firmin-enter', true);
 
     this.scene.time.delayedCall(1500, () => {
