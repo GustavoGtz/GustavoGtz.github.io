@@ -26,15 +26,17 @@ import signsTexts from '../assets/sprites/multiples/SignsTexts.png';
 /* TILEMAP AND TILESET */
 import subwayStationTileset from '../assets/tilemaps/SubwayStationTileset.png'
 import streetTileset from '../assets/tilemaps/StreetTileset.png'
-import profileBuildingTileset from '../assets/tilemaps/ProfileBuildingTileset.png'
 import artBuildingTileset from '../assets/tilemaps/ArtBuildingTileset.png'
+import profileBuildingTileset from '../assets/tilemaps/ProfileBuildingTileset.png'
+import projectBuildingTileset from '../assets/tilemaps/ProjectBuildingTileset.png'
 
 import subwayStationTilemap from '../assets/tilemaps/SubwayStationTilemap.json'
 import artStreetTilemap from '../assets/tilemaps/ArtStreetTilemap.json'
-import projectStreetTilemap from '../assets/tilemaps/ProjectStreetTilemap.json'
 import profileStreetTilemap from '../assets/tilemaps/ProfileStreetTilemap.json'
-import profileBuildingTilemap from '../assets/tilemaps/ProfileBuildingTilemap.json'
+import projectStreetTilemap from '../assets/tilemaps/ProjectStreetTilemap.json'
 import artBuildingTilemap from '../assets/tilemaps/ArtBuildingTilemap.json'
+import profileBuildingTilemap from '../assets/tilemaps/ProfileBuildingTilemap.json'
+import projectBuildingTilemap from '../assets/tilemaps/ProjectBuildingTilemap.json'
 
 /* ART SLIDES */
 import caveBackground from '../assets/sprites/artslides/CaveBackground.png'
@@ -84,7 +86,6 @@ export default class Loader extends Phaser.Scene {
 
   loadFonts(){
     this.load.bitmapFont('c64', c64FontPng, c64FontXml);
-
   }
 
   loadAudios(){
@@ -189,15 +190,17 @@ export default class Loader extends Phaser.Scene {
     /* Tilesets */
     this.load.image('subwayStationTileset', subwayStationTileset);   
     this.load.image('streetTileset', streetTileset)
-    this.load.image('profileBuildingTileset', profileBuildingTileset);
     this.load.image('artBuildingTileset', artBuildingTileset);
+    this.load.image('profileBuildingTileset', profileBuildingTileset);
+    this.load.image('projectBuildingTileset', projectBuildingTileset);
 
     /* Tilemaps */
     this.load.tilemapTiledJSON('subwayStationTilemap', subwayStationTilemap);
     this.load.tilemapTiledJSON('artStreetTilemap', artStreetTilemap);
-    this.load.tilemapTiledJSON('projectStreetTilemap', projectStreetTilemap);
     this.load.tilemapTiledJSON('profileStreetTilemap', profileStreetTilemap);
-    this.load.tilemapTiledJSON('profileBuildingTilemap', profileBuildingTilemap);
+    this.load.tilemapTiledJSON('projectStreetTilemap', projectStreetTilemap);  
     this.load.tilemapTiledJSON('artBuildingTilemap', artBuildingTilemap);
+    this.load.tilemapTiledJSON('profileBuildingTilemap', profileBuildingTilemap);
+    this.load.tilemapTiledJSON('projectBuildingTilemap', projectBuildingTilemap);
   }
 }

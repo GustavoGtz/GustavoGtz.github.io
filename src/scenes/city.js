@@ -179,7 +179,6 @@ export default class City extends Phaser.Scene {
         break;
       case 'project':
         nextScene = 'ProjectBuilding';
-        return; // Temporal
         break;
       default:
         console.log("Not any valid building");

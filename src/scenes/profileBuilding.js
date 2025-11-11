@@ -268,7 +268,6 @@ export default class ProfileBuilding extends Phaser.Scene {
     }, this);
   }
 
-
   buildProfileBuildingTilemap() {
     this.tilemapSpawnPointX = 0;
     this.tilemapSpawnPointY = 0;
