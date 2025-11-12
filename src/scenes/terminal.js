@@ -15,9 +15,9 @@ export default class Terminal extends Phaser.Scene {
       'COMMODORE 64 BASIC V2',
       '64K RAM SYSTEM 38911 BASIC BYTES FREE',
       '',
-      ' FIRMIN IN THE CITY 0.1',
+      ' FIRMIN IN THE CITY 0.2',
       '  * GUSTAVO GUTIERREZ PORTFOLIO',
-      '  * LAST UPDATE AT 29/10/2025',
+      '  * LAST UPDATE AT 11/11/2025',
       '',
       'READY.',
       ' PRESS SPACE BAR TO START'
@@ -59,7 +59,7 @@ export default class Terminal extends Phaser.Scene {
         next: 'SubwayStation',
         args: {station : 'art', spawn: 'subway'},
         name: 'subway',
-        duration: 100,   // 100 FOR DEV, 6000 FOR PROD
+        duration: 6000,   // 100 FOR DEV, 6000 FOR PROD
         ui: 'tutorial',
         entry: 'fade',
         exit: 'fade'
