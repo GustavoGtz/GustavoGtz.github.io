@@ -16,6 +16,7 @@ import firmin from '../assets/sprites/multiples/Firmin.png';
 import subway from '../assets/sprites/multiples/Subway.png';
 import subwayBack from '../assets/sprites/multiples/SubwayBack.png';
 import subwayTransition from '../assets/sprites/multiples/SubwayTransition.png';
+import teleportTransition from '../assets/sprites/multiples/TeleportTransition.png';
 import escButtons from '../assets/sprites/multiples/EscButtons.png';
 import escBackground from '../assets/sprites/multiples/EscBackground.png';
 import stationSelectorButtons from '../assets/sprites/multiples/StationSelectorButtons.png';
@@ -123,6 +124,10 @@ export default class Loader extends Phaser.Scene {
     this.load.spritesheet("subwayTransition", subwayTransition, {
       frameWidth: 800,
       frameHeight: 220,
+    });
+    this.load.spritesheet("teleportTransition", teleportTransition, {
+      frameWidth: 224,
+      frameHeight: 160,
     });
     this.load.spritesheet("escButtons", escButtons, {
       frameWidth: 112,

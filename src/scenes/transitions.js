@@ -12,6 +12,7 @@ export default class Transitions extends Phaser.Scene {
   * name:        The name of the transition to be shown.
   *              Possible values:
   *                - "subway"
+  *                - "teleportation"
   *                - "black"
   * duration:    The duration of the transition, in milliseconds.
   *              Can be NULL if time depends on the user or animation.
@@ -73,6 +74,9 @@ export default class Transitions extends Phaser.Scene {
       case 'subway':
         this.playSubwayTransition();
         break;
+      case 'teleport':
+        this.playTeleportTransition();
+        break;
       case 'black':
         this.playBlackTransition();
         break;
@@ -93,10 +97,35 @@ export default class Transitions extends Phaser.Scene {
         repeat: -1
       });
     }
-
     subwayTransition.play('play-subway-transition');
   }
-  
+
+  playTeleportTransition() {
+    this.cameras.main.setBackgroundColor('#5cab5e');
+
+    
+    const teleportTransition = this.add.sprite(
+      this.cameras.main.centerX,
+      this.cameras.main.centerY,
+      'teleportTransition'
+    ).setOrigin(0.5).setScale(2); ;
+
+    if (!this.anims.exists('play-teleport-transition')) {
+      this.anims.create({
+        key: 'play-teleport-transition',
+        frames: this.anims.generateFrameNumbers('teleportTransition'),
+        frameRate: 5,
+        repeat: 0
+      });
+    }
+
+    teleportTransition.once('animationcomplete', () => {
+      this.loadNext();
+    });
+
+    teleportTransition.play('play-teleport-transition');
+  }
+
   playBlackTransition() {
     this.cameras.main.setBackgroundColor(0x000000);
   }
@@ -157,8 +186,8 @@ export default class Transitions extends Phaser.Scene {
         this.playFadeExit();
         break;
       default:
-        this.startScene();
         console.log("Not any valid exit selected");
+        this.startScene();
     }
   }
 
