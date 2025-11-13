@@ -1,6 +1,6 @@
 # FIRMIN IN THE CITY
 
-![corvex]('https://github.com/GustavoGtz/GustavoGtz.github.io/blob/main/resources/corvex.gif')
+![corvex](https://github.com/GustavoGtz/GustavoGtz.github.io/blob/main/resources/corvex.gif)
 
 ## About The Project
 
