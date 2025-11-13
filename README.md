@@ -1,6 +1,6 @@
 # FIRMIN IN THE CITY
 
-![Preview GIF]('images/corvex.gif')
+![corvex]('./resources/corvex.gif')
 
 ## About The Project
 
