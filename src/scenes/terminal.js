@@ -15,9 +15,9 @@ export default class Terminal extends Phaser.Scene {
       'COMMODORE 64 BASIC V2',
       '64K RAM SYSTEM 38911 BASIC BYTES FREE',
       '',
-      ' FIRMIN IN THE CITY 0.2',
+      ' FIRMIN IN THE CITY 0.3',
       '  * GUSTAVO GUTIERREZ PORTFOLIO',
-      '  * LAST UPDATE AT 11/11/2025',
+      '  * LAST UPDATE AT 16/11/2025',
       '',
       'READY.',
       ' PRESS SPACE BAR TO START'
