@@ -93,15 +93,20 @@ export default class ProfileBuilding extends Phaser.Scene {
   }
 
   buildAboutMeText() {
-    const aboutMeText = `
-        Hi, my name is Gustavo Gutierrez Navarro, and I am a computer science graduate from Mexico.
-        I have a strong interest in the art of video games, not only in their artistic expression but also in
-        the possibilities that computers provide to create engaging and memorable experiences.
-        Currently, I am focused on expanding my knowledge in video game development using high-level programming
-        techniques, including AI models and algorithms, to discover new ways to enhance gameplay and player experiences. 
+    const aboutMeText = `Hi, my name is Gustavo Gutierrez Navarro, and I am a Computer Science graduate from Mexico.
+    I am 22 years old and a bird lover. My favorite birds are penguins and ravens, though I truly like them all.
+    I have a strong interest in many aspects of life, to the point that I sometimes feel bad for not having enough 
+    time to explore everything I want. Even though I love literature, music, writing, etc, I am currently more focused 
+    on the fields of computing and drawing.
+    Specifically, I am deeply interested in the art of video games, not only in their classic artistic expression, but 
+    also in the possibilities that computers offer for creating engaging and unique experiences.
 
-        Thanks for exploring my portfolio, if you haven't seen yet, you can check my art and project sections
-        in this game experience I created! :D
+    At the moment, I am working on expanding my knowledge in video game development, using high-level programming techniques, 
+    including AI models and algorithms, to explore new ways to enhance gameplay and player experience, as well as to design 
+    creative and novel user interfaces.
+
+    Thank you for exploring my portfolio. If you have not seen it yet, feel free to check out my art and project sections 
+    within this interactive experience I created :D.
     `;
     
     const aboutMeData = this.tilemap.getObjectLayer('About Me Text').objects[0];
@@ -119,8 +124,6 @@ export default class ProfileBuilding extends Phaser.Scene {
       aboutMeFrameHeight,
       aboutMeText
     ).setDepth(8);
-
-    /* FullScreen readable ui */
 
     /* REPLACE FOR DATA OBJECT IN TILED*/
     const aboutMeZoneWidth = 150;
@@ -147,8 +150,7 @@ export default class ProfileBuilding extends Phaser.Scene {
   }
   
   buildContactMeText() {
-    const contactMeText = `
-        Feel free to contact me at any time by email or linkedin!
+    const contactMeText = ` Feel free to contact me at any time by email or linkedin!
         gustavogtznav@gmail.com
         https://www.linkedin.com/in/gustavo-gutierrez-navarro-47213a192
 
@@ -172,7 +174,7 @@ export default class ProfileBuilding extends Phaser.Scene {
       contactMeText
     ).setDepth(3);
 
-    /* REPLACE FOR DATA OBJECT IN TILED*/
+    /* REPLACE FOR DATA OBJECT IN TILED */
     const contactMeZoneWidth = 100;
     const contactMeZoneHeight = 100;
     const contactMeZonePosX = 660;
@@ -253,6 +255,7 @@ export default class ProfileBuilding extends Phaser.Scene {
   }
 
   exitBuilding() {
+    this.firmin.flipX = false;
     this.firmin.anims.play('firmin-enter');
 
     this.firmin.on('animationcomplete-firmin-enter', () => {
@@ -290,6 +293,11 @@ export default class ProfileBuilding extends Phaser.Scene {
       this.tilemapSpawnPointX, this.tilemapSpawnPointY
     ).setDepth(2);
 
+    this.tilemap.createLayer(
+      'Decoration 2', this.tileset,
+      this.tilemapSpawnPointX, this.tilemapSpawnPointY
+    ).setDepth(3);
+
     this.firminLayer = 4;
 
     this.contourLayer = this.tilemap.createLayer(
@@ -297,6 +305,5 @@ export default class ProfileBuilding extends Phaser.Scene {
       this.tilemapSpawnPointX, this.tilemapSpawnPointY
     ).setDepth(5);
     this.contourLayer.setCollisionByProperty({collides: true});
-    
   }
 }
