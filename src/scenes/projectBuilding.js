@@ -215,8 +215,9 @@ export default class ProjectBuilding extends Phaser.Scene {
   }
 
   exitBuilding() {
+    this.firmin.flipX = false;
     this.firmin.anims.play('firmin-enter');
-
+    
     this.firmin.on('animationcomplete-firmin-enter', () => {
       this.scene.start('Transitions', {
         next: 'City',

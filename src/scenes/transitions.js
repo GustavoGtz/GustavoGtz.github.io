@@ -103,7 +103,6 @@ export default class Transitions extends Phaser.Scene {
   playTeleportTransition() {
     this.cameras.main.setBackgroundColor('#5cab5e');
 
-    
     const teleportTransition = this.add.sprite(
       this.cameras.main.centerX,
       this.cameras.main.centerY,
@@ -123,7 +122,9 @@ export default class Transitions extends Phaser.Scene {
       this.loadNext();
     });
 
-    teleportTransition.play('play-teleport-transition');
+    this.time.delayedCall(800, () => {
+      teleportTransition.play('play-teleport-transition');
+    });
   }
 
   playBlackTransition() {
