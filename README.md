@@ -45,15 +45,15 @@ If you feel like giving credit, it's always appreciated.
 
 ## Contact
 
-Gustavo Gutiérrez Navarro -- gustavogtznav@gmail.com\
+Gustavo Gutierrez Navarro -- gustavogtznav@gmail.com\
 Portfolio Link: https://gustavoGtz.github.io
 
 ## Acknowledgments
 
 -   Thanks to the Phaser community for tutorials, examples, and forums
-    that helped bring this project to life.\
+    that helped bring this project to life.
 -   Inspiration drawn from many videogames, books, and films that
     influenced my creative journey and you can find through all this
-    project.\
+    project.
 -   Special thanks to Sam Savage (author of *Firmin*) and Corvax, the
     cartoon from the begining that inspired the protagonist.
