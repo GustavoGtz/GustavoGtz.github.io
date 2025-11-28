@@ -214,7 +214,6 @@ buildCityTilemap() {
       this.tileset = this.tilemap.addTilesetImage('StreetTileset', 'streetTileset');
       break;
     case 'project':
-      console.log("This street is not implemented yet");
       this.tilemap = this.make.tilemap({ key: 'projectStreetTilemap' });
       this.tileset = this.tilemap.addTilesetImage('StreetTileset', 'streetTileset');
       break;

@@ -1,6 +1,7 @@
 # FIRMIN IN THE CITY
 
-![corvex](https://github.com/GustavoGtz/GustavoGtz.github.io/blob/main/resources/corvex.gif)
+![corvex](https://github.com/GustavoGtz/GustavoGtz.github.io/blob/main/resources/inGame.png)
+
 
 ## About The Project
 
@@ -48,7 +49,9 @@ If you feel like giving credit, it's always appreciated.
 Gustavo Gutierrez Navarro -- gustavogtznav@gmail.com\
 Portfolio Link: https://gustavoGtz.github.io
 
-## Acknowledgments
+## Credits
+
+![corvex](https://github.com/GustavoGtz/GustavoGtz.github.io/blob/main/resources/corvex.gif)
 
 -   Thanks to the Phaser community for tutorials, examples, and forums
     that helped bring this project to life.
@@ -57,3 +60,7 @@ Portfolio Link: https://gustavoGtz.github.io
     project.
 -   Special thanks to Sam Savage (author of *Firmin*) and Corvax, the
     cartoon from the begining that inspired the protagonist.
+-   The color palette is based from COMMODORE 64, particullary from
+    https://lospec.com/palette-list/commodore64.
+-   The music used in this project is not mine; it comes from external 
+    sources. All rights belong to their respective owners.

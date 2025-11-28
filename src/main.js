@@ -31,7 +31,10 @@ const config = {
     arcade: {
       gravity: { y: 200 },
       debug: false // true for dev
-    }
+    },
+    audio: {
+      disableWebAudio: true,
+    },
   },
   scene:[Loader,
          Terminal,

@@ -1,8 +1,3 @@
-// This will be the scene where ALL the subway stations will be.
-// Its very similar in structure but
-// Acordin to a "string" it will change little thinks
-// like the decoration and the exit.
-
 import Firmin from '../gameobjects/firmin.js'
 import Subway from '../gameobjects/subway.js'
 
@@ -30,6 +25,16 @@ export default class SubwayStation extends Phaser.Scene {
   }
 
   create() {
+    let bg = this.sound.get('backgroundMusic');
+
+    if (!bg) {
+        bg = this.sound.add('backgroundMusic', {
+            loop: true,
+            volume: 0.5
+        });
+        bg.play();
+    }
+
     this.buildSubwayStationTilemap();
     this.buildFirmin();
     this.buildSubway();

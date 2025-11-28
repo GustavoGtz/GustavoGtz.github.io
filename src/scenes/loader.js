@@ -1,9 +1,9 @@
-// TODO:
-// Keep adding the elements to be loaded
-
 /* FONTS */
 import c64FontPng from '../assets/fonts/commodoreFont.png';
 import c64FontXml from '../assets/fonts/commodoreFont.xml';
+
+/* MUSIC */
+import backgroundMusic from '../assets/audio/music/BackgroundMusic.flac' /* Music not created by me */
 
 /* SPRITES */
 import eButton from '../assets/sprites/simples/EButton.png';
@@ -90,6 +90,12 @@ export default class Loader extends Phaser.Scene {
   }
 
   loadAudios(){
+    /* Sound Effects */
+    //this.load.audio(key, url);
+
+    /* Music */
+    this.load.audio('backgroundMusic', backgroundMusic);
+
   }
 
   loadSprites(){
