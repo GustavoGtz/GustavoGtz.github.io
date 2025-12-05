@@ -2,7 +2,7 @@ export default class ArtSlides extends Phaser.GameObjects.Container {
   constructor(scene, x, y, layer) {
     super(scene, x, y);
     this.posX = x;
-    this.posY = y; // Corner
+    this.posY = y;
     this.scene = scene;
     this.layer = layer;
 

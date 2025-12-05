@@ -13,6 +13,7 @@ export default class ProjectBuilding extends Phaser.Scene {
     this.buildFirmin();
     this.buildOthelloText();
     this.buildBeavertaleText();
+    this.buildSnakeText();
     this.setBounds();
     this.setExit();
   }
@@ -31,10 +32,15 @@ export default class ProjectBuilding extends Phaser.Scene {
     const isInsideBeavertaleTextZone = Phaser.Geom.Intersects.RectangleToRectangle(
       this.beaverTaleTextZone.getBounds(),
       firminBounds);
+
+    const isInsideSnakeTextZone = Phaser.Geom.Intersects.RectangleToRectangle(
+      this.snakeTextZone.getBounds(),
+      firminBounds);
     
     if (!isInsideExitZone &&
         !isInsideOthelloTextZone &&
-        !isInsideBeavertaleTextZone) { this.firmin.clearInteraction(); }
+        !isInsideBeavertaleTextZone &&
+        !isInsideSnakeTextZone) { this.firmin.clearInteraction(); }
   }
   
   buildFirmin(){
@@ -55,25 +61,24 @@ export default class ProjectBuilding extends Phaser.Scene {
   }
 
   buildOthelloText() {
-    const othelloText = `Q-LEARNING WITH OTHELLO
-      The initial purpose of this project was to learn how to use unsupervised learning, so I chose
-      a simple problem in this field: creating an intelligent agent capable of playing a classic board game.
+    const othelloText = `Unsupervised Learning in Othello
 
-      I chose the game Othello because of its connection to the story written by William Shakespeare
-      and the atmosphere I could bring into the program.
+    This program was a personal project I developed to learn how to use unsupervised learning techniques. 
+    I chose a simple problem in this field to start my journey, the task of creating an intelligent agent 
+    capable of playing the classic board game Othello (also known as Reversi). I chose this problem because 
+    of its simplicity and because of the thematic potential connected to the story written by William 
+    Shakespeare, which I could explore later.
 
-      The project was developed in C, using NCURSES for the TUI (Terminal User Interface). 
-      The implementation specifically used TABULAR Q-LEARNING, meaning all the learning data 
-      was stored in a CSV file. I recognize that this is not the best approach, nor even a good one,
-      but it was a solid starting point to learn and build a first version.
+    The whole project was developed in the C programming language, using the NCURSES library to build a 
+    TUI (Terminal User Interface). The implementation included the classic game interface and rules, as well as a 
+    module for an intelligent agent. This agent uses a tabular Q-learning algorithm. Despite his approach is neither 
+    ideal nor highly efficient, it served as a solid starting point to learn and build a first version.
 
-      The program is not fully complete, although it is functional. I plan to create a better version of this project,
-      with an improved UI and a small chatbot that will talk to the user while simulating Othello, 
-      the king from the tale. Most importantly, I intend to replace the tabular method with Deep Q-Learning 
-      to significantly improve the agent’s intelligence.
+    As mentioned before, this program is not fully complete and remains a prototype. My vision is to create a more 
+    advanced version of this project in the future, with an improved interface, a better Q-learning algorithm 
+    (such as deep Q-learning), and even an interactive chatbot playing as Othello from the original story.
 
-      The project is available on my GitHub!
-    `;
+    This project is available on my GitHub page, feel free to check it out!`;
 
     const othelloTextData = this.tilemap.getObjectLayer('Othello Text').objects[0];
     
@@ -110,20 +115,20 @@ export default class ProjectBuilding extends Phaser.Scene {
   }
 
   buildBeavertaleText() {
-    const beaverTaleText = `BEAVER TALE: THE VIDEOGAME
-      Beaver Tale is my personal project, a 2D pixel art video game developed in Unity. 
-      It’s a classic platformer where the goal is to reach point B from point A, but with a little twist. 
-      You play as Gus, a beaver. And like a real beaver, you don’t have great physical abilities, 
-      but you do have construction knowledge. Using that, you’ll build structures to overcome 
-      your lack of jumping or speed.
+    const beaverTaleText = `Beavertale
 
-      This project is a collaborative effort with my partner and two talented friends who are composing the music. 
-      I’m responsible for all the game’s art, game design, and product management, as well as some of the marketing 
-      and programming, mainly UI elements and a few gameplay mechanics.
+    Beavertale is an ongoing video game project with a 2D pixel-art style, currently being developed in Unity. 
+    Its gameplay follows the basic concepts of classic platformers but adds a unique twist. You play as Gus, 
+    a beaver. Like a real beaver, Gus doesn’t have great physical abilities; instead, he has powerful construction 
+    knowledge and abilities, allowing him to build structures to overcome his lack of speed and jumping ability. 
+    The game combines classic platforming with resource management and puzzle solving.
 
-      The project is planned for release this December (hopefully :D). 
-      You can follow our progress on Instagram at @beavertalegame.
-      `;
+    This project is a collaborative effort with my partner and two talented friends who are helping us compose the music. 
+    As for my role, I’m responsible for all the game art, interface design, character and level design, mechanics, 
+    product management, marketing, and even some of the programming.
+
+    We plan to release the game next year. You can follow our progress on Instagram at @beavertalegame and 
+    stay updated as we get closer to release.`;
 
     const beaverTaleTextData = this.tilemap.getObjectLayer('Beaver Text').objects[0];
     
@@ -155,6 +160,54 @@ export default class ProjectBuilding extends Phaser.Scene {
       player.setInteraction(() => {
         this.scene.sleep();
         this.scene.launch('FullscreenText', { text: beaverTaleText, from: this.scene.key });
+      }, false);
+    }, null, this);
+  }
+
+  buildSnakeText() {
+    const snakeText = `Retro Snake – Classic Video Game
+
+    This program is a simple implementation of the classic Snake video game popularized by 
+    Nokia phones. It was developed entirely in Python using the PyGame library.
+
+    The project is a desktop application and does not use external assets, except for a few 
+    sound effects. Everything else is built using the library’s basic graphics and simple shapes.
+
+    This program was one of my first video-game–related projects. Nowadays, I know it has several 
+    issues, but it served as a valuable learning experience and helped me begin understanding game development.
+
+    This project is available on my GitHub.`;
+
+    const snakeTextData = this.tilemap.getObjectLayer('Snake Text').objects[0];
+    
+    const snakeTextWidth = snakeTextData.width;
+    const snakeTextHeight = snakeTextData.height;
+    const snakeTextPosX = snakeTextData.x;
+    const snakeTextPosY = snakeTextData.y;
+        
+    const snake = new ScrollableTextBox(
+      this,
+      snakeTextPosX,
+      snakeTextPosY,
+      snakeTextWidth,
+      snakeTextHeight,
+      snakeText
+    ).setDepth(3);
+
+    this.snakeTextZone = this.add.rectangle(
+      snakeTextPosX + 50,
+      snakeTextPosY + 50,
+      snakeTextWidth,
+      snakeTextHeight
+    );
+  
+    this.physics.add.existing(this.snakeTextZone, true);
+    this.snakeTextZone.setVisible(false);
+    
+    this.physics.add.overlap(this.firmin, this.snakeTextZone, (player, zone) => {
+      player.setInteraction(() => {
+        this.scene.sleep();
+        this.scene.launch('FullscreenText', { text: snakeText, from: this.scene.key });
       }, false);
     }, null, this);
   }
