@@ -52,7 +52,7 @@ export default class Terminal extends Phaser.Scene {
   }
 
   startGame() {
-    //this.scene.start('ArtBuilding'); // Quick scene for dev
+    this.scene.start('ArtBuilding'); // Quick scene for dev
     this.scene.start('Transitions', {
       next: 'Transitions',
       args: {

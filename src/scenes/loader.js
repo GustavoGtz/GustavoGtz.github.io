@@ -40,21 +40,37 @@ import profileBuildingTilemap from '../assets/tilemaps/ProfileBuildingTilemap.js
 import projectBuildingTilemap from '../assets/tilemaps/ProjectBuildingTilemap.json'
 
 /* ART SLIDES */
+import forestBackground from '../assets/sprites/artslides/ForestBackground.png'
+import forestTileset from '../assets/sprites/artslides/ForestTileset.png'
 import caveBackground from '../assets/sprites/artslides/CaveBackground.png'
+import caveTileset from '../assets/sprites/artslides/CaveTileset.png'
 import boss from '../assets/sprites/artslides/Boss.png'
+import bossBaseHuman from '../assets/sprites/artslides/BossBaseHuman.png'
+import bossBaseRobot from '../assets/sprites/artslides/BossBaseRobot.png'
 import cursorBase from '../assets/sprites/artslides/CursorBase.png'
 import cursorDelete from '../assets/sprites/artslides/CursorDelete.png'
 import cursorSelect from '../assets/sprites/artslides/CursorSelect.png'
 import gus from '../assets/sprites/artslides/Gus.png'
+import gusHelmet from '../assets/sprites/artslides/GusHelmet.png'
+import gusDeath from '../assets/sprites/artslides/GusDeath.png'
+import gusHelmetDeath from '../assets/sprites/artslides/GusHelmetDeath.png'
+import gusSmall from '../assets/sprites/artslides/GusSmall.png'
+import gusLogo from '../assets/sprites/artslides/GusLogo.png'
+import gusResourcesPanel from '../assets/sprites/artslides/GusResourcesPanel.png'
 import tree from '../assets/sprites/artslides/Tree.png'
 import mushroom from '../assets/sprites/artslides/Mushroom.png'
-import machine from '../assets/sprites/artslides/Machine.png'
+import forestMachine from '../assets/sprites/artslides/ForestMachine.png'
+import caveMachine from '../assets/sprites/artslides/CaveMachine.png'
 import bomb from '../assets/sprites/artslides/Bomb.png'
 import pig from '../assets/sprites/artslides/Pig.png'
 import drill from '../assets/sprites/artslides/Drill.png'
 import musicUI from '../assets/sprites/artslides/MusicUI.png'
 import spikeIllustration from '../assets/sprites/artslides/SpikeIllustration.png'
+import goblins from '../assets/sprites/artslides/Goblins.png'
 import wolfBackground from '../assets/sprites/artslides/WolfBackground.png'
+import loadingWolfDark from '../assets/sprites/artslides/LoadingWolfDark.png'
+import loadingWolfWhite from '../assets/sprites/artslides/LoadingWolfWhite.png'
+
 import draculaBird from '../assets/sprites/artslides/DraculaBird.png'
 import loveBirds from '../assets/sprites/artslides/LoveBirds.png'
 
@@ -103,13 +119,21 @@ export default class Loader extends Phaser.Scene {
     this.load.image("tutorial", tutorial); 
     this.load.image("escMenu", escMenu);
     this.load.image("stationSelectorMenu", stationSelectorMenu);
+    this.load.image("forestBackground", forestBackground);
+    this.load.image("forestTileset", forestTileset);
     this.load.image("caveBackground", caveBackground);
+    this.load.image("caveTileset", caveTileset);
     this.load.image("wolfBackground", wolfBackground);
     this.load.image("spikeIllustration", spikeIllustration)
+    this.load.image("goblins", goblins)
     this.load.image("cursorBase", cursorBase);
     this.load.image("cursorSelect", cursorSelect);
     this.load.image("cursorDelete", cursorDelete);
-
+    this.load.image("gusDeath", gusDeath);
+    this.load.image("gusHelmetDeath", gusHelmetDeath);
+    this.load.image("gusSmall", gusSmall);
+    this.load.image("gusLogo", gusLogo);
+  
     this.load.image("draculaBird", draculaBird);
     this.load.image("loveBirds", loveBirds);
   }
@@ -159,8 +183,24 @@ export default class Loader extends Phaser.Scene {
       frameWidth: 128,
       frameHeight: 128
     });
+    this.load.spritesheet("bossBaseHuman", bossBaseHuman, {
+      frameWidth: 64,
+      frameHeight: 64
+    });
+    this.load.spritesheet("bossBaseRobot", bossBaseRobot, {
+      frameWidth: 64,
+      frameHeight: 64
+    });
     this.load.spritesheet("gus", gus, {
       frameWidth: 64,
+      frameHeight: 64
+    });
+    this.load.spritesheet("gusHelmet", gusHelmet, {
+      frameWidth: 64,
+      frameHeight: 64
+    });
+    this.load.spritesheet("gusResourcesPanel", gusResourcesPanel, {
+      frameWidth: 128,
       frameHeight: 64
     });
     this.load.spritesheet("tree", tree, {
@@ -171,7 +211,11 @@ export default class Loader extends Phaser.Scene {
       frameWidth: 128,
       frameHeight: 128
     });
-    this.load.spritesheet("machine", machine, {
+    this.load.spritesheet("forestMachine", forestMachine, {
+      frameWidth: 128,
+      frameHeight: 128
+    });
+    this.load.spritesheet("caveMachine", caveMachine, {
       frameWidth: 128,
       frameHeight: 128
     });
@@ -194,6 +238,14 @@ export default class Loader extends Phaser.Scene {
     this.load.spritesheet("signsTexts", signsTexts, {
       frameWidth: 48,
       frameHeight: 16
+    });
+    this.load.spritesheet("loadingWolfDark", loadingWolfDark, {
+      frameWidth: 48,
+      frameHeight: 58
+    });
+    this.load.spritesheet("loadingWolfWhite", loadingWolfWhite, {
+      frameWidth: 48,
+      frameHeight: 58,
     });
   }
 
