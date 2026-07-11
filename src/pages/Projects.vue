@@ -79,7 +79,7 @@
 
 		<div class="small-div">
 			<p>
-				<a href="https://gustavogtz.github.io" target="_blank">Firmin in the City</a>
+				<a href="https://gustavogtz.github.io/Firmin-In-The-City" target="_blank">Firmin in the City</a>
 				is my interactive portfolio, designed as a retro-inspired experience. You can explore a 
 				pixel-art city inspired by New York, discovering three main areas: Profile, Projects, and Art.
 				<br><br>
@@ -93,7 +93,7 @@
 			<p>
 				If you enjoy unique interactive experiences and retro-inspired design, I invite you to explore my 
 				portfolio and discover the many small details hidden throughout the city.
-				<a href="https://gustavogtz.github.io" target="_blank">EXPLORE HERE</a>
+				<a href="https://gustavogtz.github.io/Firmin-In-The-City" target="_blank">EXPLORE HERE</a>
 			</p>
 		</div>
 

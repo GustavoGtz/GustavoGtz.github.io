@@ -12,6 +12,11 @@ export default defineConfig({
     vueJsx(),
     vueDevTools(),
   ],
+  base: './',   // relative paths
+  build: {
+    outDir: 'dist'
+  },
+  assetsInclude: ['**/*.xml'],  // <- agrega esto para que Vite trate los XML como assets
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
