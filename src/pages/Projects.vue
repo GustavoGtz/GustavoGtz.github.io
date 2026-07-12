@@ -67,11 +67,58 @@
 		</div>
       </Panel>
 	  <!-- --------------------------------------------------------------- -->
+	  <!-- Who Said This? ------------------------------------------------ -->
+      <Panel
+		title="Who Said This?"
+		variant="retractable"
+		icon="venus"
+		:isOpen="false">
+		<div class="small-div">
+			<p>
+				<a href="https://github.com/GustavoGtz/who_said_this" target="_blank">Who Said This?</a> 
+				is a prototype party game inspired by titles like Kahoot. Players upload a shared WhatsApp 
+				chat history and compete to be the fastest at guessing who originally sent each message.
+			</p>
+			<p>
+				The game analyzes the chat history, extracts interesting messages, and turns them into quiz 
+				questions, creating a fun way to relive old conversations with friends.
+			</p>
+		</div>
+		<div class="small-div">
+			<img src="@/assets/imgs/whoSS1.png">
+		</div>
+		<div class="small-div">
+			<p>
+				The project follows a client-server architecture, featuring a FastAPI backend managed with uv 
+				and a Vue.js frontend. Communication between the client and server is handled through WebSockets, 
+				enabling real-time gameplay.
+			</p>
+		</div>
+		<div class="small-div">
+			<p>
+				The most interesting aspect of the project is the backend, which processes exported WhatsApp chat 
+				histories. It parses and cleans the raw data, filters out uninteresting messages, and selects the 
+				most suitable ones for gameplay while preserving as much meaningful context as possible.
+			</p>
+		</div>
+		<div class="small-div">
+			<img src="@/assets/imgs/whoSS2.png">
+		</div>
+		<div class="small-div">
+			<p>
+				At the moment, the game runs locally and supports a single lobby. However, the architecture was designed 
+				with scalability in mind, making it straightforward to expand into a fully online multiplayer experience 
+				with multiple concurrent lobbies. Also, the current user interface prioritizes functionality over aesthetics, 
+				as the main focus of the project has been gameplay mechanics, real-time networking, and backend development.
+			</p>
+		</div>	
+      </Panel>
+	  <!-- --------------------------------------------------------------- -->
 	  <!-- Firmin In The City -------------------------------------------- -->
       <Panel
 		title="Firmin In The City"
 		variant="retractable"
-		icon="venus"
+		icon="mars"
 		:isOpen="false">
 		<div class="small-div">
 			<img src="@/assets/imgs/firminClip.gif">
@@ -114,7 +161,7 @@
       <Panel
 		title="Othello with Q-Learning"
 		variant="retractable"
-		icon="mars"
+		icon="jupiter"
 		:isOpen="false">
 		<div class="tiny-div">
 			<p>
@@ -162,7 +209,7 @@
       <Panel
 		title="rEVOLUTION"
 		variant="retractable"
-		icon="jupiter"
+		icon="saturn"
 		:isOpen="false">
 		<div class="tiny-div">
 			<p>
@@ -190,6 +237,30 @@
 		</div>
 		<div class="tiny-div">
 			<img src="@/assets/imgs/rEvolutionSS.png">
+		</div>
+      </Panel>
+	  <!-- --------------------------------------------------------------- -->
+	  <!-- Snake Retro Game ---------------------------------------------- -->
+      <Panel
+		title="Snake Retro Game"
+		variant="retractable"
+		icon="uranus"
+		:isOpen="false">
+		<div class="tiny-div">
+			<img src="@/assets/imgs/snakeIcon.png">
+		</div>
+		<div class="centered small-div">
+			<p>
+				<a href="https://github.com/GustavoGtz/SnakeRetroGame" target="_blank">Snake Retro Game</a> 
+				is a recreation of the classic Snake game made famous by Nokia phones. The project was 
+				developed entirely in Python using the PyGame library, faithfully reproducing the original gameplay 
+				while serving as an exploration of game development fundamentals.
+			</p>
+		</div>
+		<div class="tiny-div">
+			<p>
+				<img src="@/assets/imgs/snakeSS.png">
+			</p>
 		</div>
       </Panel>
     </template>
